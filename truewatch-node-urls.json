@@ -1,0 +1,44 @@
+{
+  "urls": {
+    "za1": {
+      "name": "ZA1（南非）",
+      "name_en": "ZA1(SouthAfrica)",
+      "console": "https://za1-console.truewatch.com",
+      "console_api": "https://za1-console-api.truewatch.com",
+      "open_api": "https://za1-openapi.truewatch.com",
+      "static_res": "https://za1-static-res.truewatch.com",
+      "func": "https://za1-func2.truewatch.com",
+      "websocket": "https://za1-websocket.truewatch.com",
+      "openway": "https://za1-openway.truewatch.com",
+      "auth": "https://za1-auth.truewatch.com/",
+      "auth_api": "https://za1-auth-api.truewatch.com/"
+    },
+    "id1": {
+      "name": "亚太区1（雅加达）",
+      "name_en": "ID1(Jakarta)",
+      "console": "https://id1-console.truewatch.com",
+      "console_api": "https://id1-console-api.truewatch.com",
+      "open_api": "https://id1-openapi.truewatch.com",
+      "static_res": "https://id1-static-res.truewatch.com",
+      "func": "https://id1-func2.truewatch.com",
+      "websocket": "https://id1-websocket.truewatch.com",
+      "openway": "https://id1-openway.truewatch.com",
+      "auth": "https://id1-auth.truewatch.com/",
+      "auth_api": "https://id1-auth-api.truewatch.com/"
+    },
+    "fwt": {
+      "name": "FWT（新加坡）",
+      "name_en": "FWT(Singapore)",
+      "console": "https://fwt-console.truewatch.com",
+      "console_api": "https://fwt-console-api.truewatch.com",
+      "open_api": "https://fwt-openapi.truewatch.com",
+      "static_res": "https://fwt-static-res.truewatch.com",
+      "func": "https://fwt-func2.truewatch.com",
+      "openapi": "https://fwt-openapi.truewatch.com",
+      "websocket": "https://fwt-websocket.truewatch.com",
+      "openway": "https://fwt-openway.truewatch.com",
+      "auth": "https://fwt-auth.truewatch.com/",
+      "auth_api": "https://fwt-auth-api.truewatch.com/"
+    }
+  }
+}

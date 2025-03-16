@@ -1,0 +1,1549 @@
+# Current DB version (SEQ) is saved in `wat_main_system_config`，ID: `UPGRADE_DB_SEQ`
+upgradeInfo:
+  - seq: 0
+    database: |-
+      SELECT 'Base DB';
+
+  - seq: 1
+    database: |-
+      -- Add File Service
+      CREATE TABLE `biz_main_file_service` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `root` text DEFAULT NULL,
+        `isDisabled` tinyint(1) NOT NULL DEFAULT '0',
+        `note` text,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  - seq: 2
+    database: |-
+      -- Add tags for Auth Link
+      ALTER TABLE `biz_main_auth_link`
+        ADD COLUMN `tagsJSON` json DEFAULT NULL
+        AFTER `funcCallKwargsJSON`;
+
+      -- Change KwargsJSON type to TEXT
+      ALTER TABLE biz_main_func
+        MODIFY COLUMN `kwargsJSON` TEXT DEFAULT NULL;
+
+      ALTER TABLE biz_main_auth_link
+        MODIFY COLUMN `funcCallKwargsJSON` TEXT NOT NULL;
+
+      ALTER TABLE biz_main_crontab_config
+        MODIFY COLUMN `funcCallKwargsJSON` TEXT NOT NULL;
+
+      ALTER TABLE biz_main_batch
+        MODIFY COLUMN `funcCallKwargsJSON` TEXT NOT NULL;
+
+  - seq: 3
+    database: |-
+      -- Add client IP for Operation Record
+      ALTER TABLE `biz_main_operation_record`
+        ADD COLUMN `clientIPsJSON` json DEFAULT NULL
+        AFTER `clientId`;
+
+  - seq: 4
+    database: |-
+      -- Add requirements for Script Set
+      ALTER TABLE `biz_main_script_set`
+        ADD COLUMN `requirements` text DEFAULT NULL
+        AFTER `description`;
+
+  - seq: 5
+    database: |-
+      -- Change Script Recover implement
+      ALTER TABLE `biz_main_script_recover_point`
+        MODIFY COLUMN `tableDumpJSON` json DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_recover_point`
+        ADD COLUMN `exportData` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin
+        AFTER `tableDumpJSON`;
+
+  - seq: 6
+    database: |-
+      -- Add API Auth
+      CREATE TABLE `biz_main_api_auth` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(256) DEFAULT NULL,
+        `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `configJSON` json NOT NULL,
+        `note` text,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      -- Add API Auth for Auth Link
+      ALTER TABLE `biz_main_auth_link`
+      ADD COLUMN `apiAuthId` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+      AFTER `tagsJSON`;
+
+      -- Add API Auth for Batch
+      ALTER TABLE `biz_main_batch`
+      ADD COLUMN `apiAuthId` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+      AFTER `tagsJSON`;
+
+  - seq: 7
+    database: |-
+      -- Add Blueprint
+      CREATE TABLE `biz_main_blueprint` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `title` varchar(256) DEFAULT NULL,
+        `canvasJSON` json NOT NULL,
+        `isDeployed` tinyint(1) NOT NULL DEFAULT '0',
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  - seq: 8
+    database: |-
+      -- Add pinTime for Script Set / Data Source / Env
+      ALTER TABLE biz_main_script_set
+      ADD COLUMN `pinTime` DATETIME DEFAULT NULL
+      AFTER `lockedByUserId`;
+
+      ALTER TABLE biz_main_data_source
+      ADD COLUMN `pinTime` DATETIME DEFAULT NULL
+      AFTER `isBuiltin`;
+
+      ALTER TABLE biz_main_env_variable
+      ADD COLUMN `pinTime` DATETIME DEFAULT NULL
+      AFTER `autoTypeCasting`;
+
+      -- Add rootTaskId for Crontab Task Info
+
+      TRUNCATE biz_main_crontab_task_info;
+
+      ALTER TABLE biz_main_crontab_task_info
+      ADD COLUMN `rootTaskId` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT'
+      AFTER `crontabConfigId`;
+
+      ALTER TABLE biz_main_crontab_task_info
+      ADD INDEX `ROOT_TASK_ID` (rootTaskId);
+
+      TRUNCATE biz_main_batch_task_info;
+
+      ALTER TABLE biz_main_batch_task_info
+      ADD COLUMN `rootTaskId` VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT'
+      AFTER `batchId`;
+
+      ALTER TABLE biz_main_batch_task_info
+      ADD INDEX `ROOT_TASK_ID` (rootTaskId);
+
+  # Guance / TrueWatch Saas 2022-01-20
+  - seq: 9
+    database: |-
+      -- Add taskInfoLimit for Crontab Config / Batch
+      ALTER TABLE biz_main_crontab_config
+      ADD COLUMN `taskInfoLimit` INT(11) DEFAULT NULL
+      AFTER `origin`;
+
+      ALTER TABLE biz_main_batch
+      ADD COLUMN `taskInfoLimit` INT(11) DEFAULT NULL
+      AFTER `showInDoc`;
+
+  # Guance / TrueWatch Saas 2022-02-22
+  - seq: 10
+    database: |-
+      -- New Task Info table
+      CREATE TABLE `biz_main_task_info` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `rootTaskId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT',
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `execMode` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `logMessageTEXT` longtext,
+        `einfoTEXT` longtext,
+        `edumpTEXT` longtext,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ORIGIN_ID` (`originId`),
+        KEY `ROOT_TASK_ID` (`rootTaskId`),
+        KEY `FUNC_ID` (`funcId`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+  # Guance / TrueWatch Saas 2022-05-19
+  - seq: 11
+    database: |-
+      -- Add taskInfoLimit for Auth Link
+      ALTER TABLE biz_main_auth_link
+      ADD COLUMN `taskInfoLimit` INT(11) DEFAULT NULL
+      AFTER `showInDoc`;
+
+  # Guance / TrueWatch Saas 2022-09-01
+  - seq: 12
+    database: |-
+      -- Rename Data Source to Connector
+      RENAME TABLE biz_main_data_source TO biz_main_connector;
+
+  # Guance / TrueWatch Saas 2022-09-29
+  - seq: 13
+    database: |-
+      -- Change value type to longtext
+      ALTER TABLE wat_main_system_config
+        MODIFY COLUMN `value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
+
+  # Guance / TrueWatch Saas 2022-12-29
+  - seq: 14
+    database: |-
+      -- Old fix
+      ALTER TABLE biz_main_connector
+        MODIFY COLUMN `isBuiltin` tinyint(1) NOT NULL DEFAULT '0';
+
+      -- DataFlux Func 2.x
+      DROP TABLE IF EXISTS `biz_main_script_market`;
+      CREATE TABLE `biz_main_script_market` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(256) DEFAULT NULL,
+        `description` text,
+        `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `configJSON` json DEFAULT NULL,
+        `pinTime` datetime DEFAULT NULL,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      -- Add email for User
+      ALTER TABLE wat_main_user
+        ADD COLUMN `email` varchar(256) DEFAULT NULL AFTER `name`;
+
+      -- Change JSON fields type to JSON
+      ALTER TABLE biz_main_func
+        MODIFY COLUMN `kwargsJSON` json DEFAULT NULL;
+      ALTER TABLE biz_main_auth_link
+        MODIFY COLUMN `funcCallKwargsJSON` json DEFAULT NULL;
+      ALTER TABLE biz_main_crontab_config
+        MODIFY COLUMN `funcCallKwargsJSON` json DEFAULT NULL;
+      ALTER TABLE biz_main_batch
+        MODIFY COLUMN `funcCallKwargsJSON` json DEFAULT NULL;
+
+      ALTER TABLE wat_main_task_result_example
+        MODIFY COLUMN `argsJSON`   json DEFAULT NULL,
+        MODIFY COLUMN `kwargsJSON` json DEFAULT NULL,
+        MODIFY COLUMN `retvalJSON` json DEFAULT NULL;
+
+      -- Ajust MD5 fields
+      ALTER TABLE biz_main_script
+        MODIFY COLUMN `codeMD5`      varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        MODIFY COLUMN `codeDraftMD5` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL;
+
+      -- Ajust origin, originId fields
+      ALTER TABLE biz_main_task_info
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW';
+
+      ALTER TABLE biz_main_script_set
+        ADD COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW' AFTER `requirements`;
+      ALTER TABLE biz_main_script_set
+        ADD COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW' AFTER `origin`;
+      ALTER TABLE biz_main_script_set
+        ADD KEY `ORIGIN_ID` (`originId`);
+
+      ALTER TABLE biz_main_auth_link
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW';
+      ALTER TABLE biz_main_crontab_config
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW';
+      ALTER TABLE biz_main_batch
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW';
+
+      ALTER TABLE biz_main_auth_link
+        ADD COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW' AFTER `origin`;
+      ALTER TABLE biz_main_crontab_config
+        ADD COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW' AFTER `origin`;
+      ALTER TABLE biz_main_batch
+        ADD COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW' AFTER `origin`;
+
+      ALTER TABLE biz_main_auth_link      ADD KEY `ORIGIN_ID` (`originId`);
+      ALTER TABLE biz_main_crontab_config ADD KEY `ORIGIN_ID` (`originId`);
+      ALTER TABLE biz_main_batch          ADD KEY `ORIGIN_ID` (`originId`);
+
+      UPDATE biz_main_auth_link      SET origin = 'user'   WHERE origin = 'UI';
+      UPDATE biz_main_auth_link      SET origin = 'UNKNOW' WHERE origin = 'API';
+      UPDATE biz_main_crontab_config SET origin = 'user'   WHERE origin = 'UI';
+      UPDATE biz_main_crontab_config SET origin = 'UNKNOW' WHERE origin = 'API';
+      UPDATE biz_main_batch          SET origin = 'user'   WHERE origin = 'UI';
+      UPDATE biz_main_batch          SET origin = 'UNKNOW' WHERE origin = 'API';
+
+  # Guance / TrueWatch Saas 2022-12-29
+  - seq: 15
+    database: |-
+      -- Add originMD5 for Script Set
+      ALTER TABLE biz_main_script_set
+        ADD COLUMN `originMD5` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+        AFTER `originId`;
+
+  # Guance / TrueWatch Saas 2022-12-29
+  - seq: 16
+    database: |-
+      -- Add lockedByUserId for Script Market
+      ALTER TABLE biz_main_script_market
+        ADD COLUMN `lockedByUserId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+        AFTER `configJSON`;
+
+  # Guance / TrueWatch Saas 2023-04-20
+  - seq: 17
+    database: |-
+      -- Add extraJSON for Script Market
+      ALTER TABLE `biz_main_script_market`
+        ADD COLUMN `extraJSON` json DEFAULT NULL
+        AFTER `configJSON`;
+
+  # Guance / TrueWatch Saas 2023-04-27
+  - seq: 18
+    database: |-
+      -- Clear Task Info
+      TRUNCATE biz_main_task_info;
+
+      -- Fix spelling mistakes
+      ALTER TABLE `biz_main_auth_link`
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+      ALTER TABLE `biz_main_crontab_config`
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+      ALTER TABLE `biz_main_batch`
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+      ALTER TABLE `biz_main_script_set`
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+      ALTER TABLE `biz_main_task_info`
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+      -- Add origin for Task Info
+      ALTER TABLE `biz_main_task_info`
+        ADD COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOW'
+        AFTER `id`;
+
+      -- Fix spelling mistakes
+      UPDATE `biz_main_auth_link`      SET `origin`   = 'UNKNOWN' WHERE `origin`   = 'UNKNOW';
+      UPDATE `biz_main_crontab_config` SET `origin`   = 'UNKNOWN' WHERE `origin`   = 'UNKNOW';
+      UPDATE `biz_main_batch`          SET `origin`   = 'UNKNOWN' WHERE `origin`   = 'UNKNOW';
+      UPDATE `biz_main_script_set`     SET `origin`   = 'UNKNOWN' WHERE `origin`   = 'UNKNOW';
+      UPDATE `biz_main_auth_link`      SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
+      UPDATE `biz_main_crontab_config` SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
+      UPDATE `biz_main_batch`          SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
+      UPDATE `biz_main_script_set`     SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
+
+  # Guance / TrueWatch Saas 2023-04-27
+  - seq: 19
+    database: |-
+      -- Fix spelling mistakes
+      ALTER TABLE `biz_main_auth_link`
+        MODIFY COLUMN `throttlingJSON` json DEFAULT NULL;
+
+  # Guance / TrueWatch Saas 2023-04-27
+  - seq: 20
+    database: |-
+      -- Clear Task Info
+      TRUNCATE biz_main_task_info;
+
+      -- Rebuild index of Task Info
+      ALTER TABLE biz_main_task_info
+      DROP INDEX `ORIGIN_ID`,
+      DROP INDEX `ROOT_TASK_ID`,
+      DROP INDEX `FUNC_ID`;
+
+      ALTER TABLE biz_main_task_info
+      ADD INDEX `ORIGIN` (`origin`),
+      ADD INDEX `ORIGIN_ID` (`originId`),
+      ADD INDEX `ROOT_TASK_ID` (`rootTaskId`),
+      ADD INDEX `FUNC_ID` (`funcId`);
+
+      -- Fix spelling mistakes
+      ALTER TABLE `biz_main_task_info`
+        MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+  # Guance / TrueWatch Saas 2023-06-20
+  - seq: 21
+    database: |-
+      -- Rename System Setting table
+      RENAME TABLE `wat_main_system_config` TO `wat_main_system_setting`;
+
+  # Guance / TrueWatch Saas 2023-07-11
+  - seq: 22
+    database: |-
+      -- Remove unused indices
+      ALTER TABLE `biz_main_script` DROP INDEX `FT`;
+      ALTER TABLE `biz_main_script_publish_history` DROP INDEX `FT`;
+
+  # Guance / TrueWatch Saas 2023-08-10
+  - seq: 23
+    database: |-
+      -- Change entity title naming
+      ALTER TABLE `biz_main_api_auth`
+        CHANGE `name` `title` varchar(256) DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_market`
+        CHANGE `name` `title` varchar(256) DEFAULT NULL;
+
+      ALTER TABLE `wat_main_access_key`
+        CHANGE `name` `title` varchar(256) NOT NULL;
+
+      -- Redesign Blueprint
+      DROP TABLE `biz_main_blueprint`;
+      CREATE TABLE `biz_main_blueprint` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `title` varchar(256) DEFAULT NULL,
+        `description` text,
+        `canvasJSON` json NOT NULL,
+        `viewJSON` json NOT NULL,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  # Guance / TrueWatch Saas 2023-09-07
+  - seq: 24
+    database: |-
+      -- Clear outdated tables
+      TRUNCATE biz_main_task_info;
+      TRUNCATE biz_rel_func_running_info;
+
+      -- Rename taskInfoLimit to taskRecordLimit
+      ALTER TABLE `biz_main_auth_link`
+        CHANGE `taskInfoLimit` `taskRecordLimit` int(11) DEFAULT NULL;
+      ALTER TABLE `biz_main_batch`
+        CHANGE `taskInfoLimit` `taskRecordLimit` int(11) DEFAULT NULL;
+      ALTER TABLE `biz_main_crontab_config`
+        CHANGE `taskInfoLimit` `taskRecordLimit` int(11) DEFAULT NULL;
+
+      -- Remove unused columns
+      ALTER TABLE `biz_main_crontab_config`
+        DROP COLUMN `saveResult`;
+
+      -- Add timezone for Crontab Config
+      ALTER TABLE `biz_main_crontab_config`
+        ADD COLUMN `timezone` varchar(256) DEFAULT NULL AFTER `crontab`;
+
+      -- Change columns order
+      ALTER TABLE biz_main_script_market
+        CHANGE `lockedByUserId` `lockedByUserId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+        AFTER `extraJSON`;
+
+      -- Redesign Task Record table
+      CREATE TABLE `biz_main_task_record` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `kwargsJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `resultJSON` json,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `NAME` (`name`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_task_record_func` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `rootTaskId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT',
+        `scriptSetId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `scriptId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `crontab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `callChainJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `printLogsTEXT` longtext,
+        `returnValueJSON` json,
+        `responseControlJSON` json,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ROOT_TASK_ID` (`rootTaskId`),
+        KEY `SCRIPT_TASK_ID` (`scriptSetId`),
+        KEY `SCRIPT_ID` (`scriptId`),
+        KEY `FUNC_ID` (`funcId`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  # Guance / TrueWatch Saas 2023-11-09
+  - seq: 25
+    database: |-
+      -- Redesign Task Record table (add index for triggerTimeMs)
+      DROP TABLE IF EXISTS `biz_main_task_record`;
+      DROP TABLE IF EXISTS `biz_main_task_record_func`;
+
+      CREATE TABLE `biz_main_task_record` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `kwargsJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `resultJSON` json,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `NAME` (`name`),
+        KEY `TRIGGER_TIME_MS` (`triggerTimeMs`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_task_record_func` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `rootTaskId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT',
+        `scriptSetId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `scriptId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `crontab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `callChainJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `printLogsTEXT` longtext,
+        `returnValueJSON` json,
+        `responseControlJSON` json,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ROOT_TASK_ID` (`rootTaskId`),
+        KEY `SCRIPT_TASK_ID` (`scriptSetId`),
+        KEY `SCRIPT_ID` (`scriptId`),
+        KEY `FUNC_ID` (`funcId`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`),
+        KEY `TRIGGER_TIME_MS` (`triggerTimeMs`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  # Guance / TrueWatch Saas 2023-11-16
+  - seq: 26
+    database: |-
+      -- Redesign Task Record table
+      DROP TABLE IF EXISTS `biz_main_task_record`;
+      DROP TABLE IF EXISTS `biz_main_task_record_func`;
+
+      CREATE TABLE `biz_main_task_record` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `kwargsJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `resultJSON` json,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `NAME` (`name`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_task_record_func` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `rootTaskId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT',
+        `scriptSetId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `scriptId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `crontab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `callChainJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `printLogsTEXT` longtext,
+        `returnValueJSON` json,
+        `responseControlJSON` json,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ROOT_TASK_ID` (`rootTaskId`),
+        KEY `SCRIPT_TASK_ID` (`scriptSetId`),
+        KEY `SCRIPT_ID` (`scriptId`),
+        KEY `FUNC_ID` (`funcId`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  # Guance / TrueWatch Saas 2024-01-15
+  - seq: 27
+    database: |-
+      -- Extend originId column length
+      TRUNCATE biz_main_task_record_func;
+      ALTER TABLE biz_main_task_record_func
+        MODIFY COLUMN `originId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
+
+  # Guance / TrueWatch Saas 2024-04-24
+  - seq: 28
+    database: |-
+      -- Change columns order
+      ALTER TABLE biz_main_env_variable
+        CHANGE `autoTypeCasting` `autoTypeCasting_bak` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'string';
+      ALTER TABLE biz_main_env_variable
+        ADD COLUMN `autoTypeCasting` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'string'
+        AFTER `description`;
+      UPDATE biz_main_env_variable SET `autoTypeCasting` = `autoTypeCasting_bak`;
+      ALTER TABLE biz_main_env_variable
+        DROP `autoTypeCasting_bak`;
+
+      -- Change and extend secret column length to secretCipher
+      ALTER TABLE wat_main_access_key
+        CHANGE `secret` `secretCipher` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
+
+      -- Redesign Task Record table
+      DROP TABLE IF EXISTS `biz_main_task_record`;
+      DROP TABLE IF EXISTS `biz_main_task_record_func`;
+
+      CREATE TABLE `biz_main_task_record` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `kwargsJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `resultJSON` json,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `nonCriticalErrorsTEXT` longtext,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `NAME` (`name`),
+        KEY `TRIGGER_TIME_MS` (`triggerTimeMs`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_task_record_func` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `rootTaskId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT 'ROOT',
+        `scriptSetId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `scriptId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `crontab` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `callChainJSON` json,
+        `triggerTimeMs` bigint(20) unsigned NOT NULL,
+        `startTimeMs` bigint(20) unsigned NOT NULL,
+        `endTimeMs` bigint(20) unsigned NOT NULL,
+        `eta` text,
+        `delay` bigint(20) unsigned NOT NULL,
+        `queue` bigint(20) unsigned NOT NULL,
+        `timeout` bigint(20) unsigned NOT NULL,
+        `expires` bigint(20) unsigned NOT NULL,
+        `ignoreResult` tinyint(1) NOT NULL,
+        `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `exceptionTEXT` longtext,
+        `tracebackTEXT` longtext,
+        `nonCriticalErrorsTEXT` longtext,
+        `printLogsTEXT` longtext,
+        `returnValueJSON` json,
+        `responseControlJSON` json,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ROOT_TASK_ID` (`rootTaskId`),
+        KEY `SCRIPT_TASK_ID` (`scriptSetId`),
+        KEY `SCRIPT_ID` (`scriptId`),
+        KEY `FUNC_ID` (`funcId`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`),
+        KEY `TRIGGER_TIME_MS` (`triggerTimeMs`),
+        KEY `QUEUE` (`queue`),
+        KEY `STATUS` (`status`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+  # Guance / TrueWatch Saas 2024-05-29
+  - seq: 29
+    database: |-
+      -- Ensure AccessKey secretCipher LONGTEXT
+      ALTER TABLE wat_main_access_key ADD COLUMN `secretCipher_tmp` longtext AFTER `secretCipher`;
+      UPDATE wat_main_access_key SET `secretCipher_tmp` = `secretCipher`;
+      ALTER TABLE wat_main_access_key DROP COLUMN `secretCipher`;
+      ALTER TABLE wat_main_access_key CHANGE `secretCipher_tmp` `secretCipher` longtext;
+
+      -- Rename crontab to cronExpr
+      ALTER TABLE biz_main_task_record_func
+        CHANGE `crontab` `cronExpr` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL;
+
+      -- New naming
+      CREATE TABLE `biz_main_sync_api` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json DEFAULT NULL,
+        `tagsJSON` json DEFAULT NULL,
+        `apiAuthId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `expireTime` datetime DEFAULT NULL,
+        `throttlingJSON` json DEFAULT NULL,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `showInDoc` tinyint(1) NOT NULL DEFAULT '0',
+        `taskRecordLimit` int(11) DEFAULT NULL,
+        `isDisabled` tinyint(1) NOT NULL DEFAULT '0',
+        `note` text,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_async_api` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json DEFAULT NULL,
+        `tagsJSON` json DEFAULT NULL,
+        `apiAuthId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `showInDoc` tinyint(1) NOT NULL DEFAULT '0',
+        `taskRecordLimit` int(11) DEFAULT NULL,
+        `isDisabled` tinyint(1) NOT NULL DEFAULT '0',
+        `note` text,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      CREATE TABLE `biz_main_cron_job` (
+        `seq` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+        `funcCallKwargsJSON` json DEFAULT NULL,
+        `cronExpr` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `timezone` varchar(256) DEFAULT NULL,
+        `tagsJSON` json DEFAULT NULL,
+        `scope` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'GLOBAL',
+        `configMD5` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+        `expireTime` timestamp NULL DEFAULT NULL,
+        `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
+        `taskRecordLimit` int(11) DEFAULT NULL,
+        `isDisabled` tinyint(1) NOT NULL DEFAULT '0',
+        `note` text,
+        `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`seq`),
+        UNIQUE KEY `ID` (`id`),
+        UNIQUE KEY `SCOPE_CONFIG` (`scope`,`configMD5`),
+        KEY `ORIGIN` (`origin`),
+        KEY `ORIGIN_ID` (`originId`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+      -- Copy data
+      INSERT INTO biz_main_sync_api
+        SELECT
+          NULL,
+          `id`,
+          `funcId`,
+          `funcCallKwargsJSON`,
+          `tagsJSON`,
+          `apiAuthId`,
+          `expireTime`,
+          `throttlingJSON`,
+          `origin`,
+          `originId`,
+          `showInDoc`,
+          `taskRecordLimit`,
+          `isDisabled`,
+          `note`,
+          `createTime`,
+          `updateTime`
+        FROM biz_main_auth_link;
+
+      INSERT INTO biz_main_async_api
+        SELECT
+          NULL,
+          `id`,
+          `funcId`,
+          `funcCallKwargsJSON`,
+          `tagsJSON`,
+          `apiAuthId`,
+          `origin`,
+          `originId`,
+          `showInDoc`,
+          `taskRecordLimit`,
+          `isDisabled`,
+          `note`,
+          `createTime`,
+          `updateTime`
+        FROM biz_main_batch;
+
+      INSERT INTO biz_main_cron_job
+        SELECT
+          NULL,
+          `id`,
+          `funcId`,
+          `funcCallKwargsJSON`,
+          `crontab`,
+          `timezone`,
+          `tagsJSON`,
+          `scope`,
+          `configMD5`,
+          `expireTime`,
+          `origin`,
+          `originId`,
+          `taskRecordLimit`,
+          `isDisabled`,
+          `note`,
+          `createTime`,
+          `updateTime`
+        FROM biz_main_crontab_config;
+
+  # Guance / TrueWatch Saas 2024-11-20
+  # Both MySQL and PostgreSQL are supported from this version
+  - seq: 100
+    mysql: |-
+      -- Clear log tables
+      TRUNCATE biz_main_script_publish_history;
+      TRUNCATE biz_main_script_recover_point;
+      TRUNCATE biz_main_script_set_export_history;
+      TRUNCATE biz_main_script_set_import_history;
+      TRUNCATE biz_main_operation_record;
+      TRUNCATE biz_main_task_record;
+      TRUNCATE biz_main_task_record_func;
+
+      -- Change COLLATE to utf8mb4_general_ci for all tables
+      ALTER TABLE `biz_main_api_auth` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_async_api` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_blueprint` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_connector` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_cron_job` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_env_variable` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_file_service` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_func` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_func_store` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_operation_record` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_market` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_publish_history` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_recover_point` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_set` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_set_export_history` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_script_set_import_history` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_sync_api` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_task_record` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `biz_main_task_record_func` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `wat_main_access_key` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `wat_main_system_setting` COLLATE utf8mb4_general_ci;
+      ALTER TABLE `wat_main_user` COLLATE utf8mb4_general_ci;
+
+      -- Change createTime type to bigint for all table
+      ALTER TABLE `biz_main_task_record` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_task_record` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_task_record` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_task_record` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_task_record_func` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_api_auth` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_api_auth` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_api_auth` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_api_auth` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_sync_api` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_async_api` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_async_api` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_async_api` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_blueprint` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_blueprint` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_blueprint` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_blueprint` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_connector` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_connector` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_connector` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_connector` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_cron_job` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_cron_job` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_cron_job` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_cron_job` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_env_variable` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_env_variable` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_env_variable` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_env_variable` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_file_service` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_file_service` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_file_service` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_file_service` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_func` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_func` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_func` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_func_store` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_func_store` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_func_store` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_func_store` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_operation_record` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_market` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_market` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_market` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_publish_history` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_publish_history` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_publish_history` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_publish_history` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_recover_point` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_recover_point` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_recover_point` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_recover_point` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_set` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_set` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_set` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set_export_history` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_set_export_history` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_set_export_history` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_set_export_history` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set_import_history` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `biz_main_script_set_import_history` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `biz_main_script_set_import_history` DROP COLUMN `createTime`;
+      ALTER TABLE `biz_main_script_set_import_history` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_access_key` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `wat_main_access_key` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `wat_main_access_key` DROP COLUMN `createTime`;
+      ALTER TABLE `wat_main_access_key` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_system_setting` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `wat_main_system_setting` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `wat_main_system_setting` DROP COLUMN `createTime`;
+      ALTER TABLE `wat_main_system_setting` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_user` ADD COLUMN `createTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `createTime`;
+      UPDATE `wat_main_user` SET `createTime_tmp` = UNIX_TIMESTAMP(`createTime`);
+      ALTER TABLE `wat_main_user` DROP COLUMN `createTime`;
+      ALTER TABLE `wat_main_user` CHANGE `createTime_tmp` `createTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      -- Change updateTime type to bigint for all table
+      ALTER TABLE `biz_main_task_record` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_task_record` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_task_record` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_task_record` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_task_record_func` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_api_auth` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_api_auth` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_api_auth` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_api_auth` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_sync_api` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_async_api` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_async_api` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_async_api` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_blueprint` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_blueprint` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_blueprint` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_blueprint` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_connector` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_connector` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_connector` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_connector` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_cron_job` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_cron_job` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_cron_job` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_cron_job` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_env_variable` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_env_variable` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_env_variable` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_env_variable` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_file_service` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_file_service` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_file_service` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_file_service` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_func` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_func` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_func` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_func_store` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_func_store` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_func_store` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_func_store` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_operation_record` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_market` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_market` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_market` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_publish_history` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_publish_history` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_publish_history` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_publish_history` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_recover_point` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_recover_point` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_recover_point` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_recover_point` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_set` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_set` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_set` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set_export_history` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_set_export_history` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_set_export_history` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_set_export_history` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `biz_main_script_set_import_history` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `biz_main_script_set_import_history` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `biz_main_script_set_import_history` DROP COLUMN `updateTime`;
+      ALTER TABLE `biz_main_script_set_import_history` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_access_key` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `wat_main_access_key` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `wat_main_access_key` DROP COLUMN `updateTime`;
+      ALTER TABLE `wat_main_access_key` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_system_setting` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `wat_main_system_setting` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `wat_main_system_setting` DROP COLUMN `updateTime`;
+      ALTER TABLE `wat_main_system_setting` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      ALTER TABLE `wat_main_user` ADD COLUMN `updateTime_tmp` bigint(20) unsigned NOT NULL DEFAULT 0 AFTER `updateTime`;
+      UPDATE `wat_main_user` SET `updateTime_tmp` = UNIX_TIMESTAMP(`updateTime`);
+      ALTER TABLE `wat_main_user` DROP COLUMN `updateTime`;
+      ALTER TABLE `wat_main_user` CHANGE `updateTime_tmp` `updateTime` bigint(20) unsigned NOT NULL DEFAULT 0;
+
+      -- Change expireTime type to bigint(20) for all table
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `expireTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `expireTime`;
+      UPDATE `biz_main_sync_api` SET `expireTime_tmp` = UNIX_TIMESTAMP(`expireTime`);
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `expireTime`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `expireTime_tmp` `expireTime` bigint(20) unsigned DEFAULT NULL;
+
+      ALTER TABLE `biz_main_cron_job` ADD COLUMN `expireTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `expireTime`;
+      UPDATE `biz_main_cron_job` SET `expireTime_tmp` = UNIX_TIMESTAMP(`expireTime`);
+      ALTER TABLE `biz_main_cron_job` DROP COLUMN `expireTime`;
+      ALTER TABLE `biz_main_cron_job` CHANGE `expireTime_tmp` `expireTime` bigint(20) unsigned DEFAULT NULL;
+
+      -- Add expireTime, throttlingJSON for Async API
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `expireTime` bigint(20) unsigned DEFAULT NULL AFTER `apiAuthId`;
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `throttlingJSON` longtext DEFAULT NULL AFTER `expireTime`;
+
+      -- Change pinTime type to bigint(20)
+      ALTER TABLE `biz_main_script_set` ADD COLUMN `pinTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `pinTime`;
+      UPDATE `biz_main_script_set` SET `pinTime_tmp` = UNIX_TIMESTAMP(`pinTime`);
+      ALTER TABLE `biz_main_script_set` DROP COLUMN `pinTime`;
+      ALTER TABLE `biz_main_script_set` CHANGE `pinTime_tmp` `pinTime` bigint(20) unsigned DEFAULT NULL;
+
+      ALTER TABLE `biz_main_connector` ADD COLUMN `pinTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `pinTime`;
+      UPDATE `biz_main_connector` SET `pinTime_tmp` = UNIX_TIMESTAMP(`pinTime`);
+      ALTER TABLE `biz_main_connector` DROP COLUMN `pinTime`;
+      ALTER TABLE `biz_main_connector` CHANGE `pinTime_tmp` `pinTime` bigint(20) unsigned DEFAULT NULL;
+
+      ALTER TABLE `biz_main_env_variable` ADD COLUMN `pinTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `pinTime`;
+      UPDATE `biz_main_env_variable` SET `pinTime_tmp` = UNIX_TIMESTAMP(`pinTime`);
+      ALTER TABLE `biz_main_env_variable` DROP COLUMN `pinTime`;
+      ALTER TABLE `biz_main_env_variable` CHANGE `pinTime_tmp` `pinTime` bigint(20) unsigned DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `pinTime_tmp` bigint(20) unsigned DEFAULT NULL AFTER `pinTime`;
+      UPDATE `biz_main_script_market` SET `pinTime_tmp` = UNIX_TIMESTAMP(`pinTime`);
+      ALTER TABLE `biz_main_script_market` DROP COLUMN `pinTime`;
+      ALTER TABLE `biz_main_script_market` CHANGE `pinTime_tmp` `pinTime` bigint(20) unsigned DEFAULT NULL;
+
+      -- Pick extraConfigJSON.isHidden as column in biz_main_func
+      ALTER TABLE `biz_main_func` ADD COLUMN `isHidden` tinyint(1) NOT NULL DEFAULT 0 AFTER `defOrder`;
+      UPDATE `biz_main_func` SET `isHidden` = IFNULL(JSON_UNQUOTE(JSON_EXTRACT(`extraConfigJSON`, '$.isHidden')) = 'true', 0);
+
+      -- Pick configJSON.funcId as column in biz_main_api_auth
+      ALTER TABLE `biz_main_api_auth` ADD COLUMN `funcId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL AFTER `type`;
+      UPDATE `biz_main_api_auth` SET `funcId` = JSON_UNQUOTE(JSON_EXTRACT(`configJSON`, '$.funcId'));
+
+      -- Change JSON column type to longtext
+      ALTER TABLE `biz_main_api_auth` ADD COLUMN `configJSON_tmp` longtext NOT NULL AFTER `configJSON`;
+      UPDATE `biz_main_api_auth` SET `configJSON_tmp` = `configJSON`;
+      ALTER TABLE `biz_main_api_auth` DROP COLUMN `configJSON`;
+      ALTER TABLE `biz_main_api_auth` CHANGE `configJSON_tmp` `configJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `funcCallKwargsJSON_tmp` longtext DEFAULT NULL AFTER `funcCallKwargsJSON`;
+      UPDATE `biz_main_async_api` SET `funcCallKwargsJSON_tmp` = `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_async_api` DROP COLUMN `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_async_api` CHANGE `funcCallKwargsJSON_tmp` `funcCallKwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_async_api` ADD COLUMN `tagsJSON_tmp` longtext DEFAULT NULL AFTER `tagsJSON`;
+      UPDATE `biz_main_async_api` SET `tagsJSON_tmp` = `tagsJSON`;
+      ALTER TABLE `biz_main_async_api` DROP COLUMN `tagsJSON`;
+      ALTER TABLE `biz_main_async_api` CHANGE `tagsJSON_tmp` `tagsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_blueprint` ADD COLUMN `canvasJSON_tmp` longtext NOT NULL AFTER `canvasJSON`;
+      UPDATE `biz_main_blueprint` SET `canvasJSON_tmp` = `canvasJSON`;
+      ALTER TABLE `biz_main_blueprint` DROP COLUMN `canvasJSON`;
+      ALTER TABLE `biz_main_blueprint` CHANGE `canvasJSON_tmp` `canvasJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_blueprint` ADD COLUMN `viewJSON_tmp` longtext NOT NULL AFTER `viewJSON`;
+      UPDATE `biz_main_blueprint` SET `viewJSON_tmp` = `viewJSON`;
+      ALTER TABLE `biz_main_blueprint` DROP COLUMN `viewJSON`;
+      ALTER TABLE `biz_main_blueprint` CHANGE `viewJSON_tmp` `viewJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_connector` ADD COLUMN `configJSON_tmp` longtext NOT NULL AFTER `configJSON`;
+      UPDATE `biz_main_connector` SET `configJSON_tmp` = `configJSON`;
+      ALTER TABLE `biz_main_connector` DROP COLUMN `configJSON`;
+      ALTER TABLE `biz_main_connector` CHANGE `configJSON_tmp` `configJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_cron_job` ADD COLUMN `funcCallKwargsJSON_tmp` longtext DEFAULT NULL AFTER `funcCallKwargsJSON`;
+      UPDATE `biz_main_cron_job` SET `funcCallKwargsJSON_tmp` = `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_cron_job` DROP COLUMN `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_cron_job` CHANGE `funcCallKwargsJSON_tmp` `funcCallKwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_cron_job` ADD COLUMN `tagsJSON_tmp` longtext DEFAULT NULL AFTER `tagsJSON`;
+      UPDATE `biz_main_cron_job` SET `tagsJSON_tmp` = `tagsJSON`;
+      ALTER TABLE `biz_main_cron_job` DROP COLUMN `tagsJSON`;
+      ALTER TABLE `biz_main_cron_job` CHANGE `tagsJSON_tmp` `tagsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `argsJSON_tmp` longtext DEFAULT NULL AFTER `argsJSON`;
+      UPDATE `biz_main_func` SET `argsJSON_tmp` = `argsJSON`;
+      ALTER TABLE `biz_main_func` DROP COLUMN `argsJSON`;
+      ALTER TABLE `biz_main_func` CHANGE `argsJSON_tmp` `argsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `kwargsJSON_tmp` longtext DEFAULT NULL AFTER `kwargsJSON`;
+      UPDATE `biz_main_func` SET `kwargsJSON_tmp` = `kwargsJSON`;
+      ALTER TABLE `biz_main_func` DROP COLUMN `kwargsJSON`;
+      ALTER TABLE `biz_main_func` CHANGE `kwargsJSON_tmp` `kwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `extraConfigJSON_tmp` longtext DEFAULT NULL AFTER `extraConfigJSON`;
+      UPDATE `biz_main_func` SET `extraConfigJSON_tmp` = `extraConfigJSON`;
+      ALTER TABLE `biz_main_func` DROP COLUMN `extraConfigJSON`;
+      ALTER TABLE `biz_main_func` CHANGE `extraConfigJSON_tmp` `extraConfigJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_func` ADD COLUMN `tagsJSON_tmp` longtext DEFAULT NULL AFTER `tagsJSON`;
+      UPDATE `biz_main_func` SET `tagsJSON_tmp` = `tagsJSON`;
+      ALTER TABLE `biz_main_func` DROP COLUMN `tagsJSON`;
+      ALTER TABLE `biz_main_func` CHANGE `tagsJSON_tmp` `tagsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_func_store` ADD COLUMN `valueJSON_tmp` longtext NOT NULL AFTER `valueJSON`;
+      UPDATE `biz_main_func_store` SET `valueJSON_tmp` = `valueJSON`;
+      ALTER TABLE `biz_main_func_store` DROP COLUMN `valueJSON`;
+      ALTER TABLE `biz_main_func_store` CHANGE `valueJSON_tmp` `valueJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `clientIPsJSON_tmp` longtext DEFAULT NULL AFTER `clientIPsJSON`;
+      UPDATE `biz_main_operation_record` SET `clientIPsJSON_tmp` = `clientIPsJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `clientIPsJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `clientIPsJSON_tmp` `clientIPsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `reqQueryJSON_tmp` longtext DEFAULT NULL AFTER `reqQueryJSON`;
+      UPDATE `biz_main_operation_record` SET `reqQueryJSON_tmp` = `reqQueryJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `reqQueryJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `reqQueryJSON_tmp` `reqQueryJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `reqParamsJSON_tmp` longtext DEFAULT NULL AFTER `reqParamsJSON`;
+      UPDATE `biz_main_operation_record` SET `reqParamsJSON_tmp` = `reqParamsJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `reqParamsJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `reqParamsJSON_tmp` `reqParamsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `reqBodyJSON_tmp` longtext DEFAULT NULL AFTER `reqBodyJSON`;
+      UPDATE `biz_main_operation_record` SET `reqBodyJSON_tmp` = `reqBodyJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `reqBodyJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `reqBodyJSON_tmp` `reqBodyJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `reqFileInfoJSON_tmp` longtext DEFAULT NULL AFTER `reqFileInfoJSON`;
+      UPDATE `biz_main_operation_record` SET `reqFileInfoJSON_tmp` = `reqFileInfoJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `reqFileInfoJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `reqFileInfoJSON_tmp` `reqFileInfoJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_operation_record` ADD COLUMN `respBodyJSON_tmp` longtext DEFAULT NULL AFTER `respBodyJSON`;
+      UPDATE `biz_main_operation_record` SET `respBodyJSON_tmp` = `respBodyJSON`;
+      ALTER TABLE `biz_main_operation_record` DROP COLUMN `respBodyJSON`;
+      ALTER TABLE `biz_main_operation_record` CHANGE `respBodyJSON_tmp` `respBodyJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `configJSON_tmp` longtext DEFAULT NULL AFTER `configJSON`;
+      UPDATE `biz_main_script_market` SET `configJSON_tmp` = `configJSON`;
+      ALTER TABLE `biz_main_script_market` DROP COLUMN `configJSON`;
+      ALTER TABLE `biz_main_script_market` CHANGE `configJSON_tmp` `configJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `extraJSON_tmp` longtext DEFAULT NULL AFTER `extraJSON`;
+      UPDATE `biz_main_script_market` SET `extraJSON_tmp` = `extraJSON`;
+      ALTER TABLE `biz_main_script_market` DROP COLUMN `extraJSON`;
+      ALTER TABLE `biz_main_script_market` CHANGE `extraJSON_tmp` `extraJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_recover_point` ADD COLUMN `tableDumpJSON_tmp` longtext DEFAULT NULL AFTER `tableDumpJSON`;
+      UPDATE `biz_main_script_recover_point` SET `tableDumpJSON_tmp` = `tableDumpJSON`;
+      ALTER TABLE `biz_main_script_recover_point` DROP COLUMN `tableDumpJSON`;
+      ALTER TABLE `biz_main_script_recover_point` CHANGE `tableDumpJSON_tmp` `tableDumpJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_script_set_export_history` ADD COLUMN `summaryJSON_tmp` longtext NOT NULL AFTER `summaryJSON`;
+      UPDATE `biz_main_script_set_export_history` SET `summaryJSON_tmp` = `summaryJSON`;
+      ALTER TABLE `biz_main_script_set_export_history` DROP COLUMN `summaryJSON`;
+      ALTER TABLE `biz_main_script_set_export_history` CHANGE `summaryJSON_tmp` `summaryJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_script_set_import_history` ADD COLUMN `summaryJSON_tmp` longtext NOT NULL AFTER `summaryJSON`;
+      UPDATE `biz_main_script_set_import_history` SET `summaryJSON_tmp` = `summaryJSON`;
+      ALTER TABLE `biz_main_script_set_import_history` DROP COLUMN `summaryJSON`;
+      ALTER TABLE `biz_main_script_set_import_history` CHANGE `summaryJSON_tmp` `summaryJSON` longtext NOT NULL;
+
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `funcCallKwargsJSON_tmp` longtext DEFAULT NULL AFTER `funcCallKwargsJSON`;
+      UPDATE `biz_main_sync_api` SET `funcCallKwargsJSON_tmp` = `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `funcCallKwargsJSON_tmp` `funcCallKwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `tagsJSON_tmp` longtext DEFAULT NULL AFTER `tagsJSON`;
+      UPDATE `biz_main_sync_api` SET `tagsJSON_tmp` = `tagsJSON`;
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `tagsJSON`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `tagsJSON_tmp` `tagsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_sync_api` ADD COLUMN `throttlingJSON_tmp` longtext DEFAULT NULL AFTER `throttlingJSON`;
+      UPDATE `biz_main_sync_api` SET `throttlingJSON_tmp` = `throttlingJSON`;
+      ALTER TABLE `biz_main_sync_api` DROP COLUMN `throttlingJSON`;
+      ALTER TABLE `biz_main_sync_api` CHANGE `throttlingJSON_tmp` `throttlingJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record` ADD COLUMN `kwargsJSON_tmp` longtext DEFAULT NULL AFTER `kwargsJSON`;
+      UPDATE `biz_main_task_record` SET `kwargsJSON_tmp` = `kwargsJSON`;
+      ALTER TABLE `biz_main_task_record` DROP COLUMN `kwargsJSON`;
+      ALTER TABLE `biz_main_task_record` CHANGE `kwargsJSON_tmp` `kwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record` ADD COLUMN `resultJSON_tmp` longtext DEFAULT NULL AFTER `resultJSON`;
+      UPDATE `biz_main_task_record` SET `resultJSON_tmp` = `resultJSON`;
+      ALTER TABLE `biz_main_task_record` DROP COLUMN `resultJSON`;
+      ALTER TABLE `biz_main_task_record` CHANGE `resultJSON_tmp` `resultJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `funcCallKwargsJSON_tmp` longtext DEFAULT NULL AFTER `funcCallKwargsJSON`;
+      UPDATE `biz_main_task_record_func` SET `funcCallKwargsJSON_tmp` = `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `funcCallKwargsJSON`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `funcCallKwargsJSON_tmp` `funcCallKwargsJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `callChainJSON_tmp` longtext DEFAULT NULL AFTER `callChainJSON`;
+      UPDATE `biz_main_task_record_func` SET `callChainJSON_tmp` = `callChainJSON`;
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `callChainJSON`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `callChainJSON_tmp` `callChainJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `returnValueJSON_tmp` longtext DEFAULT NULL AFTER `returnValueJSON`;
+      UPDATE `biz_main_task_record_func` SET `returnValueJSON_tmp` = `returnValueJSON`;
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `returnValueJSON`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `returnValueJSON_tmp` `returnValueJSON` longtext DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `responseControlJSON_tmp` longtext DEFAULT NULL AFTER `responseControlJSON`;
+      UPDATE `biz_main_task_record_func` SET `responseControlJSON_tmp` = `responseControlJSON`;
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `responseControlJSON`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `responseControlJSON_tmp` `responseControlJSON` longtext DEFAULT NULL;
+
+      -- exceptionType column can be NULL
+      ALTER TABLE `biz_main_task_record` ADD COLUMN `exceptionType_tmp` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL AFTER `exceptionType`;
+      UPDATE `biz_main_task_record` SET `exceptionType_tmp` = `exceptionType`;
+      ALTER TABLE `biz_main_task_record` DROP COLUMN `exceptionType`;
+      ALTER TABLE `biz_main_task_record` CHANGE `exceptionType_tmp` `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL;
+
+      ALTER TABLE `biz_main_task_record_func` ADD COLUMN `exceptionType_tmp` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL AFTER `exceptionType`;
+      UPDATE `biz_main_task_record_func` SET `exceptionType_tmp` = `exceptionType`;
+      ALTER TABLE `biz_main_task_record_func` DROP COLUMN `exceptionType`;
+      ALTER TABLE `biz_main_task_record_func` CHANGE `exceptionType_tmp` `exceptionType` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL;
+
+      -- Rebuild index
+      ALTER TABLE `biz_main_operation_record`
+      DROP INDEX `USER_ID`,
+      DROP INDEX `USERNAME`,
+      DROP INDEX `CLIENT_ID`,
+      DROP INDEX `TRACE_ID`,
+      DROP INDEX `REQ_METHOD`,
+      DROP INDEX `REQ_ROUTE`;
+
+      ALTER TABLE `biz_main_operation_record`
+      ADD UNIQUE INDEX `ID` (`id`),
+      ADD INDEX `USER_ID` (`userId`),
+      ADD INDEX `USERNAME` (`username`),
+      ADD INDEX `CLIENT_ID` (`clientId`),
+      ADD INDEX `TRACE_ID` (`traceId`),
+      ADD INDEX `REQ_METHOD` (`reqMethod`),
+      ADD INDEX `REQ_ROUTE` (`reqRoute`),
+      ADD INDEX `CREATE_TIME` (`createTime`);
+
+      ALTER TABLE `biz_main_script_recover_point`
+      ADD UNIQUE INDEX `ID` (`id`);
+
+    postgresql: |-
+      -- First version
+      SELECT 'Base PostgreSQL DB';
+
+  # Guance / TrueWatch Saas 2024-12-11
+  - seq: 101
+    mysql: |-
+      -- Add lockConfigJSON for Entity Lock
+      ALTER TABLE `biz_main_script` ADD COLUMN `lockConfigJSON` longtext AFTER `lockedByUserId`;
+      ALTER TABLE `biz_main_script_set` ADD COLUMN `lockConfigJSON` longtext AFTER `lockedByUserId`;
+      ALTER TABLE `biz_main_script_market` ADD COLUMN `lockConfigJSON` longtext AFTER `lockedByUserId`;
+
+    postgresql: |-
+      DROP TABLE IF EXISTS "biz_main_script_tmp";
+      CREATE TABLE "biz_main_script_tmp" (
+        "seq" BIGSERIAL NOT NULL,
+        "id" varchar(64) NOT NULL,
+        "scriptSetId" varchar(64) NOT NULL,
+        "title" varchar(256) DEFAULT NULL,
+        "description" text,
+        "publishVersion" BIGINT NOT NULL DEFAULT 0,
+        "type" varchar(64) NOT NULL DEFAULT 'python',
+        "code" TEXT,
+        "codeMD5" varchar(64) DEFAULT NULL,
+        "codeDraft" TEXT,
+        "codeDraftMD5" varchar(64) DEFAULT NULL,
+        "lockedByUserId" varchar(64) DEFAULT NULL,
+        "lockConfigJSON" text,
+        "createTime" BIGINT NOT NULL DEFAULT 0,
+        "updateTime" BIGINT NOT NULL DEFAULT 0
+      );
+
+      INSERT INTO "biz_main_script_tmp" (
+        "id", "scriptSetId", "title", "description", "publishVersion", "type", "code", "codeMD5", "codeDraft", "codeDraftMD5", "lockedByUserId", "createTime", "updateTime"
+      )
+      SELECT
+        "id", "scriptSetId", "title", "description", "publishVersion", "type", "code", "codeMD5", "codeDraft", "codeDraftMD5", "lockedByUserId", "createTime", "updateTime"
+      FROM "biz_main_script";
+
+      DROP TABLE IF EXISTS "biz_main_script";
+      ALTER TABLE "biz_main_script_tmp" RENAME TO "biz_main_script";
+      ALTER TABLE "biz_main_script" ADD PRIMARY KEY ("seq");
+      CREATE UNIQUE INDEX "biz_main_script_ID" ON "biz_main_script" ("id");
+      CREATE INDEX "biz_main_script_SCRIPT_SET_ID" ON "biz_main_script" ("scriptSetId");
+
+      DROP TABLE IF EXISTS "biz_main_script_set_tmp";
+      CREATE TABLE "biz_main_script_set_tmp" (
+        "seq" BIGSERIAL NOT NULL,
+        "id" varchar(64) NOT NULL,
+        "title" varchar(256) DEFAULT NULL,
+        "description" text,
+        "requirements" text,
+        "origin" varchar(64) NOT NULL DEFAULT 'UNKNOWN',
+        "originId" varchar(64) NOT NULL DEFAULT 'UNKNOWN',
+        "originMD5" varchar(64) DEFAULT NULL,
+        "lockedByUserId" varchar(64) DEFAULT NULL,
+        "lockConfigJSON" text,
+        "pinTime" BIGINT DEFAULT NULL,
+        "createTime" BIGINT NOT NULL DEFAULT 0,
+        "updateTime" BIGINT NOT NULL DEFAULT 0
+      );
+
+      INSERT INTO "biz_main_script_set_tmp" (
+        "id", "title", "description", "requirements", "origin", "originId", "originMD5", "lockedByUserId", "pinTime", "createTime", "updateTime"
+      )
+      SELECT
+        "id", "title", "description", "requirements", "origin", "originId", "originMD5", "lockedByUserId", "pinTime", "createTime", "updateTime"
+      FROM "biz_main_script_set";
+
+      DROP TABLE IF EXISTS "biz_main_script_set";
+      ALTER TABLE "biz_main_script_set_tmp" RENAME TO "biz_main_script_set";
+      ALTER TABLE "biz_main_script_set" ADD PRIMARY KEY ("seq");
+      CREATE UNIQUE INDEX "biz_main_script_set_ID" ON "biz_main_script_set" ("id");
+      CREATE INDEX "biz_main_script_set_ORIGIN_ID" ON "biz_main_script_set" ("originId");
+
+      DROP TABLE IF EXISTS "biz_main_script_market_tmp";
+      CREATE TABLE "biz_main_script_market_tmp" (
+        "seq" BIGSERIAL NOT NULL,
+        "id" varchar(64) NOT NULL,
+        "title" varchar(256) DEFAULT NULL,
+        "description" text,
+        "type" varchar(64) NOT NULL,
+        "configJSON" TEXT DEFAULT NULL,
+        "extraJSON" TEXT DEFAULT NULL,
+        "lockedByUserId" varchar(64) DEFAULT NULL,
+        "lockConfigJSON" text,
+        "pinTime" BIGINT DEFAULT NULL,
+        "createTime" BIGINT NOT NULL DEFAULT 0,
+        "updateTime" BIGINT NOT NULL DEFAULT 0
+      );
+
+      INSERT INTO "biz_main_script_market_tmp" (
+        "id", "title", "description", "type", "configJSON", "extraJSON", "lockedByUserId", "pinTime", "createTime", "updateTime"
+      )
+      SELECT
+        "id", "title", "description", "type", "configJSON", "extraJSON", "lockedByUserId", "pinTime", "createTime", "updateTime"
+      FROM "biz_main_script_market";
+
+      DROP TABLE IF EXISTS "biz_main_script_market";
+      ALTER TABLE "biz_main_script_market_tmp" RENAME TO "biz_main_script_market";
+      ALTER TABLE "biz_main_script_market" ADD PRIMARY KEY ("seq");
+      CREATE UNIQUE INDEX "biz_main_script_market_ID" ON "biz_main_script_market" ("id");
+
+  # Guance / TrueWatch Saas 2025-03-12
+  - seq: 102
+    mysql: |-
+      ALTER TABLE `biz_main_script_publish_history`
+      ADD INDEX `SCRIPT_ID` (`scriptId`),
+      ADD INDEX `SCRIPT_PUBLISH_VERSION` (`scriptPublishVersion`),
+      ADD INDEX `CREATE_TIME` (`createTime`);
+
+    postgresql: |-
+      CREATE INDEX "biz_main_script_publish_history_SCRIPT_ID" ON "biz_main_script_publish_history" ("scriptId");
+      CREATE INDEX "biz_main_script_publish_history_SCRIPT_PUBLISH_VERSION" ON "biz_main_script_publish_history" ("scriptPublishVersion");
+      CREATE INDEX "biz_main_script_publish_history_CREATE_TIME" ON "biz_main_script_publish_history" ("createTime");

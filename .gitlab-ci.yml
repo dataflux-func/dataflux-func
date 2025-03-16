@@ -1,0 +1,463 @@
+stages:
+  - build
+  - otherPortableFiles
+  - deploy
+
+variables:
+  # NOTE: Update this version for built-in Script Sets !!!
+  BUILTIN_SCRIPT_SET_VERSION: '20250312'
+
+  BUILTIN_SCRIPT_SET_FILE_DATAFLUX: dataflux.${BUILTIN_SCRIPT_SET_VERSION}.zip
+  BUILTIN_SCRIPT_SET_FILE_GUANCE  : guance.${BUILTIN_SCRIPT_SET_VERSION}.zip
+  BUILTIN_SCRIPT_SET_URL_DATAFLUX_WITH_VERSION: ${BUILTIN_SCRIPT_SET_BASE_URL}/dataflux.${BUILTIN_SCRIPT_SET_VERSION}.zip
+  BUILTIN_SCRIPT_SET_URL_GUANCE_WITH_VERSION  : ${BUILTIN_SCRIPT_SET_BASE_URL}/guance.${BUILTIN_SCRIPT_SET_VERSION}.zip
+
+  OSS_WORKDIR          : dataflux-func
+  OSS_WORKDIR_BASE_URL : oss://${ZY_STATIC_OSS_BUCKET}/${OSS_WORKDIR}
+  CDN_REFRESH_BASE_PATH: ${ZY_STATIC_SITE}/${OSS_WORKDIR}
+
+  IMAGE          : dataflux-func
+  IMAGE_GZIP_FILE: dataflux-func.tar.gz
+
+  DOCKER_STACK_EXAMPLE_FILE: docker-stack.example.yaml
+  DOCKER_SERVICE_FILE      : docker.service
+  DOWNLOAD_PORTABLE_FILE   : download-portable.sh
+  RUN_PORTABLE_FILE        : run-portable.sh
+  IMAGE_LIST_FILE          : image-list
+  VERSION_FILE             : version
+
+  SDK_DIR : sdk/
+
+  PROJECT: dataflux-func
+
+# ========== Build Images ==========
+
+# Portable, Original for exporting
+portable_dev:
+  stage: build
+  retry: 2
+  only:
+    - dev
+  script:
+    # Dev version only supports amd64
+    - python3 echo-image-info.py > image-info.json
+    - docker buildx build
+      --platform linux/amd64
+      -t ${IMAGE_PUBLIC}-dev:${CI_COMMIT_SHORT_SHA}
+      -f Dockerfile-singleton .
+      --load
+    # Export image file
+    - docker save ${IMAGE_PUBLIC}-dev:${CI_COMMIT_SHORT_SHA} | gzip > ${IMAGE_GZIP_FILE}
+    # Upload to OSS
+    - tools/ossutil64 cp
+      ${IMAGE_GZIP_FILE} ${OSS_WORKDIR_BASE_URL}/portable-dev/x86_64/${IMAGE_GZIP_FILE}
+      -f
+      -e ${ZY_STATIC_OSS_ENDPOINT}
+      -i ${ZY_STATIC_OSS_AK_ID}
+      -k ${ZY_STATIC_OSS_AK_SECRET};
+  tags:
+    - cloudcare-multiarch
+
+portable_amd64:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Build amd64 version for exporting
+    - python3 echo-image-info.py > image-info.json
+    - docker buildx build
+      --platform linux/amd64
+      -t ${IMAGE_PUBLIC}:${CI_COMMIT_REF_NAME}
+      -f Dockerfile-singleton .
+      --load
+    # Export image file
+    - docker save ${IMAGE_PUBLIC}:${CI_COMMIT_REF_NAME} | gzip > ${IMAGE_GZIP_FILE}
+    # Upload to OSS
+    - tools/ossutil64 cp
+      ${IMAGE_GZIP_FILE} ${OSS_WORKDIR_BASE_URL}/portable/x86_64/${IMAGE_GZIP_FILE}
+      -f
+      -e ${ZY_STATIC_OSS_ENDPOINT}
+      -i ${ZY_STATIC_OSS_AK_ID}
+      -k ${ZY_STATIC_OSS_AK_SECRET};
+  tags:
+    - cloudcare-multiarch
+
+portable_arm64:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Build arm64 version for exporting
+    - python3 echo-image-info.py > image-info.json
+    - docker buildx build
+      --platform linux/arm64
+      -t ${IMAGE_PUBLIC}-arm64:${CI_COMMIT_REF_NAME}
+      -f Dockerfile-singleton .
+      --load
+    # Export image file
+    - docker save ${IMAGE_PUBLIC}-arm64:${CI_COMMIT_REF_NAME} | gzip > ${IMAGE_GZIP_FILE}
+    # Upload to OSS
+    - tools/ossutil64
+      cp ${IMAGE_GZIP_FILE} ${OSS_WORKDIR_BASE_URL}/portable/aarch64/${IMAGE_GZIP_FILE}
+      -f
+      -e ${ZY_STATIC_OSS_ENDPOINT}
+      -i ${ZY_STATIC_OSS_AK_ID}
+      -k ${ZY_STATIC_OSS_AK_SECRET};
+  tags:
+    - cloudcare-multiarch
+
+# Portable, GSE for exporting
+portable_amd64_GSE:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_ADD_LOCAL_DATAKIT}                 -O init-scripts/add_local_datakit.py;
+    - wget ${INIT_SCRIPT_URL_INSTALL_OFFICIAL_CORE_SCRIPT_SETS} -O init-scripts/install_official_core_script_sets.py;
+    # Build amd64 version for exporting
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64
+      -t ${IMAGE_PUBLIC}-gse:${CI_COMMIT_REF_NAME}
+      -f Dockerfile-singleton-GSE .
+      --load
+    # Export image file
+    - docker save ${IMAGE_PUBLIC}-gse:${CI_COMMIT_REF_NAME} | gzip > ${IMAGE_GZIP_FILE}
+    # Upload to OSS
+    - tools/ossutil64 cp
+      ${IMAGE_GZIP_FILE} ${OSS_WORKDIR_BASE_URL}/portable-GSE/x86_64/${IMAGE_GZIP_FILE}
+      -f
+      -e ${ZY_STATIC_OSS_ENDPOINT}
+      -i ${ZY_STATIC_OSS_AK_ID}
+      -k ${ZY_STATIC_OSS_AK_SECRET};
+  tags:
+    - cloudcare-multiarch
+
+portable_arm64_GSE:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_ADD_LOCAL_DATAKIT}                 -O init-scripts/add_local_datakit.py;
+    - wget ${INIT_SCRIPT_URL_INSTALL_OFFICIAL_CORE_SCRIPT_SETS} -O init-scripts/install_official_core_script_sets.py;
+    # Build arm64 version for exporting
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/arm64
+      -t ${IMAGE_PUBLIC}-gse-arm64:${CI_COMMIT_REF_NAME}
+      -f Dockerfile-singleton-GSE .
+      --load
+    # Export image file
+    - docker save ${IMAGE_PUBLIC}-gse-arm64:${CI_COMMIT_REF_NAME} | gzip > ${IMAGE_GZIP_FILE}
+    # Upload to OSS
+    - tools/ossutil64
+      cp ${IMAGE_GZIP_FILE} ${OSS_WORKDIR_BASE_URL}/portable-GSE/aarch64/${IMAGE_GZIP_FILE}
+      -f
+      -e ${ZY_STATIC_OSS_ENDPOINT}
+      -i ${ZY_STATIC_OSS_AK_ID}
+      -k ${ZY_STATIC_OSS_AK_SECRET};
+  tags:
+    - cloudcare-multiarch
+
+# Singleton, Orignal
+singleton:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Compute version parts
+    - V_PARTS=(${CI_COMMIT_REF_NAME//[\.]/ })
+    - V_MAJOR=${V_PARTS[0]}
+    - V_MAJOR_MINOR=${V_PARTS[0]}.${V_PARTS[1]}
+    - V_MAJOR_MINOR_PATCH=${V_PARTS[0]}.${V_PARTS[1]}.${V_PARTS[2]}
+    # Build / Push multiarch version
+    - python3 echo-image-info.py > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t ${IMAGE_PRIVATE}:${V_MAJOR}
+      -t ${IMAGE_PRIVATE}:${V_MAJOR_MINOR}
+      -t ${IMAGE_PRIVATE}:${V_MAJOR_MINOR_PATCH}
+      -t ${IMAGE_PUBLIC}:${V_MAJOR}
+      -t ${IMAGE_PUBLIC}:${V_MAJOR_MINOR}
+      -t ${IMAGE_PUBLIC}:${V_MAJOR_MINOR_PATCH}
+      -f Dockerfile-singleton .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+# Singleton, GSE
+singleton_GSE:
+  stage: build
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Compute version parts
+    - V_PARTS=(${CI_COMMIT_REF_NAME//[\.]/ })
+    - V_MAJOR=${V_PARTS[0]}
+    - V_MAJOR_MINOR=${V_PARTS[0]}.${V_PARTS[1]}
+    - V_MAJOR_MINOR_PATCH=${V_PARTS[0]}.${V_PARTS[1]}.${V_PARTS[2]}
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_ADD_LOCAL_DATAKIT}                 -O init-scripts/add_local_datakit.py;
+    - wget ${INIT_SCRIPT_URL_INSTALL_OFFICIAL_CORE_SCRIPT_SETS} -O init-scripts/install_official_core_script_sets.py;
+    # Build / Push multiarch version
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t ${IMAGE_PRIVATE}-gse:${V_MAJOR}
+      -t ${IMAGE_PRIVATE}-gse:${V_MAJOR_MINOR}
+      -t ${IMAGE_PRIVATE}-gse:${V_MAJOR_MINOR_PATCH}
+      -t ${IMAGE_PUBLIC}-gse:${V_MAJOR}
+      -t ${IMAGE_PUBLIC}-gse:${V_MAJOR_MINOR}
+      -t ${IMAGE_PUBLIC}-gse:${V_MAJOR_MINOR_PATCH}
+      -f Dockerfile-singleton-GSE .
+      --push
+    # Push to Helm
+    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} func-prod-chart
+  tags:
+    - cloudcare-multiarch
+
+# Guance / TrueWatch bundle
+guanceSaaS_testing:
+  stage: build
+  retry: 2
+  only:
+    - dev
+  script:
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t ${IMAGE_PRIVATE}-gse:dev
+      -f Dockerfile-singleton-GSE .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+guanceSaaS_release:
+  stage: build
+  retry: 2
+  only:
+    - /^pre_\d+_\d+$/     # e.g. pre_20190101_01
+    - /^release_\d+_\d+$/ # e.g. release_20190101_01
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_IMPORT_BUILTIN_SCRIPT_SETS}   -O init-scripts/import_builtin_script_sets.py;       # Built-in Script Sets import tool
+    - wget ${BUILTIN_SCRIPT_SET_URL_DATAFLUX_WITH_VERSION} -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_DATAFLUX}; # Built-in Script Sets (old version)
+    - wget ${BUILTIN_SCRIPT_SET_URL_GUANCE_WITH_VERSION}   -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_GUANCE};   # Built-in Script Sets
+    # Build / Push multiarch version
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t ${IMAGE_PRIVATE}-gse:${CI_COMMIT_REF_NAME}
+      -t ${IMAGE_PUBLIC}-gse:${CI_COMMIT_REF_NAME}
+      -f Dockerfile-singleton-GSE .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+guancePaaS_preview:
+  stage: build
+  retry: 2
+  only:
+    - /\d+\.\d+\.\d+\.\d+-\w+-prev/ # e.g. 1.10.49.1-c2f4e3b-prev
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_IMPORT_BUILTIN_SCRIPT_SETS}   -O init-scripts/import_builtin_script_sets.py;       # Built-in Script Sets import tool
+    - wget ${BUILTIN_SCRIPT_SET_URL_DATAFLUX_WITH_VERSION} -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_DATAFLUX}; # Built-in Script Sets (old version)
+    - wget ${BUILTIN_SCRIPT_SET_URL_GUANCE_WITH_VERSION}   -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_GUANCE};   # Built-in Script Sets
+    # Compute version parts
+    - V=(${CI_COMMIT_REF_NAME//[\.-]/ })
+    - VDIR=${V[0]}.${V[1]}.${V[2]}.${V[3]}
+    - REPO=dataflux-prev/$VDIR
+    - TAG=${PROJECT}-${V[4]}
+    # Build / Push multiarch version
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t pubrepo.jiagouyun.com/$REPO:$TAG
+      -f Dockerfile-singleton-GSE .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+guancePaaS_release:
+  stage: build
+  retry: 2
+  only:
+    - /\d+\.\d+\.\d+-\w+-\d+-prod/ # e.g.  1.9.48-356017d-1600314708-prod
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_IMPORT_BUILTIN_SCRIPT_SETS}   -O init-scripts/import_builtin_script_sets.py;       # Built-in Script Sets import tool
+    - wget ${BUILTIN_SCRIPT_SET_URL_DATAFLUX_WITH_VERSION} -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_DATAFLUX}; # Built-in Script Sets (old version)
+    - wget ${BUILTIN_SCRIPT_SET_URL_GUANCE_WITH_VERSION}   -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_GUANCE};   # Built-in Script Sets
+    # Compute version parts
+    - V=(${CI_COMMIT_REF_NAME//[\.-]/ })
+    - VDIR=${V[0]}.${V[1]}.${V[2]}
+    - REPO=dataflux/$VDIR
+    - TAG=${PROJECT}-${V[3]}-${V[4]}
+    # Build / Push multiarch version
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t pubrepo.jiagouyun.com/$REPO:$TAG
+      -f Dockerfile-singleton-GSE .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+guancePaaS_uos_release:
+  stage: build
+  retry: 2
+  only:
+    - /\d+\.\d+\.\d+-\w+-\d+-uos-prod/ # e.g.  1.9.48-356017d-1600314708-uos-prod
+  script:
+    # Download init scripts
+    - wget ${INIT_SCRIPT_URL_IMPORT_BUILTIN_SCRIPT_SETS}   -O init-scripts/import_builtin_script_sets.py;       # Built-in Script Sets import tool
+    - wget ${BUILTIN_SCRIPT_SET_URL_DATAFLUX_WITH_VERSION} -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_DATAFLUX}; # Built-in Script Sets (old version)
+    - wget ${BUILTIN_SCRIPT_SET_URL_GUANCE_WITH_VERSION}   -O init-scripts/${BUILTIN_SCRIPT_SET_FILE_GUANCE};   # Built-in Script Sets
+    # Compute version parts
+    - V=(${CI_COMMIT_REF_NAME//[\.-]/ })
+    - VDIR=${V[0]}.${V[1]}.${V[2]}
+    - REPO=uos-dataflux/$VDIR
+    - TAG=${PROJECT}-${V[3]}-${V[4]}
+    # Build / Push multiarch version
+    - python3 echo-image-info.py --edition=GSE > image-info.json
+    - docker buildx build
+      --platform linux/amd64,linux/arm64
+      -t pubrepo.jiagouyun.com/$REPO:$TAG
+      -f Dockerfile-uos-singleton-GSE .
+      --push
+  tags:
+    - cloudcare-multiarch
+
+# ========== Other Portable File Upload to OSS ==========
+
+otherPortableFile_dev:
+  stage: otherPortableFiles
+  retry: 2
+  only:
+    - dev
+  script:
+    # Export version
+    - echo ${CI_COMMIT_SHORT_SHA} > ${VERSION_FILE}
+    # Export image info
+    - echo DATAFLUX_FUNC_IMAGE=${IMAGE_PUBLIC}-dev:${CI_COMMIT_SHORT_SHA} >> portable/${IMAGE_LIST_FILE}-dev
+    # Upload to OSS
+    - tools/ossutil64 cp portable/${RUN_PORTABLE_FILE}          ${OSS_WORKDIR_BASE_URL}/portable-dev/${RUN_PORTABLE_FILE}         -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_STACK_EXAMPLE_FILE}  ${OSS_WORKDIR_BASE_URL}/portable-dev/${DOCKER_STACK_EXAMPLE_FILE} -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_SERVICE_FILE}        ${OSS_WORKDIR_BASE_URL}/portable-dev/${DOCKER_SERVICE_FILE}       -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${IMAGE_LIST_FILE}-dev        ${OSS_WORKDIR_BASE_URL}/portable-dev/x86_64/${IMAGE_LIST_FILE}    -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp ${VERSION_FILE}                        ${OSS_WORKDIR_BASE_URL}/portable-dev/${VERSION_FILE}              -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    # Refresh CDN
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ -r tools/requirements-ci.txt
+    - python3 tools/cdn-refresh-tool.py
+      Directory ${CDN_REFRESH_BASE_PATH}/portable-dev/
+      -i ${ZY_STATIC_CDN_AK_ID}
+      -k ${ZY_STATIC_CDN_AK_SECRET}
+  tags:
+    - cloudcare-multiarch
+
+otherPortableFile_singleton:
+  stage: otherPortableFiles
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Export version
+    - echo ${CI_COMMIT_REF_NAME} > ${VERSION_FILE}
+    # Export image info
+    - echo DATAFLUX_FUNC_IMAGE=${IMAGE_PUBLIC}:${CI_COMMIT_REF_NAME}       >> portable/${IMAGE_LIST_FILE}-x86_64
+    - echo DATAFLUX_FUNC_IMAGE=${IMAGE_PUBLIC}-arm64:${CI_COMMIT_REF_NAME} >> portable/${IMAGE_LIST_FILE}-aarch64
+    # Upload to OSS
+    - tools/ossutil64 cp portable/${DOWNLOAD_PORTABLE_FILE}     ${OSS_WORKDIR_BASE_URL}/portable-common/${DOWNLOAD_PORTABLE_FILE} -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${RUN_PORTABLE_FILE}          ${OSS_WORKDIR_BASE_URL}/portable/${RUN_PORTABLE_FILE}             -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_STACK_EXAMPLE_FILE}  ${OSS_WORKDIR_BASE_URL}/portable/${DOCKER_STACK_EXAMPLE_FILE}     -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_SERVICE_FILE}        ${OSS_WORKDIR_BASE_URL}/portable/${DOCKER_SERVICE_FILE}           -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${IMAGE_LIST_FILE}-x86_64     ${OSS_WORKDIR_BASE_URL}/portable/x86_64/${IMAGE_LIST_FILE}        -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${IMAGE_LIST_FILE}-aarch64    ${OSS_WORKDIR_BASE_URL}/portable/aarch64/${IMAGE_LIST_FILE}       -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp ${VERSION_FILE}                        ${OSS_WORKDIR_BASE_URL}/portable/${VERSION_FILE}                  -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    # Refresh CDN
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ -r tools/requirements-ci.txt
+    - python3 tools/cdn-refresh-tool.py
+      Directory ${CDN_REFRESH_BASE_PATH}/portable/
+      -i ${ZY_STATIC_CDN_AK_ID}
+      -k ${ZY_STATIC_CDN_AK_SECRET}
+  tags:
+    - cloudcare-multiarch
+
+otherPortableFile_singleton_GSE:
+  stage: otherPortableFiles
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Export version
+    - echo ${CI_COMMIT_REF_NAME} > ${VERSION_FILE}
+    # Export image info
+    - echo DATAFLUX_FUNC_IMAGE=${IMAGE_PUBLIC}-gse:${CI_COMMIT_REF_NAME}       >> portable/${IMAGE_LIST_FILE}-GSE-x86_64
+    - echo DATAFLUX_FUNC_IMAGE=${IMAGE_PUBLIC}-gse-arm64:${CI_COMMIT_REF_NAME} >> portable/${IMAGE_LIST_FILE}-GSE-aarch64
+    # Upload to OSS
+    - tools/ossutil64 cp portable/${RUN_PORTABLE_FILE}           ${OSS_WORKDIR_BASE_URL}/portable-GSE/${RUN_PORTABLE_FILE}         -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_STACK_EXAMPLE_FILE}   ${OSS_WORKDIR_BASE_URL}/portable-GSE/${DOCKER_STACK_EXAMPLE_FILE} -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${DOCKER_SERVICE_FILE}         ${OSS_WORKDIR_BASE_URL}/portable-GSE/${DOCKER_SERVICE_FILE}       -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${IMAGE_LIST_FILE}-GSE-x86_64  ${OSS_WORKDIR_BASE_URL}/portable-GSE/x86_64/${IMAGE_LIST_FILE}    -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp portable/${IMAGE_LIST_FILE}-GSE-aarch64 ${OSS_WORKDIR_BASE_URL}/portable-GSE/aarch64/${IMAGE_LIST_FILE}   -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    - tools/ossutil64 cp ${VERSION_FILE}                         ${OSS_WORKDIR_BASE_URL}/portable-GSE/${VERSION_FILE}              -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    # Refresh CDN
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ -r tools/requirements-ci.txt
+    - python3 tools/cdn-refresh-tool.py
+      Directory ${CDN_REFRESH_BASE_PATH}/portable-GSE/
+      -i ${ZY_STATIC_CDN_AK_ID}
+      -k ${ZY_STATIC_CDN_AK_SECRET}
+  tags:
+    - cloudcare-multiarch
+
+otherResourceFile:
+  stage: otherPortableFiles
+  retry: 2
+  only:
+    - /^\d+\.\d+\.\d+$/ # e.g. 1.2.3
+  script:
+    # Upload to OSS
+    - tools/ossutil64 cp -r ${SDK_DIR} ${OSS_WORKDIR_BASE_URL}/${SDK_DIR} -f -e ${ZY_STATIC_OSS_ENDPOINT} -i ${ZY_STATIC_OSS_AK_ID} -k ${ZY_STATIC_OSS_AK_SECRET}
+    # Refresh CDN
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ -r tools/requirements-ci.txt
+    - python3 tools/cdn-refresh-tool.py
+      Directory ${CDN_REFRESH_BASE_PATH}/${SDK_DIR}
+      -i ${ZY_STATIC_CDN_AK_ID}
+      -k ${ZY_STATIC_CDN_AK_SECRET}
+  tags:
+    - cloudcare-multiarch
+
+# ========== Deploy ==========
+
+# Deploy to testing / daily
+deploy_testing:
+  stage: deploy
+  only:
+    - dev
+  script:
+    - for project_id in ${DEV_PROJECT_IDS}; do
+        for workload in ${DEV_WORKLOADS}; do
+          curl -sS -X POST -H "Authorization:Bearer ${RANCHER_TOKEN}" ${RANCHER_API_BASE_URL}/v3/project/${project_id}/workloads/deployment:${workload}?action=redeploy;
+        done
+      done
+  tags:
+    - cloudcare-multiarch
+
+# Deploy to SaaS
+deploy_release:
+  stage: deploy
+  only:
+    - /^deploy_\d+/
+  script:
+    - sh deploy-saas.sh -d
+  tags:
+    - cloudcare-multiarch

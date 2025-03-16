@@ -1,0 +1,541 @@
+# Common
+',': '、'
+':': '：'
+'(': '（'
+')': '）'
+
+ms : ミリ秒
+s  : 秒
+m  : 分
+min: 分
+h  : 時間
+d  : 日
+'y': 年
+
+# Duration
+nSeconds: '{n}秒'
+nMinutes: '{n}分'
+nHours  : '{n}時間'
+nDays   : '{n}日'
+nMonths : '{n}ヶ月'
+nYears  : '{n}年'
+
+nS: '{n}秒'
+nM: '{n}分'
+nH: '{n}時間'
+nD: '{n}日'
+nY: '{n}年'
+
+expireAt: '{t} まで'
+
+Version           : バージョン
+New Version       : 新バージョン
+Light Mode        : ライトモード
+Dark Mode         : ダークモード
+Auto              : 自動
+Follow System     : システムに従う
+Please select     : 選択してください
+Timeout           : タイムアウト
+Queue             : キュー
+Administrator     : 管理者
+Owner             : オーナ
+Password          : パスワード
+UNKNOWN           : 不明
+Built-in          : ビルトイン
+Press ESC to close: ESCキーを押して閉じる
+Show detail       : 詳細を表示
+Show code         : ソースコードを表示
+Deprecated        : 廃止
+
+Enterprise Blue: エンタープライズ・ブルー
+Classic Orange : クラシック・オレンジ
+Miku Cyan      : ミク・青
+
+# Common - Button / Form
+Very good: よし
+OK       : 了解
+Finish   : 完成
+Load     : 読み込む
+Confirm  : 確認
+Cancel   : キャンセル
+'Yes'    : はい
+'No'     : いいえ
+'ON'     : オン
+'OFF'    : オフ
+'None'   : なし
+Default  : デフォルト
+Detail   : 詳細
+Official : 公式
+Optional : オプション
+Lock Config: ロック設定
+
+# Common - Operation
+Add     : 追加
+Create  : 作成
+Clone   : クローン
+Setup   : 設定
+Edit    : 編集
+Modify  : 編集
+Update  : 更新
+Delete  : 削除
+Enable  : 有効にする
+Disable : 無効にする
+Rename  : 名前変更
+Save    : 保存
+Export  : エクスポート
+Import  : インポート
+Recover : 復元
+Deploy  : デプロイ
+Hide    : 隠す
+Show    : 表示
+Pin     : トップにする
+Unpin   : トップから外す
+Lock    : ロック
+Unlock  : ロック解除
+Open    : 開く
+Exit    : 終了
+Close   : 閉じる
+Clear   : クリア
+Clear All: 全部クリア
+Debug   : デバッグ
+Download: ダウンロード
+Upload  : アップロード
+Publish : 公開
+Preview : プレビュー
+Refresh : リフレッシュ
+Run     : 実行
+Enter   : 入る
+Move    : 移動
+Copy    : コピー
+Replace : 置き換え
+Zip     : 圧縮
+Unzip   : 解凍
+Install : インストール
+Reinstall: 再インストール
+Upgrade : アップグレード
+More    : もっと見る
+Filter  : フィルター
+Link    : リンク
+Unlink  : リンク解除
+Manage  : 管理
+Admin   : 管理
+Reset   : リセット
+Expand  : 展開
+Collapse: 収縮
+Restore Default: デフォルトに戻す
+Check Update   : アップデートをチェックする
+
+# Common - Operation (lower case)
+add     : 追加
+create  : 作成
+clone   : クローン
+setup   : 設定
+edit    : 編集
+modify  : 編集
+update  : 更新
+delete  : 削除
+enable  : 有効にする
+disable : 無効にする
+rename  : 名前変更
+save    : 保存
+export  : エクスポート
+import  : インポート
+recover : 復元
+deploy  : デプロイ
+hide    : 隠す
+show    : 表示
+pin     : トップにする
+unpin   : トップから外す
+lock    : ロック
+unlock  : ロック解除
+open    : 開く
+exit    : 終了
+close   : 閉じる
+clear   : クリア
+clear all: 全部クリア
+debug   : デバッグ
+download: ダウンロード
+upload  : アップロード
+publish : 公開
+preview : プレビュー
+refresh : リフレッシュ
+run     : 実行
+enter   : 入る
+move    : 移動
+copy    : コピー
+replace : 置き換え
+zip     : 圧縮
+unzip   : 解凍
+install : インストール
+reinstall: 再インストール
+upgrade : アップグレード
+more    : もっと見る
+filter  : フィルター
+link    : リンク
+unlink  : リンク解除
+manage  : 管理
+admin   : 管理
+reset   : リセット
+expand  : 展開
+collapse: 収縮
+restore default: デフォルトに戻す
+check update   : アップデートをチェックする
+
+# Common - Operating
+Loading   : 読み込み中
+Installing: インストール中
+
+# Common - Operating Result
+Added    : 追加した
+Edited   : 編集した
+Modified : 編集した
+Deleted  : 削除した
+Enabled  : 有効にした
+Disabled : 無効にした
+Saved    : 保存した
+Hidden   : 隠した
+Shown    : 表示した
+Locked   : ロックした
+Unlockel : コック解除した
+Opened   : 開いた
+Closed   : 閉じた
+Cleared  : クリアした
+Linked   : リンクした
+Unlinked : リンク解除した
+Installed: インストールした
+
+# Common - Operating Result (lower case)
+added    : 追加した
+edited   : 編集した
+modified : 編集した
+deleted  : 削除した
+enabled  : 有効にした
+disabled : 無効にした
+saved    : 保存した
+hidden   : 隠した
+shown    : 表示した
+locked   : ロックした
+unlockel : コック解除した
+opened   : 開いた
+closed   : 閉じた
+cleared  : クリアした
+linked   : リンクした
+unlinked : リンク解除した
+installed: インストールした
+
+# Common - Data / Value
+Anonymity    : 匿名
+Unknow       : 不明
+No Data      : データ無し
+Pinned       : トップにした
+Normal       : 通常
+Error        : エラー
+Idle         : 動作なし
+Online       : オンライン
+Offline      : オフライン
+Going Offline: もうすぐオフライン
+Total        : 合計
+
+# Common - Table Header / Title / Notice
+No task record       : タスク記録なし
+No matched data found: 当てはまるデータがありません
+Name                 : 名前
+User Name            : ユーザの名前
+Title                : タイトル
+Description          : 説明
+Type                 : タイプ
+Item                 : アイテム
+Value                : 値
+Tags                 : タグ
+Status               : ステータス
+Note                 : 備考
+Folder               : フォルダ
+File                 : ファイル
+Size                 : サイズ
+Time                 : 時間
+Create Time          : 作成時間
+Update Time          : 更新時間
+Example              : 見本
+Username             : ユーザー名
+User                 : ユーザ
+Email                : メール
+Mobile               : 携帯
+Endpoint             : エンドポイント
+
+# Common - Table Operation
+Show all: すべて表示
+New     : 新規
+
+# CopyButton
+Copied               : コピーした
+Click to Copy        : クリックしてコピー
+Browser not supported: 現在のブラウザではサポートされていません
+
+# Proper Noun
+Alibaba Cloud: アリババクラウド
+
+# CodeMirror
+"(Use /re/ syntax for regexp search)": '（ /re/ を使って正規表示式で検索する）'
+"All"                                : 'すべて'
+"Replace all:"                       : 'すべて置き換える：'
+"Replace with:"                      : '置き換え：'
+"Replace:"                           : '置き換え：'
+"Replace?"                           : '置き換えますか？'
+"Search:"                            : '検索：'
+"Stop"                               : '停止'
+"With:"                              : '置き換え：'
+
+# toolkit.js - API Result Notice
+Read data                               : データを読み込む
+Operation succeeded                     : 処理成功
+Operation failed                        : 処理失敗
+Data not found. It may have been deleted: このデータは見つかりません。削除された可能性があります。
+
+# const.js - CONNECTOR
+'Guance'                                                                : Guance
+'TrueWatch'                                                             : TrueWatch
+'DataKit (HTTP)'                                                        : DataKit (HTTP)
+'DataWay (HTTP)'                                                        : DataWay (HTTP)
+'InfluxDB (HTTP) (or compatible Databases)'                             : InfluxDB (HTTP)（または互換性のあるデータベース）
+'Aliyun Time Series Database for InfluxDB'                              : アリババクラウド タイム シリーズ データベース InfluxDB 版
+'MySQL (or compatible Databases)'                                       : MySQL（または互換性のあるデータベース）
+'Aliyun PolarDB for MySQL'                                              : アリババクラウド PolarDB MySQL
+'Aliyun OceanBase'                                                      : アリババクラウド OceanBase
+'ADB for MySQL'                                                         : アリババクラウド ADB MySQL 版
+'Oracle Database'                                                       : Oracle
+'PostgreSQL (or compatible Databases)'                                  : PostgreSQL（または互換性のあるデータベース）
+'Aliyun PolarDB for PostgreSQL'                                         : アリババクラウド PolarDB MySQL
+'ADB for PostgreSQL'                                                    : アリババクラウド ADB PostgreSQL 版
+'A Broker with MQTTv5 support and use share subscription is recommended': MQTTv5 プロトコルをサポートするブローカーを使用し、共有サブスクリプションを使用するのが推奨されます
+'Alibaba Cloud SLS'                                                     : アリババクラウド SLS
+
+# Biz Entity / Module / ID
+Script Lib: スクリプトリブ
+Script Set: スクリプトセット
+Script    : スクリプ
+Func      : 関数
+Connector : コネクタ
+ENV       : 環境変数
+
+Built-in Script Set: ビルトインスクリプトセット
+Built-in Connector : ビルトインコネクタ
+
+Dev          : 開発
+Development  : 開発
+Blueprint    : ブループリント
+Management   : 管理
+Script Market: スクリプトマーケット
+Docs         : ドキュメント
+Document     : ドキュメント
+Documents    : ドキュメント
+Setting      : 設定
+Profile      : プロフィール
+Sign Out     : ログアウト
+Not Signed In: ログインしていない
+Signed In    : ログイン済み
+
+Overview                 : 概要
+About                    : このシステムについて
+API Auth                 : API 認証
+Sync API                 : 同期式 API
+Async API                : 非同期式 API
+Cron Job                 : 定時業務
+Script Set Export        : スクリプトセットのエクスポート
+Script Set Import        : スクリプトセットのインポート
+Script Set Export History: スクリプトセットのエクスポート履歴
+Script Set Import History: スクリプトセットのインポート履歴
+Script Lib Recover       : スクリプトリブ復元
+System Setting           : システム設定
+Operation Records        : 操作記録
+Experimental Features    : 実験機能
+Access Keys              : Access Key
+System Status            : システムステータス
+PIP Tool                 : PIP ツール
+File Service             : ファイルファイル
+File Manager             : ファイル管理
+Func Cache Manager       : 関数用キャッシュ管理
+Func Store Manager       : 関数用ストアー管理
+Func Docs                : 関数ドキュメント
+Sync API Doc             : 同期式 API ドキュメント
+Open API Doc             : Open API ドキュメント
+Script Publish History   : スクリプト公開履歴
+System Logs              : システムログ
+Abnormal Requests        : 異常リクエスト
+
+Script Set ID  : スクリプトセット ID
+Script ID      : スクリプト ID
+Func ID        : 関数 ID
+Connector ID   : コネクタ ID
+ENV ID         : 環境変数 ID
+Sync API ID    : 同期式 API  ID
+Async API ID   : 非同期式 API ID
+Cron Job ID    : 定時業務 ID
+File Service ID: ファイルファイル ID
+User ID        : ユーザ ID
+Blueprint ID   : ブループリント ID
+
+# const.js - ENV_VARIABLE
+'String'                                                     : '文字列'
+'Same as string, but masked in print logs'                   : '文字列と同じだが、詳細は print ログの中に非表示になる'
+'Integer'                                                    : '整数'
+'Will be converted by int() automatically'                   : '自動的に int() で変換される'
+'Float'                                                      : '小数'
+'Will be converted by float() automatically'                 : '自動的に float() で変換される'
+'Boolean'                                                    : 'ブーリアン'
+'Can be "true"/"false", "yes"/"no" or "on"/"off"'            : '値は "true"/"false", "yes"/"no", "on"/"off" を使える'
+'Will be converted by json.loads() automatically'            : '自動的に json.loads() で変換される'
+'Comma Array'                                                : 'カンマ区切りの配列'
+'Like CSV. "apple,pie" will be converted to ["apple", "pie"]': 'CSVと似たもので、例えば "apple,pie" は ["apple", "pie"] に変換される'
+
+# const.js - API_AUTH
+'Fixed Field': '固定したフィールド'
+'HTTP Basic' : 'HTTP Basic'
+'HTTP Digest': 'HTTP Digest'
+
+# const.js - API_AUTH_FIXED_FIELD_LOCATION
+'HTTP Header': 'HTTP Header'
+'HTTP Query' : 'HTTP Query パラメータ'
+'HTTP Body'  : 'HTTP Body フィールド'
+
+# const.js - SYNC_API_THROTTLING
+'timePerSecond': '1秒毎に {n} 回'
+'timePerMinute': '1分毎に {n} 回'
+'timePerHour'  : '1時間毎に {n} 回'
+'timePerDay'   : '1日毎に {n} 回'
+'timePerMonth' : '1ヶ月毎に {n} 回'
+'timePerYear'  : '1年毎に {n} 回'
+
+# const.js - TASK_STATUS
+Success: 成功
+Failure: 失敗
+Expire : 期限切れ
+# Timeout: タイムアウト
+Skip   : スキップ
+Pending: 実行中
+Waiting: 待機中
+
+# const.js - SCRIPT_RECOVER_POINT
+Before package import    : スクリプトセットインポート直前
+Before package install   : スクリプトセットインストール直前
+Before Script Lib recover: スクリプトリブ復元直前
+Created by user manually : ユーザーがマニュアルで
+
+# const.js - FUNC_INTEGRATION
+Sign in: ログイン
+
+# const.js - PIP_MIRROR
+Tsinghua University mirror: 清華大学のミラー
+Alibaba Cloud mirror      : アリババクラウドのミラー
+Douban mirror             : 豆瓣のミラー
+PyPI Official             : PyPI 公式サイト
+
+# const.js - CODE_MIRROR_THEME
+'Auto: Default'             : 自動切り替え：デフォルト
+'Auto: base16'              : 自動切り替え：base16
+'Auto: duotone'             : 自動切り替え：duotone
+'Auto: neat/material-darker': 自動切り替え：neat/material-darker
+'Auto: idea/darcula'        : 自動切り替え：idea/darcula
+'Light: eclipse'            : ライト：eclipse
+'Light: base16-light'       : ライト：base16-light
+'Light: duotone-light'      : ライト：duotone-light
+'Light: neat'               : ライト：neat
+'Light: idea'               : ライト：idea
+'Dark: monokai'             : ダーク：monokai
+'Dark: base16-dark'         : ダーク：base16-dark
+'Dark: duotone-dark'        : ダーク：duotone-dark
+'Dark: material-darker'     : ダーク：material-darker
+'Dark: darcula'             : ダーク：darcula
+
+# const.js - CODE_VIEWER_SHOW_MODE
+Draft    : 下書き
+Published: 公開済み
+DIFF     : DIFF
+
+# const.js - ABNORMAL_REQUEST_TYPE
+Request Cost 1000ms+: 1000 ミリ秒以上処理したリクエスト
+Request Cost 5000ms+: 5000 ミリ秒以上処理したリクエスト
+Status Code 4xx     : ステータスコード 4xx
+Status Code 5xx     : ステータスコード 5xx
+
+# const.js - SCRIPT_MARKET_TYPE
+Alibaba Cloud OSS      : アリババクラウド OSS
+HTTP Service           : HTTP サービス
+git (HTTPS recommended): git（HTTPSを推奨する）
+HTTPS is recommended for Script Market based on git, and accessing the git service via HTTP on the public network should be avoided: gitに基づいたスクリプトマーケットにはHTTPSを推奨し、ネットでgitサービスへのHTTPアクセスは避けるべきです
+Script Market based on HTTP Service is readonly: HTTPサービに基づいたスクリプトマーケットは読み取り専用です
+
+# const.js - BLUEPRINT_ELEMENT_TYPE, Node
+Simple Line: シンプルの線
+Switch Line: 分岐線
+
+Entry      : 入口
+Entry Node : 入口ノード
+Code       : ソースコード
+Code Node  : ソースコードノード
+# Func     : 関数
+Func Node  : 関数ノード
+Switch     : 分岐
+Switch Node: 分岐ノード
+
+Get MD5              : MD5取得
+Get SHA1             : SHA1取得
+Get SHA256           : SHA256取得
+Get SHA512           : SHA512取得
+Get Base64           : Base64エンコード
+From Base64          : Base64デコード
+Random               : ランダム
+Gen Random String    : ランダム文字列の生成
+Gen Random Integer   : ランダム整数の生成
+Gen Random Float     : ランダム小数の生成
+Load JSON            : JSONを読み込む
+Dump JSON            : JSONを文字列で出力
+Load YAML            : YAMLを読み込む
+Dump YAML            : YAMLを文字列で出力
+HTTP Request         : HTTP リクエスト
+GET Request          : GETリクエストを送る
+POST Request         : POSTリクエストを送る
+PUT Request          : PUTリクエストを送る
+PATCH Request        : PATCHリクエストを送る
+DELETE Request       : DELETEリクエストを送る
+DingTalk             : DingTalk
+DingTalk Robot       : DingTalkロボット
+DingTalk Text Message: DingTalkプレーンテキストメッセージ
+DingTalk MD Message  : DingTalk Markdown メッセージ
+
+Cannot point to the Entry Node : エントリーノードに接続することができない
+Cannot point to the node itself: ノード自身に接続することができない
+
+# serverError
+A System error occured. Please report this response to the administrator: システム障害が発生したので、管理者に連絡して問題を報告してください。
+
+Invalid request query    : 無効なリクエスト query
+Invalid request body     : 無効なリクエスト body
+Invalid request post data: 無効なPOSTリクエストデータ
+
+Cannot not access file out of resource folder           : リソースディレクトリ外のファイルにアクセスできない
+Cannot not fetch folder out of resource folder          : リソースディレクトリ外のディレクトリにアクセスできない
+Cannot not operate file or folder out of resource folder: リソースディレクトリ外のファイルまたはディレクトリに操作できない
+File or folder does not exist                           : ファイルまたはディレクトリが存在しない
+File or folder already exists                           : ファイルまたはディレクトリが既に存在する
+Zip file already existed                                : Zip ファイルは既に存在する
+Tar file already existed                                : Tar ファイルは既に存在する
+7z file already existed                                 : 7z ファイルは既に存在する
+Extract output folder already existed                   : 解凍出力ディレクトリが既に存在する
+Specified new file or folder name already existed       : 指定された名前は既に存在する
+Unsupported resource operation                          : サポートされていないリソース操作
+
+# Script Market
+Official Script Market: 公式スクリプトマーケット
+Complete User Profile for git committing: git コミット用のユーザー情報を補完する
+Please input name : 名前を入力してください
+Please input email: メールアドレスを入力してください
+
+Managing Script Market based on git requires your user NAME and EMAIL.: git に基づいたスクリプトマーケットを管理するには、ユーザー名とメールアドレスが必要です。
+This information will be used as the user information for git commits.: この情報は、gitコミットのユーザー情報として使用されます。
+
+User Profile saved: ユーザー情報が保存された
+
+# Feature Notice
+FeatureNotice_monkeyPatch            : '<h1>スクリプトでのモンキーパッチの使用は避けてください</h1><p>パフォーマンス上の理由で、スクリプトは<strong style="color: red">サンドボックスや隔離された環境で実行するではない</strong>。</p><p>モンキーパッチを使用すると、システム全体に影響を与える可能性がある。</p>'
+FeatureNotice_funcIsJustPythonWarpper: '<h1>DataFlux Funcは単なるPythonの箱に過ぎない</h1><p>コネクタは開発者がデータベースや外部システムに接続するための便利機能に過ぎず、必須ではない。</p></p><p>PIPツールを使ってPythonパッケージをインストールし、直接使うことも可能です。</p><p>通常のPythonでの開発と同じです。</p>'
+FeatureNotice_scriptMarketHomepage   : '<h1>このスクリプトマーケットはホームページがあります</h1><p>スクリプトマーケットの内容は基本的に開発者向けのものです</p><p>スクリプトセットの使い方がわからない場合は、スクリプトマーケットのホームページを参考してください。</p>'

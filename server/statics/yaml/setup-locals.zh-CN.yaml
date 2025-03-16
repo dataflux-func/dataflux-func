@@ -1,0 +1,180 @@
+OK: '好'
+
+# Messages
+Setup DataFlux Func                                                   : '配置 DataFlux Func'
+Processing, please wait...                                            : '正在处理，请稍后...'
+Finishing soon...                                                     : '即将完成...'
+If there is no response for a long time, you can try to click the link: '如长时间无响应，可尝试点击链接'
+Error occured during initializing DB                                  : '初始化数据库时发生错误'
+
+Administrator username or password is not inputed: '管理员用户名或密码未填写'
+Repeated administrator password not match        : '两次输入的管理员密码不匹配'
+
+Guance OpenAPI URL is not inputed       : '观测云 OpenAPI 地址未填写'
+Guance OpenWay URL is not inputed       : '观测云 OpenWay 地址未填写'
+Guance WebSocket URL is not inputed     : '观测云 WebSocket 地址未填写'
+Guance API Key ID is not inputed        : '观测云 API Key ID 未填写'
+Guance API Key is not inputed           : '观测云 API Key 未填写'
+No such Guance Node                     : '不存在此观测云节点'
+Guance API Key ID / API Key is not valid: '观测云 API Key ID / API Key 不正确'
+
+TrueWatch OpenAPI URL is not inputed       : 'TrueWatch OpenAPI 地址未填写'
+TrueWatch OpenWay URL is not inputed       : 'TrueWatch OpenWay 地址未填写'
+TrueWatch WebSocket URL is not inputed     : 'TrueWatch WebSocket 地址未填写'
+TrueWatch API Key ID is not inputed        : 'TrueWatch API Key ID 未填写'
+TrueWatch API Key is not inputed           : 'TrueWatch API Key 未填写'
+No such TrueWatch Node                     : '不存在此TrueWatch节点'
+TrueWatch API Key ID / API Key is not valid: 'TrueWatch API Key ID / API Key 不正确'
+
+Unsupported DB Engine: '不支持的数据库引擎'
+Connecting to DB failed (1)                             : '连接数据库失败 (1)'
+Connecting to DB failed (2)                             : '连接数据库失败 (2)'
+Unexpected error with DB (1)                            : '数据库发生未预期的错误 (1)'
+Unexpected error with DB (2)                            : '数据库发生未预期的错误 (2)'
+MySQL 5.7 or above is required                          : '需要 MySQL 5.7 或以上版本'
+MariaDB 10.4 or above is required                       : '需要 MariaDB 10.4 或以上版本'
+PostgreSQL 12 or above is required                      : '需要 PostgreSQL 12 或以上版本'
+MySQL system variable "innodb_large_prefix" should be ON: 'MySQL 系统参数 "innodb_large_prefix" 必须设置为 ON'
+
+Connecting to Redis failed                  : '连接 Redis 失败'
+Unexpected error with Redis                 : 'Redis 发生未预期的错误'
+Access Redis failed                         : '访问 Redis 失败'
+Redis 5.0 or above is required              : 'Redis 版本必须为 5.0 及以上'
+Redis requires at least 1 GB of memory      : 'Redis 需要至少 1 GB 内存'
+DataFlux Func does not support Redis Cluster: 'DataFlux Func 不支持 Redis 集群版'
+
+Initializing DB failed                 : '初始化数据库失败'
+Initializing system settings failed    : '初始化系统设置失败'
+Initializing Guance connector failed   : '初始化观测云连接器失败'
+Initializing TrueWatch connector failed: '初始化 TrueWatch 连接器失败'
+Initializing AccessKey failed          : '初始化 AccessKey 失败'
+Setup administrator password failed (1): '设置管理员密码失败 (1)'
+Setup administrator password failed (2): '设置管理员密码失败 (2)'
+Add Demo data failed (scriptSet)       : '添加演示数据失败 (脚本集)'
+Add Demo data failed (script)          : '添加演示数据失败 (脚本)'
+Add Demo data failed (func)            : '添加演示数据失败 (函数)'
+
+# UI Titles
+Version:: '版本：'
+
+Some basic setup should be done before DataFlux Func starts up.                                                        : 'DataFlux Func 在运行之前需要一些基本的配置。'
+'If you are deploying manually, please ensure that the following conditions are met:'                                  : '如果您通过手工方式部署，请确保满足如下条件：'
+For MySQL                                                                                                              : '对于 MySQL'
+MySQL 5.7 or above                                                                                                     : 'MySQL 5.7 或以上版本'
+Empty database exists in MySQL and the database encoding is <code>utf8mb4</code>                                       : 'MySQL 中存在空数据库，且编码格式为<code>utf8mb4</code>'
+There is a user in MySQL who can log in remotely and has permission to the empty database (including CREATE permission): 'MySQL 中存在可远程登录的用户，且有权限操作上述空数据库（包含 CREATE 权限）'
+Keep the option <code>innodb_large_prefix</code> <em>ON</em> in MySQL 5.7                                              : 'MySQL 5.7 <code>innodb_large_prefix</code>选项保持 <em>打开（ON）</em>'
+(Official MySQL 5.7 doc)                                                                                               : '（MySQL 5.7 官方文档）'
+For PostgreSQL                                                                                                         : '对于 PostgreSQL'
+PostgreSQL 12.0 or above                                                                                               : 'PostgreSQL 12.0 或以上版本'
+For Redis                                                                                                              : '对于 Redis'
+Redis 5.0 or above, at least 1 GB available memory and <em>NOT</em> running in Cluster Mode                            : 'Redis 5.0 或以上版本，至少 1 GB 可用内存，且 <em>不是</em> Redis 集群'
+
+Administrator username: '管理员用户名'
+Create an initial administrator user for the system: '为系统配置一个初始管理员用户'
+
+Administrator password (default is admin): '管理员密码（默认为 admin)'
+A strong password can protect your data security: '复杂的密码可以保护您的数据安全'
+
+Repeat administrator password: '重复管理员密码'
+Enter the administrator password again: '请再输入一遍管理员密码'
+
+Guance Node: '观测云节点'
+Cannot find the Guance Node you need?: '找不到需要的观测云节点？'
+Do not create Guance connector: '不要创建观测云连接器'
+Provide Guance API Key to create a Guance connector automatically: '请提供观测云 API Key 来自动创建观测云连接器'
+
+TrueWatch Node: 'TrueWatch 节点'
+Cannot find the TrueWatch Node you need?: '找不到需要的 TrueWatch 节点？'
+Do not create TrueWatch connector: '不要创建 TrueWatch 连接器'
+Provide TrueWatch API Key to create a TrueWatch connector automatically: '请提供TrueWatch API Key 来自动创建 TrueWatch 连接器'
+
+Guance OpenAPI URL  : '观测云 OpenAPI 地址'
+Guance OpenWay URL  : '观测云 OpenWay 地址'
+Guance WebSocket URL: '观测云 WebSocket 地址'
+Guance API Key ID   : '观测云 API Key ID'
+Guance API Key      : '观测云 API Key'
+
+TrueWatch OpenAPI URL  : 'TrueWatch OpenAPI 地址'
+TrueWatch OpenWay URL  : 'TrueWatch OpenWay 地址'
+TrueWatch WebSocket URL: 'TrueWatch WebSocket 地址'
+TrueWatch API Key ID   : 'TrueWatch API Key ID'
+TrueWatch API Key      : 'TrueWatch API Key'
+
+Show more configs: '显示更多配置'
+
+Do not modify if you are using automatic deploying script: '全自动部署时请勿修改'
+Typically <code>{port}</code>                            : '一般为<code>{port}</code>'
+
+Secret: '加密密钥'
+A random string of <code>8</code> to <code>20</code> digits is recommended, do not modify once setup: '建议输入<code>8</code>～<code>20</code>位随机字符串，一旦配置完成后请勿修改'
+Make sure to use the same Secret in multiple deployments                                            : '多份部署时必须使用相同的值'
+
+Log level: '日志等级'
+No Log   : '不输出'
+Error    : '错误（Error）'
+Warning  : '警告（Warning）'
+Info     : '信息（Info）'
+Debug    : '调试（Debug）'
+All Logs : '全部输出'
+<code>WARNING</code> level is recommended: '建议设置为<code>WARNING</code>级别'
+
+Plain Text: '纯文本'
+Log file format: '日志文件格式'
+If you are using a log analysis system, choose <code>JSON</code> for convenience: '如有日志相关分析系统，可选择<code>JSON</code>方便处理'
+Otherwise, just choose <code>Plain Text</code>                                  : '否则指定为<code>纯文本</code>即可'
+
+Website URL: '网站访问 URL'
+Full address to access DataFlux Func, e.g.: '访问 DataFlux Func 的访问完整地址，如：'
+Leave blank to follow the browser address : '留空表示跟随浏览器访问地址'
+
+DB Engine : '数据库引擎'
+MySQL 5.7+                     : 'MySQL 5.7 及以上版本'
+PostgreSQL 12.0+ (Experimental): 'PostgreSQL 12.0 及以上版本（实验性）'
+PostgreSQL DB support is currently in an experimental phase        : 'PostgreSQL 数据库的支持目前处于实验性阶段'
+Once the DB is initialized, it is not possible to switch DB engines: '一旦数据库初始化后，无法切换数据库引擎'
+
+MySQL host: 'MySQL 主机'
+MySQL host to connect. Can be a domain name or IP address, no port included: 'DataFlux Func 所连接的 MySQL 数据库，可以为域名或 IP 地址，不含端口'
+
+MySQL port: 'MySQL 端口'
+
+MySQL user: 'MySQL 用户'
+Since database must be initialized, ensure that the user has full privileges to operate the database: '由于需要进行数据库初始化操作，请确保此用户具有操作对应库的完整权限'
+
+MySQL password: 'MySQL 密码'
+Password for the MySQL user: 'MySQL 用户密码'
+
+MySQL database: 'MySQL 数据库'
+Do not mix the database with other systems, and the default encoding should be <code>utf8mb4</code>: '请勿和其他系统混用数据库，且默认编码应设置为<code>utf8mb4</code>'
+
+PostgreSQL host: 'PostgreSQL 主机'
+PostgreSQL host to connect. Can be a domain name or IP address, no port included: 'DataFlux Func 所连接的 PostgreSQL 数据库，可以为域名或 IP 地址，不含端口'
+
+PostgreSQL port: 'PostgreSQL 端口'
+
+PostgreSQL user: 'PostgreSQL 用户'
+
+PostgreSQL password: 'PostgreSQL 密码'
+Password for the PostgreSQL user: 'PostgreSQL 用户密码'
+
+PostgreSQL database: 'PostgreSQL 数据库'
+Do not mix the database with other systems: '请勿和其他系统混用数据库'
+
+Redis host: 'Redis 主机'
+Redis host to connect. Can be a domain name or IP address, no port included: 'DataFlux Func 所连接的 Redis 数据库，可以为域名或 IP 地址，不含端口'
+
+Redis port: 'Redis 端口'
+
+Redis password: 'Redis 密码'
+Password for the Redis, leave blank when no password: 'Redis 访问密码，没有密码请留空'
+
+Redis database: 'Redis 数据库'
+
+Redis TLS: 'Redis TLS'
+When connecting to AWS ElastiCache with password, TLS maybe required.: '当连接至开启密码的 AWS ElastiCache 时，可能需要使用 TLS 连接。'
+Or just leave default (Disable TLS)                                  : '否则，保持默认（禁用 TLS）即可'
+Disable TLS (default)                                                : '禁用 TLS（默认）'
+Enable TLS                                                           : '启用 TLS'
+
+Save and init DB: '保存并初始化数据库'

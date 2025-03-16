@@ -1,0 +1,122 @@
+questions:
+#image Configurationss
+- variable: defaultImage
+  default: true
+  description: "Use the default Func image or specify a custom image"
+  label: Use Default Func Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "Func images"
+    description: "Func images name"
+    type: string
+    label: Func Image Name
+  - variable: image.tag
+    default: "latest"
+    description: "Func Image Tag"
+    type: string
+    label: Func Image Tag
+
+# Storage Settings
+- variable: storage.pvc.enabled
+  required: true
+  default: true
+  description: "Enable shared storage. Note that you can only choose one type of shared storage or host mount."
+  type: boolean
+  label: Enable Pvc
+  group: "Func Storage"
+
+- variable: storage.pvc.storageClass
+  required: true
+  default: ""
+  description: "Shared Storage Class Name"
+  type: storageclass
+  label: StorageClass
+  group: "Func Storage"
+  show_if: "storage.pvc.enabled=true"
+
+
+
+- variable: storage.hostPath.enabled
+  required: true
+  default: false
+  description: "Enable host directory mounting, note that you must set the nodeSelector after enabling it, and you can only choose one for shared storage or host mounting"
+  type: boolean
+  label: Enable HostPath
+  group: "Func Storage"
+
+
+- variable: storage.hostPath.path
+  required: true
+  default: ""
+  description: "Host Directory"
+  type: string
+  label: HostPath
+  group: "Func Storage"
+  show_if: "storage.hostPath.enabled=true"
+
+
+
+- variable: storage.hostPath.nodeSelector
+  required: true
+  default: ""
+  description: "Node selection, e.g. beta.kubernetes.io/arch: amd64"
+  type: string
+  label: NodeSelector
+  group: "Func Storage"
+  show_if: "storage.hostPath.enabled=true"
+
+
+
+#Func Configuration
+- variable: mysql.enabled
+#  required: true
+  default: true
+  description: "Whether or not to deploy MySQL databases in clusters"
+  type: boolean
+  label: Enabled Mysql
+  group: "Func Configuration"
+
+- variable: redis.enabled
+  #  required: true
+  default: true
+  description: "Whether or not to deploy Redis databases in the cluster"
+  type: boolean
+  label: Enabled Redis
+  group: "Func Configuration"
+
+
+# Func Network
+- variable: ingress.enabled
+  default: false
+  description: "Whether to enable ingress access"
+  type: boolean
+  label: Enable Ingress
+  group: "Func Network"
+
+- variable: ingress.hostName
+  default: ""
+  description: "Domain name for access"
+  type: string
+  label: Enable Ingress
+  group: "Func Network"
+  show_if: "ingress.enabled=true"
+
+- variable: server.service.nodePortEnable
+  default: false
+  description: "Whether to enable nodePort access"
+  type: boolean
+  label: Enable NodePort
+  group: "Func Network"
+
+- variable: server.service.nodePort
+  default: 31080
+  description: "nodePort port"
+  type: int
+  min: 30000
+  max: 32767
+  label: Service NodePort
+  group: "Func Network"
+  show_if: "server.service.nodePortEnable=true"

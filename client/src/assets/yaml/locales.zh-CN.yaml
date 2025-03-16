@@ -1,0 +1,541 @@
+# Common
+',': '，'
+':': '：'
+'(': '（'
+')': '）'
+
+ms : 毫秒
+s  : 秒
+m  : 分钟
+min: 分钟
+h  : 小时
+d  : 天
+'y': 年
+
+# Duration
+nSeconds: '{n} 秒'
+nMinutes: '{n} 分钟'
+nHours  : '{n} 小时'
+nDays   : '{n} 天'
+nMonths : '{n} 月'
+nYears  : '{n} 年'
+
+nS: '{n} 秒'
+nM: '{n} 分钟'
+nH: '{n} 小时'
+nD: '{n} 天'
+nY: '{n} 年'
+
+expireAt: 将于 {t} 失效
+
+Version           : 版本
+New Version       : 新版本
+Light Mode        : 明亮模式
+Dark Mode         : 黑暗模式
+Auto              : 自动
+Follow System     : 跟随系统
+Please select     : 请选择
+Timeout           : 超时
+Queue             : 队列
+Administrator     : 系统管理员
+Owner             : 拥有者
+Password          : 密码
+UNKNOWN           : 未知
+Built-in          : 内置
+Press ESC to close: 按 ECS 关闭
+Show detail       : 显示详情
+Show code         : 显示代码
+Deprecated        : 已废弃
+
+Enterprise Blue: 企业蓝
+Classic Orange : 经典橙
+Miku Cyan      : 未来青
+
+# Common - Button / Form
+Very good: 非常好
+OK       : 了解
+Finish   : 完成
+Load     : 加载
+Confirm  : 确定
+Cancel   : 取消
+'Yes'    : 是
+'No'     : 否
+'ON'     : 开启
+'OFF'    : 关闭
+'None'   : 无
+Default  : 默认
+Detail   : 详情
+Official : 官方
+Optional : 可选
+Lock Config: 锁定配置
+
+# Common - Operation
+Add     : 添加
+Create  : 创建
+Clone   : 克隆
+Setup   : 配置
+Edit    : 编辑
+Modify  : 修改
+Update  : 更新
+Delete  : 删除
+Enable  : 启用
+Disable : 禁用
+Rename  : 重命名
+Save    : 保存
+Export  : 导出
+Import  : 导入
+Recover : 还原
+Deploy  : 部署
+Hide    : 隐藏
+Show    : 显示
+Pin     : 置顶
+Unpin   : 取消置顶
+Lock    : 锁定
+Unlock  : 解锁
+Open    : 打开
+Exit    : 退出
+Close   : 关闭
+Clear   : 清空
+Clear All: 清空全部
+Debug   : 调试
+Download: 下载
+Upload  : 上传
+Publish : 发布
+Preview : 预览
+Refresh : 刷新
+Run     : 执行
+Enter   : 进入
+Move    : 移动
+Copy    : 复制
+Replace : 替换
+Zip     : 压缩
+Unzip   : 解压
+Install : 安装
+Reinstall: 重新安装
+Upgrade : 升级
+More    : 更多
+Filter  : 过滤
+Link    : 连接
+Unlink  : 断开连接
+Manage  : 管理
+Admin   : 管理
+Reset   : 复位
+Expand  : 展开
+Collapse: 收缩
+Restore Default: 恢复默认
+Check Update   : 检查更新
+
+# Common - Operation (lower case)
+add     : 添加
+create  : 创建
+clone   : 克隆
+setup   : 配置
+edit    : 编辑
+modify  : 修改
+update  : 更新
+delete  : 删除
+enable  : 启用
+disable : 禁用
+rename  : 重命名
+save    : 保存
+export  : 导出
+import  : 导入
+recover : 还原
+deploy  : 部署
+hide    : 隐藏
+show    : 显示
+pin     : 置顶
+unpin   : 取消置顶
+lock    : 解锁
+unlock  : 锁定
+open    : 打开
+exit    : 退出
+close   : 关闭
+clear   : 清空
+clear all: 清空全部
+debug   : 调试
+download: 下载
+upload  : 上传
+publish : 发布
+preview : 预览
+refresh : 刷新
+run     : 执行
+enter   : 进入
+move    : 移动
+copy    : 复制
+replace : 替换
+zip     : 压缩
+unzip   : 解压
+install : 安装
+reinstall: 重新安装
+upgrade : 升级
+more    : 更多
+filter  : 过滤
+link    : 连接
+unlink  : 断开连接
+manage  : 管理
+admin   : 管理
+reset   : 复位
+expand  : 展开
+collapse: 收缩
+restore default: 恢复默认
+check update   : 检查更新
+
+# Common - Operating
+Loading   : 正在加载
+Installing: 正在安装
+
+# Common - Operating Result
+Added    : 已添加
+Edited   : 已编辑
+Modified : 已修改
+Deleted  : 已删除
+Enabled  : 已启用
+Disabled : 已禁用
+Saved    : 已保存
+Hidden   : 已隐藏
+Shown    : 已显示
+Locked   : 已锁定
+Unlockel : 已解锁
+Opened   : 已打开
+Closed   : 已关闭
+Cleared  : 已清空
+Linked   : 已连接
+Unlinked : 已断开连接
+Installed: 已安装
+
+# Common - Operating Result (lower case)
+added   : 已添加
+edited  : 已编辑
+modified: 已修改
+deleted : 已删除
+enabled : 已启用
+disabled: 已禁用
+saved   : 已保存
+hidden  : 已隐藏
+shown   : 已显示
+locked  : 已锁定
+unlockel: 已解锁
+opened  : 已打开
+closed  : 已关闭
+cleared : 已清空
+linked  : 已连接
+unlinked: 已断开连接
+installed: 已安装
+
+# Common - Data / Value
+Anonymity    : 匿名
+Unknow       : 未知
+No Data      : 暂无数据
+Pinned       : 已置顶
+Normal       : 正常
+Error        : 错误
+Idle         : 闲置
+Online       : 在线
+Offline      : 离线
+Going Offline: 即将离线
+Total        : 总数
+
+# Common - Table Header / Title / Notice
+No task record       : 没有任务记录
+No matched data found: 当前过滤条件无匹配数据
+Name                 : 名称
+User Name            : 用户名
+Title                : 标题
+Description          : 描述
+Type                 : 类型
+Item                 : 项目
+Value                : 值
+Tags                 : 标签
+Status               : 状态
+Note                 : 备注
+Folder               : 文件夹
+File                 : 文件
+Size                 : 大小
+Time                 : 时间
+Create Time          : 创建时间
+Update Time          : 更新时间
+Example              : 示例
+Username             : 登录账号
+User                 : 用户
+Email                : 邮箱
+Mobile               : 手机
+Endpoint             : 访问地址
+
+# Common - Table Operation
+Show all: 显示全部
+New     : 新建
+
+# CopyButton
+Copied               : 已复制
+Click to Copy        : 点击复制
+Browser not supported: 当前浏览器不支持
+
+# Proper Noun
+Alibaba Cloud: 阿里云
+
+# CodeMirror
+"(Use /re/ syntax for regexp search)": '（使用 /re/ 语法进行正则表达式搜索）'
+"All"                                : '全部'
+"Replace all:"                       : '全部替换：'
+"Replace with:"                      : '替换为：'
+"Replace:"                           : '替换：'
+"Replace?"                           : '是否替换？'
+"Search:"                            : '搜索：'
+"Stop"                               : '停止'
+"With:"                              : '替换为：'
+
+# toolkit.js - API Result Notice
+Read data                               : 读取数据
+Operation succeeded                     : 操作成功
+Operation failed                        : 操作失败
+Data not found. It may have been deleted: 找不到此数据，该数据可能已经被删除
+
+# const.js - CONNECTOR
+'Guance'                                                                : 观测云
+'TrueWatch'                                                             : TrueWatch
+'DataKit (HTTP)'                                                        : DataKit (HTTP)
+'DataWay (HTTP)'                                                        : DataWay (HTTP)
+'InfluxDB (HTTP) (or compatible Databases)'                             : InfluxDB (HTTP)（或兼容数据库）
+'Aliyun Time Series Database for InfluxDB'                              : 阿里云时序数据库 InfluxDB 版
+'MySQL (or compatible Databases)'                                       : MySQL（或兼容数据库）
+'Aliyun PolarDB for MySQL'                                              : 阿里云 PolarDB MySQL
+'Aliyun OceanBase'                                                      : 阿里云 OceanBase
+'ADB for MySQL'                                                         : 阿里云分析型数据库(ADB) MySQL 版
+'Oracle Database'                                                       : Oracle 数据库
+'PostgreSQL (or compatible Databases)'                                  : PostgreSQL（或兼容数据库）
+'Aliyun PolarDB for PostgreSQL'                                         : 阿里云 PolarDB MySQL
+'ADB for PostgreSQL'                                                    : 阿里云分析型数据库(ADB) PostgreSQL 版
+'A Broker with MQTTv5 support and use share subscription is recommended': 建议使用支持 MQTTv5 协议的 Broker，并使用共享订阅
+'Alibaba Cloud SLS'                                                     : 阿里云日志服务 SLS
+
+# Biz Entity / Module / ID
+Script Lib: 脚本库
+Script Set: 脚本集
+Script    : 脚本
+Func      : 函数
+Connector : 连接器
+ENV       : 环境变量
+
+Built-in Script Set: 内置脚本集
+Built-in Connector : 内置连接器
+
+Dev          : 开发
+Development  : 开发
+Blueprint    : 蓝图
+Management   : 管理
+Script Market: 脚本市场
+Docs         : 文档
+Document     : 文档
+Documents    : 文档
+Setting      : 设置
+Profile      : 个人设置
+Sign Out     : 登出
+Not Signed In: 尚未登录
+Signed In    : 已登录
+
+Overview                 : 总览
+About                    : 关于
+API Auth                 : API 认证
+Sync API                 : 同步 API
+Async API                : 异步 API
+Cron Job                 : 定时任务
+Script Set Export        : 脚本集导出
+Script Set Import        : 脚本集导入
+Script Set Export History: 脚本集导出历史
+Script Set Import History: 脚本集导入历史
+Script Lib Recover       : 脚本库还原
+System Setting           : 系统设置
+Operation Records        : 操作记录
+Experimental Features    : 实验性功能
+Access Keys              : Access Key
+System Status            : 系统状态
+PIP Tool                 : PIP 工具
+File Service             : 文件服务
+File Manager             : 文件管理
+Func Cache Manager       : 函数缓存管理
+Func Store Manager       : 函数存储管理
+Func Docs                : 函数文档
+Sync API Doc             : 同步 API 文档
+Open API Doc             : Open API 文档
+Script Publish History   : 脚本发布历史
+System Logs              : 系统日志
+Abnormal Requests        : 异常请求
+
+Script Set ID  : 脚本集 ID
+Script ID      : 脚本 ID
+Func ID        : 函数 ID
+Connector ID   : 连接器 ID
+ENV ID         : 环境变量 ID
+Sync API ID    : 同步 API  ID
+Async API ID   : 异步 API ID
+Cron Job ID    : 定时任务 ID
+File Service ID: 文件服务 ID
+User ID        : 用户 ID
+Blueprint ID   : 蓝图 ID
+
+# const.js - ENV_VARIABLE
+'String'                                                     : '字符串'
+'Same as string, but masked in print logs'                   : '与字符串相同，但在 print 日志中会被隐藏具体内容'
+'Integer'                                                    : '整数'
+'Will be converted by int() automatically'                   : '将自动使用 int() 进行转换'
+'Float'                                                      : '浮点数'
+'Will be converted by float() automatically'                 : '将自动使用 float() 进行转换'
+'Boolean'                                                    : '布尔值'
+'Can be "true"/"false", "yes"/"no" or "on"/"off"'            : '可用 "true"/"false", "yes"/"no", "on"/"off" 表示对应的布尔值'
+'Will be converted by json.loads() automatically'            : '将自动使用 json.loads() 进行转换'
+'Comma Array'                                                : '逗号分隔数组'
+'Like CSV. "apple,pie" will be converted to ["apple", "pie"]': '与 CSV 类似，如 "apple,pie"，将转换为 ["apple", "pie"]'
+
+# const.js - API_AUTH
+'Fixed Field': '固定字段'
+'HTTP Basic' : 'HTTP Basic'
+'HTTP Digest': 'HTTP Digest'
+
+# const.js - API_AUTH_FIXED_FIELD_LOCATION
+'HTTP Header': 'HTTP Header'
+'HTTP Query' : 'HTTP Query 参数'
+'HTTP Body'  : 'HTTP Body 字段'
+
+# const.js - SYNC_API_THROTTLING
+'timePerSecond': '{n} 次/秒'
+'timePerMinute': '{n} 次/分钟'
+'timePerHour'  : '{n} 次/小时'
+'timePerDay'   : '{n} 次/天'
+'timePerMonth' : '{n} 次/月'
+'timePerYear'  : '{n} 次/年'
+
+# const.js - TASK_STATUS
+Success: 成功
+Failure: 失败
+Expire : 过期
+# Timeout: 超时
+Skip   : 跳过
+Pending: 执行中
+Waiting: 等待中
+
+# const.js - SCRIPT_RECOVER_POINT
+Before package import    : 脚本集导入前
+Before package install   : 脚本集安装前
+Before Script Lib recover: 脚本库还原前
+Created by user manually : 用户手动创建
+
+# const.js - FUNC_INTEGRATION
+Sign in: 登录
+
+# const.js - PIP_MIRROR
+Tsinghua University mirror: 清华大学镜像
+Alibaba Cloud mirror      : 阿里云镜像
+Douban mirror             : 豆瓣镜像
+PyPI Official             : PyPI 官方原版
+
+# const.js - CODE_MIRROR_THEME
+'Auto: Default'             : 自动切换：默认
+'Auto: base16'              : 自动切换：base16
+'Auto: duotone'             : 自动切换：duotone
+'Auto: neat/material-darker': 自动切换：neat/material-darker
+'Auto: idea/darcula'        : 自动切换：idea/darcula
+'Light: eclipse'            : 明亮：eclipse
+'Light: base16-light'       : 明亮：base16-light
+'Light: duotone-light'      : 明亮：duotone-light
+'Light: neat'               : 明亮：neat
+'Light: idea'               : 明亮：idea
+'Dark: monokai'             : 黑暗：monokai
+'Dark: base16-dark'         : 黑暗：base16-dark
+'Dark: duotone-dark'        : 黑暗：duotone-dark
+'Dark: material-darker'     : 黑暗：material-darker
+'Dark: darcula'             : 黑暗：darcula
+
+# const.js - CODE_VIEWER_SHOW_MODE
+Draft    : 草稿
+Published: 已发布
+DIFF     : 差异
+
+# const.js - ABNORMAL_REQUEST_TYPE
+Request Cost 1000ms+: 请求耗时 1000 毫秒+
+Request Cost 5000ms+: 请求耗时 5000 毫秒+
+Status Code 4xx     : 状态码 4xx
+Status Code 5xx     : 状态码 5xx
+
+# const.js - SCRIPT_MARKET_TYPE
+Alibaba Cloud OSS      : 阿里云 OSS
+HTTP Service           : HTTP 服务
+git (HTTPS recommended): git（建议使用 HTTPS）
+HTTPS is recommended for Script Market based on git, and accessing the git service via HTTP on the public network should be avoided: 基于 git 服务的脚本市场建议使用 HTTPS，并且应当避免在公网通过 HTTP 访问 git 服务
+Script Market based on HTTP Service is readonly: 基于 HTTP 服务的脚本市场为只读
+
+# const.js - BLUEPRINT_ELEMENT_TYPE, Node
+Simple Line: 简单连线
+Switch Line: 分支连线
+
+Entry      : 入口
+Entry Node : 入口节点
+Code       : 代码
+Code Node  : 代码节点
+# Func     : 函数
+Func Node  : 函数节点
+Switch     : 分支
+Switch Node: 分支节点
+
+Get MD5              : 获取 MD5
+Get SHA1             : 获取 SHA1
+Get SHA256           : 获取 SHA256
+Get SHA512           : 获取 SHA512
+Get Base64           : Base64 编码
+From Base64          : Base64 解码
+Random               : 随机
+Gen Random String    : 生成随机字符串
+Gen Random Integer   : 生成随机整数
+Gen Random Float     : 生成随机小数
+Load JSON            : 加载 JSON 为对象
+Dump JSON            : 输出 JSON 字符串
+Load YAML            : 加载 YAML 为对象
+Dump YAML            : 输出 YAML 字符串
+HTTP Request         : HTTP 请求
+GET Request          : 发送 GET 请求
+POST Request         : 发送 POST 请求
+PUT Request          : 发送 PUT 请求
+PATCH Request        : 发送 PATCH 请求
+DELETE Request       : 发送 DELETE 请求
+DingTalk             : 钉钉
+DingTalk Robot       : 钉钉机器人
+DingTalk Text Message: 钉钉纯文本消息
+DingTalk MD Message  : 钉钉 Markdown 消息
+
+Cannot point to the Entry Node : 不能指向入口节点
+Cannot point to the node itself: 不能指向节点自身
+
+# serverError
+A System error occured. Please report this response to the administrator: 发生系统故障，请联系管理员并报告此问题
+
+Invalid request query    : 请求中的 Query 参数不正确
+Invalid request body     : 请求中的 Body 参数不正确
+Invalid request post data: 提交数据不正确
+
+Cannot not access file out of resource folder           : 无法访问资源目录以外的文件
+Cannot not fetch folder out of resource folder          : 无法访问资源目录以外的目录
+Cannot not operate file or folder out of resource folder: 无法操作资源目录以外的文件或目录
+File or folder does not exist                           : 文件或目录不存在
+File or folder already exists                           : 文件或目录已经存在
+Zip file already existed                                : Zip 文件已经存在
+Tar file already existed                                : Tar 文件已经存在
+7z file already existed                                 : 7z 文件已经存在
+Extract output folder already existed                   : 解压输出目录已经存在
+Specified new file or folder name already existed       : 指定的名称已经存在
+Unsupported resource operation                          : 不支持的资源操作
+
+# Script Market
+Official Script Market: 官方脚本市场
+Complete User Profile for git committing: 补全用于 git 提交的用户信息
+Please input name : 请输入名称
+Please input email: 请输入邮箱
+
+Managing Script Market based on git requires your user NAME and EMAIL.: 管理基于 git 的脚本市场需要你的用户名称与邮箱。
+This information will be used as the user information for git commits.: 此信息将作为 git 提交时的用户信息。
+
+User Profile saved: 用户信息已保存
+
+# Feature Notice
+FeatureNotice_monkeyPatch            : '<h1>请避免在脚本中使用猴子补丁</h1><p>出于性能方面考虑，脚本<strong style="color: red">并非</strong>运行在沙盒或隔离环境中。</p><p>使用猴子补丁可能导致系统整体出现问题。</p>'
+FeatureNotice_funcIsJustPythonWarpper: '<h1>DataFlux Func 只是 Python 的包装</h1><p>连接器只是方便开发者连接数据库或外部系统的便捷功能，而不是一个必备功能。</p></p>你可以通过 PIP 工具安装任何你想要的第三方 Python 包然后直接使用它们。</p><p>就和你用原版 Python 开发一样。</p>'
+FeatureNotice_scriptMarketHomepage   : '<h1>这个脚本市场有主页可供访问</h1><p>脚本市场中的脚本集往往面向脚本开发者。</p><p>如果你不了解如何使用这个脚本市场中的脚本集，请先查看脚本市场主页。</p>'

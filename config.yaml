@@ -1,0 +1,430 @@
+# Use env DFF_XXX to override config XXX, for example:
+#   DFF_APP_NAME=MyFunc overrides the config APP_NAME
+
+APP_NAME: DataFluxFunc
+
+# Config file path (absolute path required)
+CONFIG_FILE_PATH: '/data/user-config.yaml'
+
+# Config prefix from env
+CONFIG_FROM_ENV_PREFIX: DFF_
+# Config prefix for user custom
+CUSTOM_CONFIG_PREFIX: CUSTOM_
+
+# Root resource root path (absolute path required)
+RESOURCE_ROOT_PATH: '/data/resources'
+
+# Upload / download temp file dir
+UPLOAD_TEMP_FILE_DIR  : '.uploads'
+DOWNLOAD_TEMP_FILE_DIR: '.downloads'
+
+# Run Mode
+# Options:
+#   "dev" : Development
+#   "prod": Production
+MODE: prod
+
+# Secret
+# For cipher the X-Auth-Token, password of connectors
+# Warning: Do NOT change once DataFlux Func installed
+SECRET: 'your_secret'
+
+# Log Level
+# Options:
+#   ALL    : Everything
+#   DEBUG  : Debug, Info, Warning and Error
+#   INFO   : Info, Warning and Error
+#   WARNING: Warning and Error
+#   ERROR  : Only Error
+#   NONE   : Nothing
+LOG_LEVEL: WARNING
+
+# Log file path (absolute path required)
+LOG_FILE_PATH: '/data/logs/dataflux-func.log'
+
+# Timezone
+TIMEZONE: 'Asia/Shanghai'
+
+# Log format
+# Options:
+#   text: Plain text
+#   json: JSON
+LOG_FILE_FORMAT: text
+
+# Log color in console
+LOG_CONSOLE_COLOR: false
+
+# Disable app-level log
+# Options:
+#   auto : Auto
+#   true : Do NOT output app-level log
+#   false: Also output app-level log
+LOG_APP_LEVEL_DISABLED: auto
+
+# DB auto backup file limit / size limit
+DB_AUTO_BACKUP_LIMIT: 168
+DB_AUTO_BACKUP_SIZE_LIMIT: 5GB
+
+# DB auto bacckup folder path (absolute path required)
+DB_AUTO_BACKUP_FOLDER_PATH: '/data/sqldump/'
+
+# Web Server URL
+# Keep blank to use the address in browser
+WEB_BASE_URL      : ''
+WEB_INNER_BASE_URL: http://server-inner.func2:8088
+
+# Web server bind IP
+# Example:
+#   0.0.0.0  : Publick
+#   127.0.0.1: Only local
+WEB_BIND: '0.0.0.0'
+
+# Web server bind port
+WEB_PORT: 8088
+
+# CORS config
+WEB_CORS_ORIGIN     : true
+WEB_CORS_CREDENTIALS: true
+
+# DB engine
+# Options:
+#   mysql     : MySQL (default)
+#   postgresql: PostgreSQL
+DB_ENGINE: mysql
+
+# MYSQL config
+MYSQL_HOST    : '127.0.0.1'
+MYSQL_PORT    : 3306
+MYSQL_USER    : root
+MYSQL_PASSWORD: ''
+MYSQL_DATABASE: dataflux_func
+
+# PosgreSQL config
+POSTGRESQL_HOST    : '127.0.0.1'
+POSTGRESQL_PORT    : 5432
+POSTGRESQL_USER    : postgres
+POSTGRESQL_PASSWORD: ''
+POSTGRESQL_DATABASE: dataflux_func
+
+# Redis config
+REDIS_HOST     : '127.0.0.1'
+REDIS_PORT     : 6379
+REDIS_DATABASE : 5
+REDIS_USER     : ''
+REDIS_PASSWORD : ''
+REDIS_USE_TLS  : false
+REDIS_AUTH_TYPE: default # options: default, aliyun
+
+REDIS_TS_MAX_AGE     : 3600   # Seconds
+REDIS_TS_MAX_PERIOD  : 259200 # Seconds
+REDIS_TS_MIN_INTERVAL: 60     # Seconds
+
+# Disable integrated signin
+DISABLE_INTEGRATED_SIGNIN: false
+
+# Hostnames allowed in POST /api/v1/do/proxy
+PROXY_HOSTNAME_LIST: ''
+
+# Bad signin temp lock
+BAD_SIGNIN_TEMP_LOCK_ACTIVE_COUNT: 10
+BAD_SIGNIN_TEMP_LOCK_TIMEOUT_MAX : 900
+
+# Auto setup info
+AUTO_SETUP               : false
+AUTO_SETUP_ADMIN_USERNAME: ''
+AUTO_SETUP_ADMIN_PASSWORD: ''
+AUTO_SETUP_AK_ID         : ''
+AUTO_SETUP_AK_SECRET     : ''
+
+#########################################
+#  Do NOT Change the following configs  #
+#########################################
+
+# Flag for installation completion
+_IS_INSTALLED: false
+
+# Do NOT auth the requests (Only for Guance / TrueWatch)
+_IS_STREAKING: false
+
+# Pre run script dir
+_PRE_RUN_SCRIPT_DIR: pre-run-scripts
+# File storage dir
+_FILE_STORAGE_DIR: uploaded-files
+# Extra Python package install dir (by PIP tool)
+_EXTRA_PYTHON_PACKAGE_INSTALL_DIR: extra-python-packages
+# User Python package dir (by uploading)
+_USER_PYTHON_PACKAGE_DIR: user-python-packages
+
+# Client conflict expires
+_CLIENT_CONFLICT_EXPIRES: 5
+# Init DataFlux Func ID lock age
+_INIT_DATAFLUX_FUNC_ID_LOCK_AGE: 15
+# Update official Script Market lock age
+_UPDATE_OFFICIAL_SCRIPT_MARKET_LOCK_AGE: 15
+# Init Script lock age
+_INIT_SCRIPTS_LOCK_AGE: 30
+
+# Official Script Market
+_OFFICIAL_SCRIPT_MARKET_ID : smkt-official
+_OFFICIAL_SCRIPT_MARKET_URL: https://static.guance.com/dataflux-func/script-market/official
+
+# Startup Script Set ID
+_STARTUP_SCRIPT_SET_ID: startup
+# Cron Job ID prefix for Startup Script
+_STARTUP_CRON_JOB_ID_PREFIX: cron-starup-
+
+# API delay to response
+_API_DEALY_TIMEOUT_SIGNIN : 3
+_API_DEALY_TIMEOUT_CAPTCHA: 1
+
+# Script Market / Export / Inport internal configs
+_SCRIPT_MARKET_OPERATION_LOCK_AGE     : 30
+_SCRIPT_MARKET_OPERATION_LOCK_WAIT_AGE: 60
+_SCRIPT_MARKET_BASE_DIR               : script-market
+_SCRIPT_MARKET_GIT_REPO_DIR           : git
+_SCRIPT_MARKET_ALIYUN_OSS_REPO_DIR    : aliyun-oss
+_SCRIPT_MARKET_HTTP_SERVICE_REPO_DIR  : http-service
+_SCRIPT_MARKET_TOKEN_FILE             : TOKEN
+_SCRIPT_MARKET_README_FILE            : README.md
+_SCRIPT_MARKET_CHANGELOG_FILE         : CHANGELOG.md
+_SCRIPT_MARKET_CHANGELOG_INFO_FILE    : CHANGELOG-info.yaml
+_SCRIPT_EXPORT_NOTE_FILE              : NOTE.txt
+_SCRIPT_EXPORT_META_FILE              : META.yaml
+_SCRIPT_EXPORT_FILE_PREFIX            : dataflux-func-
+_SCRIPT_EXPORT_SCRIPT_SET_DIR         : script-sets
+_SCRIPT_IMPORT_CONFIRM_TIMEOUT        : 900
+
+# DB internal configs
+_DB_CONN_TIMEOUT        : 15
+_DB_POOL_SIZE_SERVER    : 10
+_DB_POOL_SIZE_WORKER    : 1
+_DB_POOL_MAX_USAGE      : 1000
+_DB_POOL_RECYCLE_TIMEOUT: 3600
+
+# MySQL internal configs
+_MYSQL_CHARSET      : utf8mb4
+_MYSQL_READ_TIMEOUT : 30
+_MYSQL_WRITE_TIMEOUT: 30
+
+# PostgreSQL internal configs
+_POSTGRESQL_ENCODING: utf8
+
+# WEB internal configs
+_WEB_CLIENT_ID_COOKIE               : xDFFClientId
+_WEB_CLIENT_ID_HEADER               : X-Dff-Client-Id
+_WEB_CLIENT_LOCALE_COOKIE           : xDFFClientLocale
+_WEB_CLIENT_LANGUAGE_COOKIE         : xDFFClientLocaleLanguage
+_WEB_PAGE_SIZE_COOKIE               : xDFFPageSize
+_WEB_TRACE_ID_HEADER                : X-Trace-Id
+_WEB_CLIENT_UILOCALE_HEADER         : X-Client-Ui-Locale
+_WEB_CLIENT_TIME_HEADER             : X-Client-Time
+_WEB_REQUEST_TIME_HEADER            : X-Request-Time
+_WEB_RESPONSE_TIME_HEADER           : X-Response-Time
+_WEB_REQUEST_COST_HEADER            : X-Request-Cost
+_WEB_AUTH_HEADER                    : X-Dff-Auth-Token
+_WEB_AUTH_QUERY                     : xDFFAuthToken
+_WEB_AUTH_LOCAL_STORAGE             : xDFFAuthToken
+_WEB_AUTH_COOKIE                    : xDFFAuthToken
+_WEB_AUTH_EXPIRES                   : 86400
+_WEB_CAPTCHA_EXPIRES                : 300
+_WEB_IS_CACHED_HEADER               : X-Dff-Cache
+_WEB_DRY_RUN_MODE_HEADER            : X-Dff-Dry-Run
+_WEB_AK_ID_HEADER                   : X-Dff-Ak-Id
+_WEB_AK_TIMESTAMP_HEADER            : X-Dff-Ak-Timestamp
+_WEB_AK_NONCE_HEADER                : X-Dff-Ak-Nonce
+_WEB_AK_SIGN_HEADER                 : X-Dff-Ak-Sign
+_WEB_AK_TIMESTAMP_DIFF_LIMIT        : 900
+_WEB_AK_NONCE_TTL                   : 86400
+_WEB_PULL_LOG_TRACE_ID              : TRACE-PULLLOGS
+_WEB_SERVER_VERSION_HEADER          : X-Dff-Version
+_WEB_SERVER_RELEASE_TIMESTAMP_HEADER: X-Dff-Release-Timestamp
+
+# Beat internal configs
+_BEAT_LOCK_EXPIRE: 5
+
+# Sub internal configs
+_SUB_BUFFER_LIMIT         : 10000
+_SUB_RECENT_CONSUME_EXPIRE: 604800
+
+# X-Localhost-Auth-Token
+_WEB_LOCALHOST_AUTH_TOKEN_HEADER: X-Localhost-Auth-Token
+_WEB_LOCALHOST_AUTH_TOKEN_PATH  : /data/localhost-auth-token
+
+# Worker internal configs
+_WORKER_CONCURRENCY          : 5
+_WORKER_QUEUE_COUNT          : 16
+_WORKER_FETCH_TASK_TIMEOUT   : 15
+_WORKER_PROCESS_CONSUME_LIMIT: 10000
+
+_WORKER_QUEUE_LIMIT_MIN           : 10000
+_WORKER_QUEUE_LIMIT_SCALE_CRON_JOB: 10
+
+# Monitor internal configs
+_MONITOR_REPORT_EXPIRES        : 60
+_MONITOR_MATCHED_ROUTE_EXPIRES : 86400
+_MONITOR_SLOW_API_COUNT_EXPIRES: 604800
+
+# Task internal configs
+_TASK_QUEUE_DEFAULT               : 0
+_TASK_EXPIRES_DEFAULT             : 3600
+_TASK_TIMEOUT_DEFAULT             : 180
+_TASK_RESULT_WAIT_TIMEOUT_MAX     : 180
+_TASK_FLUSH_DATA_BUFFER_BULK_COUNT: 1000
+_TASK_FLUSH_DATA_BUFFER_TIMES     : 100
+_TASK_FLUSH_DATA_TIMEOUT          : 300
+_CRON_JOB_STARTER_FETCH_BULK_COUNT: 3000
+
+# Task record limits
+_TASK_RECORD_LIMIT_MIN    : 0
+_TASK_RECORD_LIMIT_MAX    : 10000
+_TASK_RECORD_LIMIT_DEFAULT: 1000
+
+_TASK_RECORD_FUNC_LIMIT_DIRECT            : 1000
+_TASK_RECORD_FUNC_LIMIT_INTEGRATION       : 1000
+_TASK_RECORD_FUNC_LIMIT_CONNECTOR         : 1000
+_TASK_RECORD_FUNC_LIMIT_SYNC_API          : 100
+_TASK_RECORD_FUNC_LIMIT_ASYNC_API         : 100
+_TASK_RECORD_FUNC_LIMIT_CRON_JOB          : 500
+_TASK_RECORD_FUNC_LIMIT_CRON_JOB_BY_DEPLOY: 100
+
+# Task record print limits
+_TASK_RECORD_PRINT_LOG_LINE_LIMIT      : 3000
+_TASK_RECORD_PRINT_LOG_TOTAL_LIMIT_HEAD: 20000
+_TASK_RECORD_PRINT_LOG_TOTAL_LIMIT_TAIL: 30000
+
+# Cron exprs for tasks
+_CRON_EXPR_CRON_JOB_STARTER         : '* * * * *'
+_CRON_EXPR_SYSTEM_METRIC            : '*/5 * * * *'
+_CRON_EXPR_FLUSH_DATA_BUFFER        : '*/20 * * * * *'
+_CRON_EXPR_AUTO_CLEAN               : '*/5 * * * *'
+_CRON_EXPR_AUTO_BACKUP_DB           : '0 * * * *'
+_CRON_EXPR_RELOAD_DATA_MD5_CACHE    : '* * * * *'
+_CRON_EXPR_UPDATE_WORKER_QUEUE_LIMIT: '*/5 * * * *'
+
+# Timeout for connectors
+_CONNECTOR_CHECK_TASK_TIMEOUT: 15
+_CONNECTOR_QUERY_TASK_TIMEOUT: 15
+
+# Func internal configs
+_FUNC_ARGUMENT_PLACEHOLDER_LIST: INPUT_BY_CALLER,FROM_PARAMETER
+
+_FUNC_TASK_QUEUE_DEFAULT          : 1
+_FUNC_TASK_QUEUE_WEBSOCKET_HANDLER: 1
+_FUNC_TASK_QUEUE_CRON_JOB         : 2
+_FUNC_TASK_QUEUE_ASYNC_API        : 3
+_FUNC_TASK_QUEUE_DEBUGGER         : 5
+_FUNC_TASK_QUEUE_SUB_HANDLER      : 6
+
+_FUNC_TASK_TIMEOUT_MIN      : 1
+_FUNC_TASK_TIMEOUT_MAX      : 3600
+_FUNC_TASK_TIMEOUT_DEFAULT  : 35
+_FUNC_TASK_TIMEOUT_ASYNC_API: 3600
+_FUNC_TASK_TIMEOUT_DEBUGGER : 60
+
+_FUNC_TASK_EXPIRES_MIN    : 1
+_FUNC_TASK_EXPIRES_MAX    : 86400
+_FUNC_TASK_EXPIRES_DEFAULT: 900
+
+_FUNC_TASK_CONNECTOR_POOL_SIZE     : 1
+_FUNC_TASK_THREAD_POOL_SIZE_DEFAULT: 5
+_FUNC_TASK_CALL_CHAIN_LIMIT        : 5
+_FUNC_TASK_DISTRIBUTION_RANGE      : 0
+
+# Recent Cron Job triggered info
+_RECENT_CRON_JOB_TRIGGERED_EXPIRES: 259200
+_RECENT_CRON_JOB_TRIGGERED_LIMIT  : 3000
+
+# Upload file expires
+_UPLOAD_FILE_EXPIRES: 3600
+
+# DB data limit
+_DBDATA_TABLE_LIMIT_MAP:
+  biz_main_operation_record         : 50000
+  biz_main_script_publish_history   : 5000
+  biz_main_script_recover_point     : 1000
+  biz_main_script_set_export_history: 1000
+  biz_main_script_set_import_history: 1000
+
+# DB data expires
+_DBDATA_TABLE_EXPIRE_MAP:
+  biz_main_task_record     : 7776000
+  biz_main_task_record_func: 7776000
+
+# Log / Cache tables
+_DBDATA_LOG_CACHE_TABLE_LIST:
+  - biz_main_task_record
+  - biz_main_task_record_func
+
+# DB data auto backup file name preifx
+_DB_AUTO_BACKUP_FILE_PREFIX: dataflux-func-sqldump-
+
+# Deprecated data
+_DEPRECATED_TABLE_LIST:
+  - wat_main_task_result_example
+  - biz_main_script_log
+  - biz_main_script_failure
+  - biz_main_crontab_task_info
+  - biz_main_batch_task_info
+  - biz_main_task_result_dataflux_func
+  - biz_main_task_info
+  - biz_rel_func_running_info
+
+_DEPRECATED_CACHE_KEY_LIST: [ ]
+
+_DEPRECATED_CACHE_KEY_PATTERN_LIST:
+  - topic: syncCache
+    name : '*'
+    tags : [ '*' ]
+
+# Other internal configs
+_NODE_UV_THREADPOOL_SIZE      : 8
+_LRU_FUNC_CACHE_LIMIT         : 1000
+_LRU_FUNC_CACHE_MAX_AGE       : 5
+_LRU_FUNC_RESULT_CACHE_LIMIT  : 2000
+_LRU_FUNC_RESULT_CACHE_MAX_AGE: 5
+_HTTP_AUTH_NONCE_MAX_AGE      : 300
+
+_HEARTBEAT_INTERVAL         : 15
+_RESTART_FLAG_CHECK_INTERVAL: 3
+_SYS_REDIS_CHECK_INTERVAL   : 5
+_SYS_REDIS_CHECK_TIMEOUT    : 15
+_SYS_DB_CHECK_INTERVAL      : 5
+_SYS_DB_CHECK_TIMEOUT       : 15
+
+# Disable setup
+_DISABLE_SETUP: false
+# Disable pre-run scripts
+_DISABLE_PRE_RUN_SCRIPTS: false
+# Disable init scripts
+_DISABLE_INIT_SCRIPTS: false
+# Disable DB auto backup
+_DISABLE_DB_AUTO_BACKUP: false
+# Disable startup tasks
+_DISABLE_STARTUP_TASKS: false
+
+# REMAP
+__REMAP: { }
+
+# Self monitor Guance / TrueWatch measurement
+_SELF_MONITOR_GUANCE_MEASUREMENT_SERVICE_INFO    : DFF_service_info
+_SELF_MONITOR_GUANCE_MEASUREMENT_FUNC_CALL       : DFF_func_call
+_SELF_MONITOR_GUANCE_MEASUREMENT_DELAY_QUEUE     : DFF_delay_queue
+_SELF_MONITOR_GUANCE_MEASUREMENT_WORKER_QUEUE    : DFF_worker_queue
+_SELF_MONITOR_GUANCE_MEASUREMENT_CACHE_DB        : DFF_cache_db
+_SELF_MONITOR_GUANCE_MEASUREMENT_DB_TABLE        : DFF_db_table
+_SELF_MONITOR_GUANCE_MEASUREMENT_TASK_RECORD     : DFF_task_record
+_SELF_MONITOR_GUANCE_MEASUREMENT_TASK_RECORD_FUNC: DFF_task_record_func
+_SELF_MONITOR_GUANCE_MEASUREMENT_CRON_JOB        : DFF_cron_job
+_SELF_MONITOR_GUANCE_MEASUREMENT_ENTITY          : DFF_entity
+
+# Self monitor Guance / TrueWatch logging split bytes
+_SELF_MONITOR_GUANCE_LOGGING_SPLIT_BYTES: 100000
+
+##### Guance / TrueWatch Configs #####
+
+# Guance / TrueWatch Func base URL
+GUANCE_FUNC_BASE_URL: ''
+# Guance / TrueWatch DQL-like query limit
+GUANCE_DQL_LIKE_QUERY_LIMIT: 5000
+# Guance / TrueWatch DQL-like query default step for Prometheus
+GUANCE_DQL_LIKE_QUERY_PROMETHEUS_STEP_DEFAULT: 60s

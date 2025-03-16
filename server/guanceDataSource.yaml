@@ -1,0 +1,209 @@
+connectorDefinitions:
+  -
+    type   : mysql
+    name   : MySQL
+    name_en: MySQL
+    configs:
+      -
+        field     : host
+        name      : 主机
+        name_en   : Host
+        type      : string
+        isRequired: true
+      -
+        field  : port
+        name   : 端口
+        name_en: Port
+        type   : integer
+        default: 3306
+      -
+        field     : database
+        name      : 数据库
+        name_en   : Database
+        type      : string
+        isRequired: true
+      -
+        field     : user
+        name      : 用户
+        name_en   : User
+        type      : string
+        isRequired: true
+      -
+        field     : password
+        name      : 密码
+        name_en   : Password
+        type      : password
+        isRequired: true
+      -
+        field     : charset
+        name      : 编码
+        name_en   : Charset
+        type      : string
+        default   : utf8mb4
+        isRequired: true
+    guanceDQLLikeOptions:
+      -
+        field  : start
+        name   : 开始时间
+        name_en: Start Time
+        type   : integer
+      -
+        field  : end
+        name   : 结束时间
+        name_en: End Time
+        type   : integer
+
+  -
+    type   : postgresql
+    name   : PostgreSQL
+    name_en: PostgreSQL
+    configs:
+      -
+        field     : host
+        name      : 主机
+        name_en   : Host
+        type      : string
+        isRequired: true
+      -
+        field  : port
+        name   : 端口
+        name_en: Port
+        type   : integer
+        default: 5432
+      -
+        field     : database
+        name      : 数据库
+        name_en   : Database
+        type      : string
+        isRequired: true
+      -
+        field     : user
+        name      : 用户
+        name_en   : User
+        type      : string
+        isRequired: true
+      -
+        field     : password
+        name      : 密码
+        name_en   : Password
+        type      : password
+        isRequired: true
+      -
+        field     : charset
+        name      : 编码
+        name_en   : Charset
+        type      : string
+        default   : utf8
+        isRequired: true
+    guanceDQLLikeOptions:
+      -
+        field  : start
+        name   : 开始时间
+        name_en: Start Time
+        type   : integer
+      -
+        field  : end
+        name   : 结束时间
+        name_en: End Time
+        type   : integer
+
+  -
+    type   : prometheus
+    name   : Prometheus
+    name_en: Prometheus
+    configs:
+      -
+        field     : host
+        name      : 主机
+        name_en   : Host
+        type      : string
+        isRequired: true
+      -
+        field     : port
+        name      : 端口
+        name_en   : Port
+        type      : integer
+        default   : 9090
+      -
+        field  : protocol
+        name   : 协议
+        name_en: Protocol
+        type   : enum
+        valueOptions:
+          - http
+          - https
+      -
+        field  : user
+        name   : 用户
+        name_en: User
+        type   : string
+      -
+        field  : password
+        name   : 密码
+        name_en: Password
+        type   : password
+    guanceDQLLikeOptions:
+      -
+        field  : start
+        name   : 开始时间
+        name_en: Start Time
+        type   : integer
+      -
+        field  : end
+        name   : 结束时间
+        name_en: End Time
+        type   : integer
+      -
+        field  : prometheus_step
+        name   : 时间间隔
+        name_en: Step
+        type   : string
+        default: 60s
+
+  -
+    type   : aliyunSLS
+    name   : 阿里云日志服务 SLS
+    name_en: Alibaba Cloud SLS
+    configs:
+      -
+        field     : endpoint
+        name      : 接入点
+        name_en   : Endpoint
+        type      : string
+        default   : cn-hangzhou.log.aliyuncs.com
+        isRequired: true
+      -
+        field     : accessKeyId
+        name      : AccessKey ID
+        name_en   : AccessKey ID
+        type      : string
+        isRequired: true
+      -
+        field     : accessKeySecret
+        name      : AccessKey Secret
+        name_en   : AccessKey Secret
+        type      : password
+        isRequired: true
+    guanceDQLLikeOptions:
+      -
+        field  : start
+        name   : 开始时间
+        name_en: Start Time
+        type   : integer
+      -
+        field  : end
+        name   : 结束时间
+        name_en: End Time
+        type   : integer
+      -
+        field     : aliyunSLS_project
+        name      : Project
+        name_en   : Project
+        type      : string
+        isRequired: true
+      -
+        field     : aliyunSLS_logstore
+        name      : Logstore
+        name_en   : Logstore
+        type      : string
+        isRequired: true

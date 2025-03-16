@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <meta name="viewport" content="width=1280, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" id="favicon" origin-href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="element<%= VUE_APP_CSS_EXT || '.min.css' %>">
+    <link rel="stylesheet" href="site<%= VUE_APP_CSS_EXT || '.min.css' %>">
+    <link rel="stylesheet" href="" id="siteTheme">
+    <link rel="stylesheet" href="" id="codeMirrorTheme">
+    <title>Loading...</title>
+  </head>
+  <body>
+    <noscript>
+      <p>Welcome to DataFlux Func! Please enable JavaScript and continue.</p>
+      <p>欢迎来到 DataFlux Func！请开启 JavaScript 后继续。</p>
+      <p>歡迎來到 DataFlux Func！請開啓 JavaScript 後繼續。</p>
+      <p>歡迎來到 DataFlux Func！請開啟 JavaScript 後繼續。</p>
+      <p>DataFlux Func へようこそ、JavaScript をオンにして続きましょう。</p>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+
+  <script>
+    SYSTEM_SETTINGS = {};
+
+    // Theme Switch Function
+    window._DFF_switchUITheme = function(uiTheme, uiColorFlavor) {
+      uiColorFlavor = uiColorFlavor || SYSTEM_SETTINGS.UI_COLOR_FLAVOR || 'enterprise';
+      if (uiTheme !== 'dark' && uiTheme !== 'light') uiTheme = 'auto';
+
+      var siteThemeCSSHref = `<%= BASE_URL %>site-theme.` + uiColorFlavor + '.' + uiTheme + `<%= VUE_APP_CSS_EXT || '.min.css' %>`;
+      document.getElementById('siteTheme').setAttribute('href', siteThemeCSSHref);
+
+      var codeMirrorThemeCSSHref = `<%= BASE_URL %>code-mirror-theme.` + uiTheme + `<%= VUE_APP_CSS_EXT || '.min.css' %>`;
+      document.getElementById('codeMirrorTheme').setAttribute('href', codeMirrorThemeCSSHref);
+    };
+
+    (function() {
+      // Delay to run
+      var T = setInterval(function() {
+        // Wait for loading System Info
+        if (!window._DFF_isSystemInfoLoaded) return;
+
+        var vuexData = localStorage.getItem('vuex');
+        if (!vuexData) {
+          vuexData = {};
+        } else if ('string' === typeof vuexData) {
+          vuexData = JSON.parse(vuexData);
+        }
+
+        SYSTEM_SETTINGS = vuexData.systemInfo.SYSTEM_SETTINGS;
+
+        // Switch Theme
+        var uiTheme = vuexData.uiTheme;
+        _DFF_switchUITheme(uiTheme);
+
+        // Set title
+        if (SYSTEM_SETTINGS['CUSTOM_SITE_TITLE_ENABLED'] && SYSTEM_SETTINGS['CUSTOM_SITE_TITLE_TEXT']) {
+          document.title = SYSTEM_SETTINGS['CUSTOM_SITE_TITLE_TEXT'];
+        } else {
+          document.title = 'DataFlux Func';
+        }
+
+        clearInterval(T);
+      }, 300);
+    })();
+  </script>
+</html>

@@ -1,0 +1,256 @@
+version: '3.1'
+
+services:
+  # MYSQL START
+  mysql:
+    image: <MYSQL_IMAGE>
+    labels:
+      - mysql
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: 10
+    networks:
+      - datafluxfunc
+    volumes:
+      - "<INSTALL_DIR>/mysql:/var/lib/mysql"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=<MYSQL_PASSWORD>"
+      - "MYSQL_DATABASE=dataflux_func"
+    # command: --tls-version=TLSv1.2 --innodb-large-prefix=on --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: --tls-version=TLSv1.2 --innodb-large-prefix=on --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=off --table-open-cache=400
+  # MYSQL END
+
+  # REDIS START
+  redis:
+    image: <REDIS_IMAGE>
+    labels:
+      - redis
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: 10
+    networks:
+      - datafluxfunc
+    volumes:
+      - "<INSTALL_DIR>/redis:/data"
+    command: --stop-writes-on-bgsave-error yes
+  # REDIS END
+
+  # WORKER DEFAULT START
+  worker-0:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-0
+      - queue-0
+      - queue-4
+      - queue-7
+      - queue-8
+      - queue-9
+      - queue-10
+      - queue-11
+      - queue-12
+      - queue-13
+      - queue-14
+      - queue-15
+      - system-task
+      - reserved-for-guance
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}' # Hostname of host
+      DFF__WORKER_CONCURRENCY: '2'        # Concurrency for each Worker
+    command: ./run-worker-by-queue.sh 0 4 7 8 9 10 11 12 13 14 15
+
+  worker-1:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-1
+      - queue-1
+      - user-task-general
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}'
+    command: ./run-worker-by-queue.sh 1
+
+  worker-2:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-2
+      - queue-2
+      - user-task-cron-job
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}'
+    command: ./run-worker-by-queue.sh 2
+
+  worker-3:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-3
+      - queue-3
+      - user-task-async-api
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}'
+    command: ./run-worker-by-queue.sh 3
+
+  worker-5:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-5
+      - queue-5
+      - debugger
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}'
+      DFF__WORKER_CONCURRENCY: '2'
+    command: ./run-worker-by-queue.sh 5
+
+  worker-6:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - worker-6
+      - queue-6
+      - user-task-sub
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}'
+    command: ./run-worker-by-queue.sh 6
+  # WORKER DEFAULT END
+
+  # WORKER MINI START
+  worker:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 2
+    labels:
+      - worker
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}' # Hostname of host
+    command: ./run-worker.sh
+  # WORKER MINI END
+
+  beat:
+    image: <DATAFLUX_FUNC_IMAGE>
+    labels:
+      - beat
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}' # Hostname of host
+    command: ./run-beat.sh
+
+  server:
+    image: <DATAFLUX_FUNC_IMAGE>
+    deploy:
+      replicas: 1
+    labels:
+      - server
+    volumes:
+      - "<INSTALL_DIR>/data:/data"
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    networks:
+      - datafluxfunc
+      - default
+    environment:
+      HOST_HOSTNAME: '{{.Node.Hostname}}' # Hostname of host
+    ports:
+      - "<PORT>:8088"
+    command: ./run-server.sh
+
+networks:
+  default:
+    external:
+      name: bridge
+  datafluxfunc:
+    driver: overlay

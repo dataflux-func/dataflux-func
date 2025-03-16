@@ -1,0 +1,124 @@
+Failed to communicate with the server, please refresh the page and try again.                           : 与服务器通讯失败，请尝试刷新页面后再试一次。
+If the problem continues to occur, please contact the administrator to check the status of the server.  : 如果问题持续出现，请联系管理员，检查服务器状态。
+Failed to access data, please refresh the page and try again.                                           : 访问数据失败，请尝试刷新页面后再试一次
+Admin user cannot been modified directly                                                                : 管理员用户无法直接修改
+This Script Market has been administered by other DataFlux Func                                         : 此脚本市场已由其他 DataFlux Func 管理
+Async task failed                                                                                       : 异步任务失败
+At least one condition should been specified                                                            : 至少需要指定一个条件
+Auth Token expired                                                                                      : 认证令牌已过期
+Auth type not supported                                                                                 : 此认证类型不支持
+Bad DingTalk Robot call                                                                                 : 钉钉机器人调用失败
+Calling Function failed                                                                                 : 调用函数失败
+Calling Function timeout                                                                                : 调用函数超时
+Can not found captcha token                                                                             : 验证码令牌无效
+Cannot generate SQL for a Model without a table name                                                    : 数据模型没有对应表名，无法自动生成SQL语句
+Cannot generate SQL for a Model without a view name                                                     : 数据模型没有对应视图名，无法自动生成SQL语句
+Cannot generate SQL for non-SQL database                                                                : 无法针对非 SQL 数据库生成 SQL 语句
+Cannot not access file out of resource folder                                                           : 无法访问资源目录外的文件
+Cannot not fetch folder out of resource folder                                                          : 无法查询资源目录外的目录
+Cannot not operate file or folder out of resource folder                                                : 无法操作资源目录外的文件或目录
+Cannot use a ID of reserved prefix                                                                      : 无法使用系统保留前缀作为 ID 开头部分
+Client not send X-Auth-Token yet                                                                        : 客户端尚未发送 X-Auth-Token
+Code pre-check failed. Script raised an EXCEPTION during executing, please check your code and try again: 代码预检查失败。脚本在执行期间产生了异常错误，请检查代码后再试一次
+Confirming import timeout                                                                               : 导入确认超时
+Connecting to Connector failed                                                                          : 连接到连接器失败
+Connecting to Connector timeout                                                                         : 连接到连接器超时
+Current user does not exists                                                                            : 当前用户不存在
+Current user has been disabled                                                                          : 当前用户已被禁用
+Data of Socket.io must be a JSON string                                                                 : Socket.io 数据必须为 JSON 字符串
+Deleting built-in Connector is not allowed                                                              : 不允许删除内置连接器
+Empty import file                                                                                       : 导入文件为空
+Export failed                                                                                           : 导出失败
+File not exists                                                                                         : 文件不存在
+File or folder already exists                                                                           : 文件或目录已存在
+File or folder does not exist                                                                           : 文件或目录不存在
+Fixed Field Auth failed                                                                                 : 固定字段认证失败
+Folder not exists                                                                                       : 目录不存在
+Found duplicated func names in script                                                                   : 脚本中发现重复的函数名
+Func Auth failed                                                                                        : 函数认证失败
+Func ID not specified                                                                                   : 函数 ID 未指定
+Func result is not standard JSON                                                                        : 函数结果无法解析为标准JSON
+Failed to setting Admin                                                                                 : 获取管理权失败
+ID of Connector already exists                                                                          : 连接器 ID 已存在
+ID of cloned Script will be too long                                                                    : 脚本 ID 将在克隆后会变得过长
+ID of ENV Variable already exists                                                                       : 环境变量 ID 已存在
+ID of file service already exists                                                                       : 文件服务 ID 已存在
+ID of script already exists                                                                             : 脚本 ID 已存在
+ID of script set already exists                                                                         : 脚本集 ID 已存在
+Install Python package failed                                                                           : 安装 Python 包失败
+Invalid Auth Token                                                                                      : 认证令牌无效
+Invalid captcha                                                                                         : 验证码无效
+Invalid captcha token                                                                                   : 验证码令牌无效
+Invalid config JSON                                                                                     : 配置无效
+Invalid import file                                                                                     : 无效的导入文件
+Invalid kwargs, bad JSON format                                                                         : 函数参数无效，无法解析为 JSON
+Invalid old password                                                                                    : 旧密码无效
+Invalid options, api_timeout is too large                                                               : 配置错误，api_timeout 过大
+Invalid options, api_timeout is too small                                                               : 配置错误，api_timeout 过小
+Invalid options, bad JSON format                                                                        : 配置错误，无法解析为 JSON
+Invalid options, eta should be a valid datetime value                                                   : 配置错误，eta 必须为有效的日期-时间值
+Invalid options, invalid execMode                                                                       : 配置错误，execMode 值无效
+Invalid options, invalid returnType                                                                     : 配置错误，returnType 值无效
+Invalid options, queue should be an integer between 1 and 9                                             : 配置错误，队列必须为 1 到 9 之间的整数
+Invalid options, timeout is too large                                                                   : 配置错误，timeout 过大
+Invalid options, timeout is too small                                                                   : 配置错误，timeout 过小
+Invalid package index                                                                                   : 包索引无效
+Invalid request body                                                                                    : 请求体无效
+Invalid request post data                                                                               : 请求体数据无效
+Invalid request query                                                                                   : 请求参数无效
+Invalid username or password                                                                            : 用户名或密码无效
+Integrated Sign-in is disabled                                                                          : 集成登录功能已被禁用
+Maximum calling rate exceeded                                                                           : 达到最大调用频率
+Modifying built-in Connector is not allowed, please edit the config instead                             : 不允许修改内置连接器，请修改系统配置
+No such Sync API                                                                                        : 不存在此同步 API
+No such Async API                                                                                       : 不存在此异步 API
+No such Cron Job                                                                                        : 不存在此定时任务
+No such data                                                                                            : 不存在数据
+No such Func                                                                                            : 不存在函数
+No such router. Please make sure that the METHOD is correct and no spelling missing in the URL          : 不存在此路由，请检查 HTTP 请求方法以及 URL 拼写是否正确
+Operation Record cannot be deleted                                                                      : 操作记录无法删除
+Operation Record cannot be modified                                                                     : 操作记录无法修改
+Please input captcha                                                                                    : 请输入验证码
+Preparing Python package failed                                                                         : 准备 Python 包失败
+Privilege is not satisfied                                                                              : 权限不足
+Query failed                                                                                            : 查询失败
+Query timeout                                                                                           : 查询超时
+Read cache error                                                                                        : 缓存读取失败
+Script draft already changed                                                                            : 脚本草稿已发生变化
+Script not edited                                                                                       : 脚本尚未修改
+Sign-in function returned False or nothing                                                              : 登录函数返回 False 或空内容
+Sign-in function timeout                                                                                : 登录函数超时
+Socket.io connection gone                                                                               : Socket.io 连接已断开
+Specified new file or folder name already existed                                                       : 指定的新文件名或目录名已存在
+This Sync API is already expired                                                                        : 此同步 API 已过期
+This Sync API is disabled                                                                               : 此同步 API 已被禁用
+This Async API is disabled                                                                              : 此异步 API 已被禁用
+This captcha token is already used                                                                      : 此验证码令牌已被使用
+This File Service is disabled                                                                           : 此文件服务已被禁用
+This Script is locked by other user                                                                     : 此脚本已被其他用户锁定
+This Script Set is locked by other user                                                                 : 此脚本集已被其他用户锁定
+This Script Market is locked by other user                                                              : 此脚本市场已被其他用户锁定
+This username is already existed                                                                        : 此用户名已存在
+This username is used by others                                                                         : 此用户名已被其他用户使用
+Accessing git repo timeout                                                                              : 访问 git 库超时
+Too many tasks in worker queue                                                                          : 工作队列中任务过多
+Unknown auth type                                                                                       : 认证类型未知
+Unknown event of Socket.io                                                                              : Socket.io 事件未知
+Unsupported resource operation                                                                          : 资源不支持进行此操作
+User not signed in                                                                                      : 用户尚未登录
+Worker no response                                                                                      : 工作单元无响应
+X-Auth-Token not sent                                                                                   : X-Auth-Token 尚未发送
+Zip file already existed                                                                                : 压缩文件已经存在
+Resource operation Failed                                                                               : 资源操作失败
+Init Script Market failed                                                                               : 初始化脚本市场失败
+Parent directory symbol (..) is not allowed in path                                                     : 禁止在根路径中使用上层目录符（..）
+Accessing out-of-scope file system is not allowed                                                       : 禁止访问超出范围的文件系统
+Failed to access git repo                                                                               : 访问 git 仓库失败
+No such branch in the git repo                                                                          : git 仓库中不存在此分支
+Startup Script deploying failed, Please contact the author                                              : 启动脚本部署失败，请联系作者
+Local Func task record is disabled                                                                      : 本地函数任务记录已禁用
+Local Func task record is disabled, while uploading to Guance is enabled                                : 本地函数任务记录已禁用，但已启用函数任务记录上报至观测云
+Func task record uploading to Guance has also been enabled                                              : 同时已启用函数任务记录上报至观测云
+Number of recent task records to be kept is not specified                                               : 未指定近期函数任务记录保留数量
+
+'Exception: Guance API Key NOT match to API Key ID!': '错误：观测云 API Key ID 与 API Key 不匹配'

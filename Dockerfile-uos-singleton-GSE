@@ -1,0 +1,44 @@
+FROM registry.jiagouyun.com/middlewares/uos-dataflux-func:base-gse-v2.3
+
+MAINTAINER Yiling Zhou <zyl@jiagouyun.com>
+
+ARG TARGETARCH
+
+ENV TARGETARCH ${TARGETARCH}
+ENV PYTHONPATH="$PYTHONPATH:/usr/src/app"
+
+WORKDIR /usr/src/app
+
+# Prepare non-root user and group
+RUN groupadd -r -g 1000 guance && \
+    useradd -r -g guance -u 1000 -s /sbin/nologin guance && \
+    mkdir -p /data && \
+    chown -R guance:guance /data && \
+    chown -R guance:guance /usr/src/app
+
+# App data
+COPY --chown=guance:guance . .
+RUN wget https://urls.guance.com/    --no-use-server-timestamps -O /usr/src/app/guance-node-urls.json    && \
+    wget https://urls.truewatch.com/ --no-use-server-timestamps -O /usr/src/app/truewatch-node-urls.json && \
+    ln -s /usr/src/base/node_modules ./node_modules && \
+    ln -s /usr/src/base/client/node_modules ./client/node_modules && \
+    rm -rf /usr/src/base/client/src
+
+# Remove unused data
+RUN find /usr/src -name ".travis.yml" -type f -exec rm -f {} \; && \
+    find /usr/src -name '.coveralls.yml' -type f -exec rm -f {} \;
+
+# Docker entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+## Usage:
+## Run Web Server
+# EXPOSE 8088
+# CMD ./run-server.sh
+
+## Run Worker
+# CMD ./run-worker.sh
+
+## Run Beat
+# CMD ./run-beat.sh

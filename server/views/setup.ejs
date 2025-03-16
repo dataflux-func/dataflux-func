@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Pragma" content="no-cache,no-store,must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="renderer" content="webkit" />
+    <meta name="robots" content="none" />
+    <meta name="apple-mobile-web-app-title" content="DataFlux Func" />
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" /> -->
+    <!-- <meta name="viewport" content="width=980" /> -->
+    <meta name="viewport" content="width=1440" />
+
+    <link rel="stylesheet" href="/statics/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/statics/libs/element-ui/css/element-ui.min.css">
+    <script src="/statics/libs/vue/vue.min.js"></script>
+    <script src="/statics/libs/vue-i18n/vue-i18n.min.js"></script>
+    <script src="/statics/libs/element-ui/js/element-ui.min.js"></script>
+    <script src="/statics/libs/axios/axios.min.js"></script>
+    <title>DataFlux Func</title>
+  </head>
+  <style>
+    @font-face {
+      font-family: Iosevka;
+      src: url(./statics/font/iosevka-fixed-regular.woff2);
+    }
+    * {
+      font-family: "Iosevka","PingFang SC","Microsoft YaHei","微软雅黑","Arial","sans-serif";
+      font-size: 14px;
+      outline: none !important;
+    }
+    html {
+      /* scroll-behavior: smooth; */
+    }
+    body {
+      padding-top: 30px;
+      padding-bottom: 100px;
+    }
+    hr {
+      border: 0;
+      border-top: 1px solid #eee;
+      margin: 20px 0;
+    }
+    a,
+    a:active,
+    a:hover,
+    a:focus,
+    a:visited {
+      color          : #ff6600;
+      font-weight    : bold;
+      cursor         : pointer;
+      text-decoration: none !important;
+    }
+    em {
+      font-weight: bold;
+      font-style: normal;
+      color: red;
+    }
+    code {
+      padding: 1px 5px;
+      margin: 0 3px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      background: #eee;
+    }
+    ul {
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+    #setupPanel {
+      width: 600px;
+      margin: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      box-shadow: 1px 1px 3px #ccc;
+      position: relative;
+    }
+    #setupPanelHeader {
+      width: 300px;
+      display: block;
+      margin: auto;
+      text-align: right;
+      padding-right: 150px;
+    }
+    #setupPanelHeader img {
+      width: 100%;
+    }
+    #version {
+      font-weight: bold;
+      font-style: italic;
+      font-size: 16px;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+    #setupPanelFooter {
+      text-align: right;
+    }
+    #language {
+      text-align: left;
+    }
+    #setupConfigArea .el-select {
+      display: block;
+    }
+    #setupProcess {
+      text-align: center;
+    }
+    #setupProcessIcon {
+      font-size: 60px;
+      color: darkgray
+    }
+    #setupProcessIconCog {
+      top: 40px;
+      left: 40px;
+      color: #FF6600;
+      font-size: 80px;
+    }
+    .setup-process-tip {
+      padding-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #ff6600;
+    }
+    .show-more-configs {
+      margin-right: 20px;
+    }
+    .config-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+    .config-info * {
+    }
+    .config-info .highlight {
+      color: #ff6600;
+      font-weight: bold;
+    }
+    .popover-tips {
+      background: #f5f5f5;
+      border-color: #ccc;
+      width: 320px;
+      word-break: keep-all;
+      text-align: left;
+    }
+    .bad-config input {
+      color: red;
+      border-color: red;
+      border-left-width: 5px;
+    }
+    .el-message-box {
+      width: 600px;
+    }
+    .tip-link {
+      position: relative;
+      top: 5px;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <el-container>
+        <div id="setupPanel">
+          <!-- Header -->
+          <div id="setupPanelHeader">
+            <img src="/statics/img/logo-dataflux-func-site.png" />
+            <br>
+            <span id="version">
+              {{ $t('Version:') }}
+              <%= IMAGE_INFO.VERSION %>
+              <%= IMAGE_INFO.EDITION ? `(${IMAGE_INFO.EDITION})` : '' %>
+            </span>
+          </div>
+
+          <!-- Language Selector -->
+          <hr>
+          <div id="language">
+            <span>Language / 语言 / 語言 / 言語:</span>
+            <el-select v-model="locale" size="mini">
+              <el-option label="English" value="en"></el-option>
+              <el-option label="简体中文" value="zh-CN"></el-option>
+              <el-option label="繁體中文（香港）" value="zh-HK"></el-option>
+              <el-option label="繁體中文（臺灣）" value="zh-TW"></el-option>
+              <el-option label="日本語" value="ja"></el-option>
+            </el-select>
+          </div>
+
+          <!-- Tips -->
+          <p>
+            {{ $t('Some basic setup should be done before DataFlux Func starts up.') }}
+            <br>
+            <br>
+            <em>{{ $t('If you are deploying manually, please ensure that the following conditions are met:') }}</em>
+            <ul>
+              <li>
+                {{ $t('For MySQL') }}
+                <ul>
+                  <li>{{ $t('MySQL 5.7 or above') }}</li>
+                  <li v-html="$t('Empty database exists in MySQL and the database encoding is <code>utf8mb4</code>')"></li>
+                  <li>{{ $t('There is a user in MySQL who can log in remotely and has permission to the empty database (including CREATE permission)') }}</li>
+                  <li>
+                    <span v-html="$t('Keep the option <code>innodb_large_prefix</code> <em>ON</em> in MySQL 5.7')"></span>
+                    <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix" target="_blank">{{ $t('(Official MySQL 5.7 doc)') }}</a>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                {{ $t('For PostgreSQL') }}
+                <ul>
+                  <li>{{ $t('PostgreSQL 12.0 or above') }}</li>
+                </ul>
+              </li>
+              <li>
+                {{ $t('For Redis') }}
+                <ul>
+                  <li v-html="$t('Redis 5.0 or above, at least 1 GB available memory and <em>NOT</em> running in Cluster Mode')"></li>
+                </ul>
+              </li>
+            </ul>
+          </p>
+
+          <hr>
+          <div id="setupConfigArea">
+            <!-- Admin User -->
+            <el-popover
+              :visible-arrow="false"
+              placement="right"
+              popper-class="popover-tips"
+              trigger="hover">
+              <div slot="reference">
+                <div class="config-info">
+                  <span>{{ $t('Administrator username') }}</span>
+                  <code>ADMIN_USERNAME</code>
+                </div>
+                <el-input
+                  ref="ADMIN_USERNAME"
+                  v-model="userConfig.ADMIN_USERNAME"></el-input>
+              </div>
+              <p>
+                {{ $t('Create an initial administrator user for the system') }}
+              </p>
+            </el-popover>
+
+            <!-- Admin User Password -->
+            <el-popover
+              :visible-arrow="false"
+              placement="right"
+              popper-class="popover-tips"
+              trigger="hover">
+              <div slot="reference">
+                <div class="config-info">
+                  <span>{{ $t('Administrator password (default is admin)') }}</span>
+                  <code>ADMIN_PASSWORD</code>
+                </div>
+                <el-input
+                  ref="ADMIN_PASSWORD"
+                  :class="{ 'bad-config': setupErrorKeyStatus.adminUser }"
+                  v-model="userConfig.ADMIN_PASSWORD" show-password></el-input>
+              </div>
+              <p>
+                {{ $t('A strong password can protect your data security') }}
+              </p>
+            </el-popover>
+
+            <!-- Repeat Admin User Password -->
+            <el-popover
+              :visible-arrow="false"
+              placement="right"
+              popper-class="popover-tips"
+              trigger="hover">
+              <div slot="reference">
+                <div class="config-info">
+                  <span>{{ $t('Repeat administrator password') }}</span>
+                  <code>ADMIN_PASSWORD_REPEAT</code>
+                </div>
+                <el-input
+                  ref="ADMIN_PASSWORD_REPEAT"
+                  :class="{ 'bad-config': setupErrorKeyStatus.adminUser }"
+                  v-model="userConfig.ADMIN_PASSWORD_REPEAT" show-password></el-input>
+              </div>
+              <p>
+                {{ $t('Enter the administrator password again') }}
+              </p>
+            </el-popover>
+
+            <template v-if="GUANCE_NODES && GUANCE_NODES.length > 0">
+              <!-- Guance Nodes -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Guance Node') }}</span>
+                    <code>GUANCE_NODE</code>
+                  </div>
+                  <el-select
+                    :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                    v-model="userConfig.GUANCE_NODE">
+                    <el-option :label="$t('Do not create Guance connector')" :value="null"></el-option>
+                    <el-option v-for="node in GUANCE_NODES" :label="$t(node.name_en)" :value="node.key"></el-option>
+                  </el-select>
+                  <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the Guance Node you need?') }}</a>
+                </div>
+                <p>
+                  {{ $t('Provide Guance API Key to create a Guance connector automatically') }}
+                </p>
+              </el-popover>
+
+              <template v-if="userConfig.GUANCE_NODE">
+                <!-- Guance OpenAPI URL -->
+                <el-popover v-if="userConfig.GUANCE_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('Guance OpenAPI URL') }}</span>
+                      <code>GUANCE_OPENAPI_URL</code>
+                    </div>
+                    <el-input
+                      ref="GUANCE_OPENAPI_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                      v-model="userConfig.GUANCE_OPENAPI_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- Guance OpenWay URL -->
+                <el-popover v-if="userConfig.GUANCE_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('Guance OpenWay URL') }}</span>
+                      <code>GUANCE_OPENWAY_URL</code>
+                    </div>
+                    <el-input
+                      ref="GUANCE_OPENWAY_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                      v-model="userConfig.GUANCE_OPENWAY_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- Guance WebSocket URL -->
+                <el-popover v-if="userConfig.GUANCE_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('Guance WebSocket URL') }}</span>
+                      <code>GUANCE_WEBSOCKET_URL</code>
+                    </div>
+                    <el-input
+                      ref="GUANCE_WEBSOCKET_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                      v-model="userConfig.GUANCE_WEBSOCKET_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- Guance API Key ID -->
+                <el-popover
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('Guance API Key ID') }}</span>
+                      <code>GUANCE_API_KEY_ID</code>
+                    </div>
+                    <el-input
+                      ref="GUANCE_API_KEY_ID"
+                      :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                      v-model="userConfig.GUANCE_API_KEY_ID"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- Guance API Key -->
+                <el-popover
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('Guance API Key') }}</span>
+                      <code>GUANCE_API_KEY</code>
+                    </div>
+                    <el-input
+                      ref="GUANCE_API_KEY"
+                      :class="{ 'bad-config': setupErrorKeyStatus.guance }"
+                      v-model="userConfig.GUANCE_API_KEY" show-password></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+              </template>
+            </template>
+
+            <template v-if="TRUEWATCH_NODES && TRUEWATCH_NODES.length > 0">
+              <!-- TrueWatch Nodes -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('TrueWatch Node') }}</span>
+                    <code>TRUEWATCH_NODE</code>
+                  </div>
+                  <el-select
+                    :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                    v-model="userConfig.TRUEWATCH_NODE">
+                    <el-option :label="$t('Do not create TrueWatch connector')" :value="null"></el-option>
+                    <el-option v-for="node in TRUEWATCH_NODES" :label="$t(node.name_en)" :value="node.key"></el-option>
+                  </el-select>
+                  <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the TrueWatch Node you need?') }}</a>
+                </div>
+                <p>
+                  {{ $t('Provide TrueWatch API Key to create a TrueWatch connector automatically') }}
+                </p>
+              </el-popover>
+
+              <template v-if="userConfig.TRUEWATCH_NODE">
+                <!-- TrueWatch OpenAPI URL -->
+                <el-popover v-if="userConfig.TRUEWATCH_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('TrueWatch OpenAPI URL') }}</span>
+                      <code>TRUEWATCH_OPENAPI_URL</code>
+                    </div>
+                    <el-input
+                      ref="TRUEWATCH_OPENAPI_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                      v-model="userConfig.TRUEWATCH_OPENAPI_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- TrueWatch OpenWay URL -->
+                <el-popover v-if="userConfig.TRUEWATCH_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('TrueWatch OpenWay URL') }}</span>
+                      <code>TRUEWATCH_OPENWAY_URL</code>
+                    </div>
+                    <el-input
+                      ref="TRUEWATCH_OPENWAY_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                      v-model="userConfig.TRUEWATCH_OPENWAY_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- TrueWatch WebSocket URL -->
+                <el-popover v-if="userConfig.TRUEWATCH_NODE === 'private'"
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('TrueWatch WebSocket URL') }}</span>
+                      <code>TRUEWATCH_WEBSOCKET_URL</code>
+                    </div>
+                    <el-input
+                      ref="TRUEWATCH_WEBSOCKET_URL"
+                      :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                      v-model="userConfig.TRUEWATCH_WEBSOCKET_URL"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- TrueWatch API Key ID -->
+                <el-popover
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('TrueWatch API Key ID') }}</span>
+                      <code>TRUEWATCH_API_KEY_ID</code>
+                    </div>
+                    <el-input
+                      ref="TRUEWATCH_API_KEY_ID"
+                      :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                      v-model="userConfig.TRUEWATCH_API_KEY_ID"></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+
+                <!-- TrueWatch API Key -->
+                <el-popover
+                  :disabled="true"
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('TrueWatch API Key') }}</span>
+                      <code>TRUEWATCH_API_KEY</code>
+                    </div>
+                    <el-input
+                      ref="TRUEWATCH_API_KEY"
+                      :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
+                      v-model="userConfig.TRUEWATCH_API_KEY" show-password></el-input>
+                  </div>
+                  <p>
+                  </p>
+                </el-popover>
+              </template>
+            </template>
+
+            <!-- More Configs -->
+            <template v-if="showMoreConfigs">
+              <!-- Secret -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Secret') }}</span>
+                    <code>SECRET</code>
+                  </div>
+                  <el-input v-model="userConfig.SECRET" show-password :minlength="8" :maxlength="20"></el-input>
+                </div>
+                <p>
+                  <span v-html="$t('A random string of <code>8</code> to <code>20</code> digits is recommended, do not modify once setup')"></span>
+                  <br><em>{{ $t('Make sure to use the same Secret in multiple deployments') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- Log Level -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Log level') }}</span>
+                    <code>LOG_LEVEL</code>
+                  </div>
+                  <el-select v-model="userConfig.LOG_LEVEL">
+                    <el-option :label="$t('No Log')"   value="NONE"></el-option>
+                    <el-option :label="$t('Error')"    value="ERROR"></el-option>
+                    <el-option :label="$t('Warning')"  value="WARNING"></el-option>
+                    <el-option :label="$t('Info')"     value="INFO"></el-option>
+                    <el-option :label="$t('Debug')"    value="DEBUG"></el-option>
+                    <el-option :label="$t('All Logs')" value="ALL"></el-option>
+                  </el-select>
+                </div>
+                <p>
+                  <span v-html="$t('<code>WARNING</code> level is recommended')"></span>
+                </p>
+              </el-popover>
+
+              <!-- Log File Format -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Log file format') }}</span>
+                    <code>LOG_FILE_FORMAT</code>
+                  </div>
+                  <el-select v-model="userConfig.LOG_FILE_FORMAT">
+                    <el-option :label="$t('Plain Text')" value="text"></el-option>
+                    <el-option label="JSON" value="json"></el-option>
+                  </el-select>
+                </div>
+                <p>
+                  <span v-html="$t('If you are using a log analysis system, choose <code>JSON</code> for convenience')"></span>
+                  <br><span v-html="$t('Otherwise, just choose <code>Plain Text</code>')"></span>
+                </p>
+              </el-popover>
+
+              <!-- WEB URL -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Website URL') }}</span>
+                    <code>WEB_BASE_URL</code>
+                  </div>
+                  <el-input
+                    v-model="userConfig.WEB_BASE_URL"
+                    :placeholder="$t('Leave blank to follow the browser address')"></el-input>
+                </div>
+                <p>
+                  {{ $t('Full address to access DataFlux Func, e.g.') }}
+                  <br><code>http://my-dataflux-func.com:1234</code>
+                  <br>{{ $t('Leave blank to follow the browser address') }}
+                </p>
+              </el-popover>
+
+              <!-- DB Engine -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span class="highlight">{{ $t('DB Engine') }}</span>
+                    <code class="">DB_ENGINE</code>
+                  </div>
+                  <el-select v-model="userConfig.DB_ENGINE">
+                    <el-option :label="$t('MySQL 5.7+')" value="mysql"></el-option>
+                    <el-option :label="$t('PostgreSQL 12.0+ (Experimental)')" value="postgresql"></el-option>
+                  </el-select>
+                </div>
+                <p>
+                  {{ $t('PostgreSQL DB support is currently in an experimental phase') }}
+                  <br><em>{{ $t('Once the DB is initialized, it is not possible to switch DB engines') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- MySQL -->
+              <template v-if="userConfig.DB_ENGINE === 'mysql'">
+                <!-- MySQL Host -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('MySQL host') }}</span>
+                      <code>MYSQL_HOST</code>
+                    </div>
+                    <el-input
+                      ref="MYSQL_HOST"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.MYSQL_HOST"></el-input>
+                  </div>
+                  <p>
+                    {{ $t('MySQL host to connect. Can be a domain name or IP address, no port included') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- MySQL Port -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('MySQL port') }}</span>
+                      <code>MYSQL_PORT</code>
+                    </div>
+                    <el-input
+                      ref="MYSQL_PORT"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model.number="userConfig.MYSQL_PORT" type="number" min="1" max="65535" step="1"></el-input>
+                  </div>
+                  <p>
+                    <span v-html="$t('Typically <code>{port}</code>', { port: 6379 })"></span>
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- MySQL User -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('MySQL user') }}</span>
+                      <code>MYSQL_USER</code>
+                    </div>
+                    <el-input
+                      ref="MYSQL_USER"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.MYSQL_USER"></el-input>
+                  </div>
+                  <p>
+                    {{ $t('Since database must be initialized, ensure that the user has full privileges to operate the database') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- MySQL Password -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('MySQL password') }}</span>
+                      <code>MYSQL_PASSWORD</code>
+                    </div>
+                    <el-input
+                      ref="MYSQL_PASSWORD"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.MYSQL_PASSWORD" show-password></el-input>
+                  </div>
+                  <p>
+                    {{ $t('Password for the MySQL user') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- MySQL DB -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('MySQL database') }}</span>
+                      <code>MYSQL_DATABASE</code>
+                    </div>
+                    <el-input
+                      ref="MYSQL_DATABASE"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.MYSQL_DATABASE"></el-input>
+                  </div>
+                  <p>
+                    <span v-html="$t('Do not mix the database with other systems, and the default encoding should be <code>utf8mb4</code>')"></span>
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+              </template>
+
+              <!-- PostgreSQL -->
+              <template v-if="userConfig.DB_ENGINE === 'postgresql'">
+                <!-- PostgreSQL Host -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('PostgreSQL host') }}</span>
+                      <code>POSTGRESQL_HOST</code>
+                    </div>
+                    <el-input
+                      ref="POSTGRESQL_HOST"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.POSTGRESQL_HOST"></el-input>
+                  </div>
+                  <p>
+                    {{ $t('PostgreSQL host to connect. Can be a domain name or IP address, no port included') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- PostgreSQL Port -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('PostgreSQL port') }}</span>
+                      <code>POSTGRESQL_PORT</code>
+                    </div>
+                    <el-input
+                      ref="POSTGRESQL_PORT"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model.number="userConfig.POSTGRESQL_PORT" type="number" min="1" max="65535" step="1"></el-input>
+                  </div>
+                  <p>
+                    <span v-html="$t('Typically <code>{port}</code>', { port: 6379 })"></span>
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- PostgreSQL User -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('PostgreSQL user') }}</span>
+                      <code>POSTGRESQL_USER</code>
+                    </div>
+                    <el-input
+                      ref="POSTGRESQL_USER"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.POSTGRESQL_USER"></el-input>
+                  </div>
+                  <p>
+                    {{ $t('Since database must be initialized, ensure that the user has full privileges to operate the database') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- PostgreSQL Password -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('PostgreSQL password') }}</span>
+                      <code>POSTGRESQL_PASSWORD</code>
+                    </div>
+                    <el-input
+                      ref="POSTGRESQL_PASSWORD"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.POSTGRESQL_PASSWORD" show-password></el-input>
+                  </div>
+                  <p>
+                    {{ $t('Password for the PostgreSQL user') }}
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+
+                <!-- PostgreSQL DB -->
+                <el-popover
+                  :visible-arrow="false"
+                  placement="right"
+                  popper-class="popover-tips"
+                  trigger="hover">
+                  <div slot="reference">
+                    <div class="config-info">
+                      <span>{{ $t('PostgreSQL database') }}</span>
+                      <code>POSTGRESQL_DATABASE</code>
+                    </div>
+                    <el-input
+                      ref="POSTGRESQL_DATABASE"
+                      :class="{ 'bad-config': setupErrorKeyStatus.db }"
+                      v-model="userConfig.POSTGRESQL_DATABASE"></el-input>
+                  </div>
+                  <p>
+                    <span v-html="$t('Do not mix the database with other systems')"></span>
+                    <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                  </p>
+                </el-popover>
+              </template>
+
+              <!-- Redis Host -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Redis host') }}</span>
+                    <code>REDIS_HOST</code>
+                  </div>
+                  <el-input
+                    ref="REDIS_HOST"
+                    :class="{ 'bad-config': setupErrorKeyStatus.redis }"
+                    v-model="userConfig.REDIS_HOST"></el-input>
+                </div>
+                <p>
+                  {{ $t('Redis host to connect. Can be a domain name or IP address, no port included') }}
+                  <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- Redis Port -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Redis port') }}</span>
+                    <code>REDIS_PORT</code>
+                  </div>
+                  <el-input
+                    ref="REDIS_PORT"
+                    :class="{ 'bad-config': setupErrorKeyStatus.redis }"
+                    v-model.number="userConfig.REDIS_PORT" type="number" min="1" max="65535" step="1"></el-input>
+                </div>
+                <p>
+                  <span v-html="$t('Typically <code>{port}</code>', { port: 6379 })"></span>
+                  <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- Redis Password -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Redis password') }}</span>
+                    <code>REDIS_PASSWORD</code>
+                  </div>
+                  <el-input
+                    ref="REDIS_PASSWORD"
+                    :class="{ 'bad-config': setupErrorKeyStatus.redis }"
+                    v-model="userConfig.REDIS_PASSWORD" show-password></el-input>
+                </div>
+                <p>
+                  {{ $t('Password for the Redis, leave blank when no password') }}
+                  <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- Redis DB -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Redis database') }}</span>
+                    <code>REDIS_DATABASE</code>
+                  </div>
+                  <el-input
+                    ref="REDIS_DATABASE"
+                    :class="{ 'bad-config': setupErrorKeyStatus.redis }"
+                    v-model.number="userConfig.REDIS_DATABASE" type="number" min="0" step="1"></el-input>
+                </div>
+                <p>
+                  {{ $t('Do not mix the database with other systems') }}
+                  <br><em>{{ $t('Do not modify if you are using automatic deploying script') }}</em>
+                </p>
+              </el-popover>
+
+              <!-- Redis TLS -->
+              <el-popover
+                :visible-arrow="false"
+                placement="right"
+                popper-class="popover-tips"
+                trigger="hover">
+                <div slot="reference">
+                  <div class="config-info">
+                    <span>{{ $t('Redis TLS') }}</span>
+                    <code>REDIS_USE_TLS</code>
+                  </div>
+                  <el-select v-model="userConfig.REDIS_USE_TLS">
+                    <el-option :label="$t('Disable TLS (default)')" value="false"></el-option>
+                    <el-option :label="$t('Enable TLS')" value="true"></el-option>
+                  </el-select>
+                </div>
+                <p>
+                  {{ $t('When connecting to AWS ElastiCache with password, TLS maybe required.') }}
+                  <br><em>{{ $t('Or just leave default (Disable TLS)') }}</em>
+                </p>
+              </el-popover>
+            </template>
+          </div>
+
+          <!-- Footer -->
+          <hr>
+          <div id="setupPanelFooter">
+            <el-button type="text" class="show-more-configs" v-if="!showMoreConfigs" @click="showMoreConfigs = true"><strong>{{ $t('Show more configs') }}</strong></el-button>
+            <el-button type="primary" @click="setup">{{ $t('Save and init DB') }}</el-button>
+          </div>
+        </div>
+
+        <el-dialog
+          :title="$t('Setup DataFlux Func')"
+          :visible.sync="showSetupProcess"
+          :close-on-click-modal="false"
+          :close-on-press-escape="false"
+          :show-close="false"
+          width="30%">
+          <div id="setupProcess">
+            <!-- <i class="fa fa-cog fa-spin fa-4x fa-fw text-muted"></i> -->
+            <span id="setupProcessIcon" class="fa-stack">
+              <i class="fa fa-fw fa-database fa-stack-2x"></i>
+              <i id="setupProcessIconCog" class="fa fa-fw fa-cog fa-spin fa-stack-1x"></i>
+            </span>
+
+            <template v-if="showLongTimeWaitTip">
+              <p class="setup-process-tip">{{ $t('Finishing soon...') }}</p>
+              <p>
+                {{ $t('If there is no response for a long time, you can try to click the link') }}
+                <br><a :href="redirectURL">{{ redirectURL }}</a>
+              </p>
+            </template>
+            <template v-else>
+              <p class="setup-process-tip">{{ $t('Processing, please wait...') }}</p>
+            </template>
+          </div>
+        </el-dialog>
+      </el-container>
+    </div>
+  </body>
+  <script>
+    (async function() {
+      // i18n
+      let messages = {
+        en: {},
+      };
+      let axiosRes = await axios.get('/locals');
+      Object.assign(messages, axiosRes.data);
+
+      // ElementUI Configs
+      ELEMENT.Select.props.placeholder.default = '-';
+
+      // Guance / TrueWatch nodes
+      const GUANCE_NODES = <%- JSON.stringify(GUANCE_NODES) %>;
+      GUANCE_NODES.forEach(node => {
+        messages['zh-CN'][node.name_en] = node.name;
+      });
+
+      let uiLocale = window.navigator.language;
+      let uiLocaleParts = uiLocale.split('.')[0].split(/[_-]/);
+
+      // English does not distinguish between countries
+      if (uiLocaleParts[0] == 'en') uiLocale = 'en';
+
+      const i18n = new VueI18n({
+        locale                : uiLocale,
+        fallbackLocale        : 'en',
+        formatFallbackMessages: true,
+        silentFallbackWarn    : true,
+        silentTranslationWarn : true,
+        messages,
+      });
+
+      // Vue app
+      const app = new Vue({
+        i18n,
+        watch: {
+          locale(val) {
+            this.$i18n.locale = val;
+          },
+        },
+        methods: {
+          async setup() {
+            this.showSetupProcess = true;
+
+            // Clear errors
+            for (var k in this.setupErrorKeyStatus) {
+              this.setupErrorKeyStatus[k] = false;
+            }
+
+            // Prepare configs
+            let userConfig = JSON.parse(JSON.stringify(this.userConfig))
+
+            // Some special config handling
+            if ('string' === typeof userConfig.REDIS_USE_TLS) {
+              userConfig.REDIS_USE_TLS = JSON.parse(userConfig.REDIS_USE_TLS);
+            }
+
+            try {
+              // Send config
+              let axiosRes = await axios.post('/setup', { userConfig: userConfig });
+              this.setupRedirectURL = axiosRes.data.redirectURL;
+
+            } catch(err) {
+              // Error notice
+              let setupErrors = err.response.data.setupErrors;
+
+              let setupErrorMessages = [];
+              Object.values(setupErrors).forEach(setupError => {
+                setupError.forEach(line => {
+                  let message = this.$t(line.message) || '';
+                  if (line.error) {
+                    message += ` <small>(${line.error})</small>`;
+                  }
+                  setupErrorMessages.push(message);
+                });
+              });
+              let setupErrorMessageHTML = `<ul>${setupErrorMessages.map(m => `<li><em>${m}</em></li>`).join('')}</ul>`;
+
+              await this.$alert(setupErrorMessageHTML, this.$t('Error occured during initializing DB'), {
+                dangerouslyUseHTMLString: true,
+                confirmButtonText: this.$t('OK'),
+              });
+
+              // Scroll to first error item
+              this.showSetupProcess = false;
+
+              let minOffsetTop = null;
+              for (let ref in this.inputRefKeyMap) {
+                let setupErrorKey = this.inputRefKeyMap[ref];
+
+                if (setupErrorKey in setupErrors) {
+                  this.setupErrorKeyStatus[setupErrorKey] = true;
+
+                  let elOffsetTop = app.$refs[ref].$el.offsetTop;
+                  if (minOffsetTop === null || elOffsetTop < minOffsetTop) {
+                    minOffsetTop = elOffsetTop;
+                  }
+                }
+              }
+
+              window.scrollTo(0, minOffsetTop - 100);
+              return;
+            }
+
+            // Poll the ping API until it completes
+            let pingT = setInterval(async () => {
+              this.showLongTimeWaitTip = true;
+
+              let axiosRes = null;
+              try {
+                axiosRes = await axios.get('/api/v1/do/ping', {
+                  timeout: 1000,
+                });
+              } catch(err) {
+                return;
+              }
+
+              if (!axiosRes.status || axiosRes.status !== 200) return;
+
+              // Success, redirect immediately
+              clearInterval(pingT);
+              setTimeout(() => {
+                location.href = this.redirectURL;
+              }, 5 * 1000);
+            }, 1 * 1000);
+          },
+          genRandomSecret() {
+            var len     = 16;
+            var samples = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            var randString = '';
+            for (var i = 0; i < len; i++) {
+              var randIndex = Math.floor(Math.random() * samples.length);
+              randString += samples[randIndex];
+            }
+
+            return randString;
+          },
+        },
+        computed: {
+          GUANCE_NODES() {
+            return GUANCE_NODES.filter(x => {
+              if (x.type && x.type !== 'guance') return false;
+              return true;
+            });
+          },
+          GUANCE_NODE_MAP() {
+            return this.GUANCE_NODES.reduce((acc, x) => {
+              acc[x.key] = x;
+              return acc;
+            }, {})
+          },
+          TRUEWATCH_NODES() {
+            return GUANCE_NODES.filter(x => {
+              if (x.type && x.type !== 'truewatch') return false;
+              return true;
+            });
+          },
+          TRUEWATCH_NODE_MAP() {
+            return this.TRUEWATCH_NODES.reduce((acc, x) => {
+              acc[x.key] = x;
+              return acc;
+            }, {})
+          },
+          redirectURL() {
+            return this.setupRedirectURL || this.userConfig.WEB_BASE_URL || location.origin;
+          },
+          inputRefKeyMap() {
+            return {
+              // Admin User
+              ADMIN_USERNAME       : 'adminUser',
+              ADMIN_PASSWORD       : 'adminUser',
+              ADMIN_PASSWORD_REPEAT: 'adminUser',
+
+              // Guance connector
+              GUANCE_NODE         : 'guance',
+              GUANCE_OPENAPI_URL  : 'guance',
+              GUANCE_OPENWAY_URL  : 'guance',
+              GUANCE_WEBSOCKET_URL: 'guance',
+              GUANCE_API_KEY_ID   : 'guance',
+              GUANCE_API_KEY      : 'guance',
+
+              // TrueWatch connector
+              TRUEWATCH_NODE         : 'truewatch',
+              TRUEWATCH_OPENAPI_URL  : 'truewatch',
+              TRUEWATCH_OPENWAY_URL  : 'truewatch',
+              TRUEWATCH_WEBSOCKET_URL: 'truewatch',
+              TRUEWATCH_API_KEY_ID   : 'truewatch',
+              TRUEWATCH_API_KEY      : 'truewatch',
+
+              // DB
+              DB_ENGINE          : 'db',
+              MYSQL_HOST         : 'db',
+              MYSQL_PORT         : 'db',
+              MYSQL_USER         : 'db',
+              MYSQL_PASSWORD     : 'db',
+              MYSQL_DATABASE     : 'db',
+              POSTGRESQL_HOST    : 'db',
+              POSTGRESQL_PORT    : 'db',
+              POSTGRESQL_USER    : 'db',
+              POSTGRESQL_PASSWORD: 'db',
+              POSTGRESQL_DATABASE: 'db',
+
+              // Redis
+              REDIS_HOST    : 'redis',
+              REDIS_PORT    : 'redis',
+              REDIS_DATABASE: 'redis',
+              REDIS_PASSWORD: 'redis',
+              REDIS_USE_TLS : 'redis',
+            }
+          },
+        },
+        data() {
+          let currentConfig = <%- JSON.stringify(CONFIG) %>;
+
+          return {
+            locale             : uiLocale,
+            showMoreConfigs    : false,
+            showSetupProcess   : false,
+            showLongTimeWaitTip: false,
+
+            setupRedirectURL: null,
+
+            setupErrorKeyStatus: {
+              adminUser: false,
+              guance   : false,
+              db       : false,
+              redis    : false,
+            },
+
+            userConfig: {
+              // Admin User
+              ADMIN_USERNAME       : currentConfig.ADMIN_USERNAME,
+              ADMIN_PASSWORD       : currentConfig.ADMIN_PASSWORD,
+              ADMIN_PASSWORD_REPEAT: currentConfig.ADMIN_PASSWORD_REPEAT,
+
+              // Guance connector
+              GUANCE_NODE         : null,
+              GUANCE_OPENAPI_URL  : null,
+              GUANCE_OPENWAY_URL  : null,
+              GUANCE_WEBSOCKET_URL: null,
+              GUANCE_API_KEY_ID   : null,
+              GUANCE_API_KEY      : null,
+
+              // TrueWatch connector
+              TRUEWATCH_NODE         : null,
+              TRUEWATCH_OPENAPI_URL  : null,
+              TRUEWATCH_OPENWAY_URL  : null,
+              TRUEWATCH_WEBSOCKET_URL: null,
+              TRUEWATCH_API_KEY_ID   : null,
+              TRUEWATCH_API_KEY      : null,
+
+              // Secret
+              SECRET: this.genRandomSecret(),
+
+              // Log
+              LOG_LEVEL      : currentConfig.LOG_LEVEL,
+              LOG_FILE_FORMAT: currentConfig.LOG_FILE_FORMAT,
+
+              // Web
+              WEB_BASE_URL: currentConfig.WEB_BASE_URL,
+
+              // DB
+              DB_ENGINE          : currentConfig.DB_ENGINE,
+              MYSQL_HOST         : currentConfig.MYSQL_HOST,
+              MYSQL_PORT         : currentConfig.MYSQL_PORT,
+              MYSQL_USER         : currentConfig.MYSQL_USER,
+              MYSQL_PASSWORD     : currentConfig.MYSQL_PASSWORD,
+              MYSQL_DATABASE     : currentConfig.MYSQL_DATABASE,
+              POSTGRESQL_HOST    : currentConfig.POSTGRESQL_HOST,
+              POSTGRESQL_PORT    : currentConfig.POSTGRESQL_PORT,
+              POSTGRESQL_USER    : currentConfig.POSTGRESQL_USER,
+              POSTGRESQL_PASSWORD: currentConfig.POSTGRESQL_PASSWORD,
+              POSTGRESQL_DATABASE: currentConfig.POSTGRESQL_DATABASE,
+
+              // Redis
+              REDIS_HOST    : currentConfig.REDIS_HOST,
+              REDIS_PORT    : currentConfig.REDIS_PORT,
+              REDIS_DATABASE: currentConfig.REDIS_DATABASE,
+              REDIS_PASSWORD: currentConfig.REDIS_PASSWORD,
+              REDIS_USE_TLS : `${currentConfig.REDIS_USE_TLS}`,
+            },
+          }
+        },
+      }).$mount('#app');
+      window.app = app;
+    })()
+  </script>
+</html>

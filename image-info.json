@@ -1,0 +1,9 @@
+{
+  "CI_PIPELINE_ID"    : "-",
+  "CI_JOB_ID"         : "-",
+  "CI_BUILD_ID"       : "-",
+  "ARCHITECTURE"      : "",
+  "EDITION"           : "original",
+  "VERSION"           : "0.0.0",
+  "RELEASE_TIMESTAMP" : 0
+}

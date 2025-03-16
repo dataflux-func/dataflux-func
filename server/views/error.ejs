@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <style>
+      * { font-family: monospace }
+      html { padding: 20px; }
+      pre { display: inline-block; white-space: break-spaces; }
+      #errorCode { color: red; }
+      #backToIndex { display: inline-block; color: #ff6600; font-size: 16px; text-decoration: none; }
+      .section { margin-top: 30px; }
+      .error-label { font-size: 18px; }
+      .error-content { font-size: 16px; padding-left: 30px; }
+    </style>
+    <h1>
+      <% if (pageData.error.error >= 400 && pageData.error.error < 500) { %>
+        Client Error
+      <% } else { %>
+        Server Error
+      <% } %>
+      <span id="errorCode">(<%= pageData.error.error %> - <%= pageData.error.reason %>)</span>
+    </h1>
+    <hr>
+
+    <div class="section">
+      <strong class="error-label">Message:</strong>
+      <br>
+      <p class="error-content"><%= pageData.error.message %><p>
+    </div>
+
+    <div class="section">
+      <strong class="error-label">Info:</strong>
+      <br>
+      <pre class="error-content"><code><%= JSON.stringify(pageData.error, null, 2) %></code></pre>
+    </div>
+  </body>
+</html>

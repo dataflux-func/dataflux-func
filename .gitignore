@@ -1,0 +1,113 @@
+# Mac System Files
+.DS_Store
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+report.html
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Vim Temp Files
+*.swp
+
+# Redis Dump Files
+dump.rdb
+
+# SQLite databases
+*.sqlite
+
+# Heap Dump Files
+*.heapsnapshot
+
+# Any Logs
+*.log
+
+# Python
+*.py[cod]
+
+# Virtual environment
+venv
+.python-version
+
+# Installer logs
+pip-log.txt
+
+# supervisord
+*.out
+*.out.*
+*.err
+*.err.*
+*.log
+*.log.*
+*.pid
+*.sock
+
+# Translations
+*.mo
+
+# local env files
+.env.local
+.env.*.local
+
+# NPM Packages & Logs
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Code try
+*.try.py
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cache/upload files
+server/.*/
+uploaded-files/
+
+# Vue dist
+!client/dist
+client/public/*.auto.css
+client/public/*.min.css
+
+# Other
+.ossutil_checkpoint
+docker-stack.yaml
+client/report.*.json
+init-scripts/*.zip
+init-scripts/*.py
+init-scripts/*.sh
+OPENSOURCE.cache.json

@@ -1,0 +1,33 @@
+# Common
+',': ', '
+':': ': '
+'(': ' ('
+
+# const.js - SYNC_API_THROTTLING
+timePerSecond: '{n} time/second | {n} time/second | {n} times/second'
+timePerMinute: '{n} time/minute | {n} time/minute | {n} times/minute'
+timePerHour  : '{n} time/hour | {n} time/hour | {n} times/hour'
+timePerDay   : '{n} time/day | {n} time/day | {n} times/day'
+timePerMonth : '{n} time/month | {n} time/month | {n} times/month'
+timePerYear  : '{n} time/year | {n} time/year | {n} times/year'
+
+# Duration
+nSeconds: '{n} second | {n} second | {n} seconds'
+nMinutes: '{n} minute | {n} minute | {n} minutes'
+nHours  : '{n} hour | {n} hour | {n} hours'
+nDays   : '{n} day | {n} day | {n} days'
+nMonths : '{n} month | {n} month | {n} months'
+nYears  : '{n} year | {n} year | {n} years'
+
+nS: '{n}s'
+nM: '{n}m'
+nH: '{n}h'
+nD: '{n}d'
+nY: '{n}y'
+
+expireAt: Will expire at {t}
+
+# Feature Notice
+FeatureNotice_monkeyPatch            : '<h1>No Monkey Patches in Scripts</h1><p>For performance reasons, the script does <strong style="color: red">NOT</strong> run in a sandbox or isolated environment.</p><p>Using monkey patches may cause problems to the entire system.</p>'
+FeatureNotice_funcIsJustPythonWarpper: '<h1>DataFlux Func is Just a Python Wrapper</h1><p>A connector is simply a convenient feature for developers who want to connect to a database or external system but not an essential feature.</p></p>You can install any third-party Python package you want through the PIP tool and work with it.</p><p>Just like you do with orignal Python.</p>'
+FeatureNotice_scriptMarketHomepage   : '<h1>This Script Market has a Homepage</h1><p>Script Sets in the Script Market are usually for Script developers.</p><p>If you don''t know how to use the Script Sets in this Script Market, please check the homepage first.</p>'

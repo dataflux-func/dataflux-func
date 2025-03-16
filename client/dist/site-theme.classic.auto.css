@@ -1,0 +1,198 @@
+@media (prefers-color-scheme: light) { @charset "UTF-8";
+
+:root {
+  --base       : #fafafa;
+  --base-light : #e9e9e9;
+  --base-dark  : #303133;
+
+  --base-transparent: #fafafa00;
+
+  /* Theme */
+  --primary: #FF6600;
+  --success: #189618;
+  --warning: #fbad39;
+  --danger : #FF2626;
+  --info   : #909298;
+
+  --primary-transparent: #FF660000;
+  --success-transparent: #18961800;
+  --warning-transparent: #fbad3900;
+  --danger-transparent : #FF262600;
+  --info-transparent   : #90929800;
+
+
+  /* Theme light */
+  --primary-light: #FFAC74;
+  --success-light: #5BBC5B;
+  --warning-light: #F7CE90;
+  --danger-light : #FA8181;
+  --info-light   : #C0C2C6;
+
+  /* Theme dark */
+  --primary-dark: #CC5200;
+  --success-dark: #004D00;
+  --warning-dark: #A76D16;
+  --danger-dark : #CC0000;
+  --info-dark   : #76797F;
+
+  /* Theme faded */
+  --primary-faded: #ffe2cf;
+  --success-faded: #d4ebd4;
+  --warning-faded: #fdf0dc;
+  --danger-faded : #ffd6d6;
+  --info-faded   : #eaeaec;
+
+  /* Navi */
+  --navi     : #E1E1E1;
+  --navi-dark: #c0c0c0;
+
+  /* Button */
+  --button        : #FFFFFF;
+  --button-border : #808080;
+  --button-loading: rgba(255, 255, 255, .35);
+
+  /* Text */
+  --text             : #333130;
+  --text-light       : #666260;
+  --text-xlight      : #999390;
+  --text-faded       : #33313030;
+  --text-carving     : #FFFFFF;
+  --text-water-marker: #e6e6e6;
+  --text-shadow      : 0 0 1pc 1px rgba(0, 0, 0, .2);
+
+  /* Border */
+  --border      : #CCC4C0;
+  --border-faded: #E6DFDC;
+  --border-dark : #999999;
+
+  /* Shadow */
+  --shadow                    : 0 2px 12px 0 rgba(0, 0, 0, .1);
+  --dialog-shadow             : 0 1px 3px rgba(0, 0, 0, .3);
+  --drawer-shadow             : 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
+  --tab-card-shadow           : 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+  --table-fixed-shadow        : 0 0 10px rgba(0, 0, 0, .12);
+  --backtop-shadow            : 0 0 6px rgba(0, 0, 0, .12);
+  --color-picker-cursor-shadow: 0 0 0 1.5px #FFF, inset 0 0 1px 1px rgba(0, 0, 0, .1), 0 0 1px 2px rgba(0, 0, 0, .4);
+  --color-picker-slider-shadow: 0 0 2px rgba(0, 0, 0, .6);
+  --code-editor-shadow        : 5px 5px 5px #d3d3d3;
+
+  /* Other */
+  --modal-mask            : #000000;
+  --image-viewer-mask     : #000000;
+  --loading-mask          : rgba(255, 255, 255, .9);
+  --color-picker-mask     : rgba(255, 255, 255, .7);
+  --upload-item-action    : rgba(0, 0, 0, .5);
+  --upload-item-interact  : rgba(0, 0, 0, .72);
+  --upload-item-status    : 0 1px 1px #CCC;
+  --dropdown-caret        : rgba(255, 255, 255, .5);
+  --dropdown-caret-default: rgba(220, 223, 230, .5);
+  --carousel-arrow        : rgba(31, 45, 61, .11);
+  --carousel-arrow-hover  : rgba(31, 45, 61, .23);
+  --popper-arrow          : drop-shadow(0 2px 12px rgba(0, 0, 0, .03));
+  --popper-border         : #303133;
+  --dragger-dragover      : rgba(32, 159, 255, .06);
+  --scrollbar             : rgba(144, 147, 153, .3);
+  --scrollbar-hover       : rgba(144, 147, 153, .5);
+  --step-process          : #303133;
+}
+ } @media (prefers-color-scheme: dark) { @charset "UTF-8";
+
+:root {
+  --base      : #141414;
+  --base-light: #000000;
+  --base-dark : #3E3E3E;
+
+  --base-transparent: #14141400;
+
+  /* Theme */
+  --primary: #DC5900;
+  --success: #11a111;
+  --warning: #E39115;
+  --danger : #DA2727;
+  --info   : #8c8f93;
+
+  --primary-transparent: #DC590000;
+  --success-transparent: #11a11100;
+  --warning-transparent: #E3911500;
+  --danger-transparent : #DA272700;
+  --info-transparent   : #8c8f9300;
+
+  /* Theme light */
+  --primary-light: #a04102;
+  --success-light: #013601;
+  --warning-light: #744b0e;
+  --danger-light : #8a0303;
+  --info-light   : #5b5d62;
+
+  /* Theme dark */
+  --primary-dark: #FF6600;
+  --success-dark: #189618;
+  --warning-dark: #F5AD43;
+  --danger-dark : #FF2626;
+  --info-dark   : #909298;
+
+  /* Theme faded */
+  --primary-faded: #392110;
+  --success-faded: #122a12;
+  --warning-faded: #3b2b14;
+  --danger-faded : #391717;
+  --info-faded   : #292929;
+
+  /* Navi */
+  --navi     : #303030;
+  --navi-dark: #131313;
+
+  /* Button */
+  --button        : #3e3e3e;
+  --button-border : #050505;
+  --button-loading: rgba(10, 10, 10, .35);
+
+  /* Text */
+  --text             : #BBBBBB;
+  --text-light       : #999390;
+  --text-xlight      : #666260;
+  --text-faded       : #BBBBBB30;
+  --text-carving     : #FFFFFF;
+  --text-water-marker: #2C2C2A;
+  --text-shadow      : 0 0 1pc 1px rgba(0, 0, 0, .2);
+
+  /* Border */
+  --border      : #5c5c5c;
+  --border-faded: #404040;
+  --border-dark : #999999;
+
+  /* Shadow */
+  --shadow                    : 0 2px 12px 0 rgba(0, 0, 0, .1);
+  --dialog-shadow             : 0 1px 3px rgba(0, 0, 0, .3);
+  --drawer-shadow             : 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
+  --tab-card-shadow           : 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+  --table-fixed-shadow        : 0 0 10px rgba(0, 0, 0, .12);
+  --backtop-shadow            : 0 0 6px rgba(0, 0, 0, .12);
+  --color-picker-cursor-shadow: 0 0 0 1.5px #FFF, inset 0 0 1px 1px rgba(0, 0, 0, .1), 0 0 1px 2px rgba(0, 0, 0, .4);
+  --color-picker-slider-shadow: 0 0 2px rgba(0, 0, 0, .6);
+  --code-editor-shadow        : 5px 5px 5px #0a0a0a;
+
+  /* Other */
+  --modal-mask            : #000000;
+  --image-viewer-mask     : #000000;
+  --loading-mask          : rgba(10, 10, 10, .9);
+  --color-picker-mask     : rgba(10, 10, 10, .7);
+  --upload-item-action    : rgba(245, 245, 245, .5);
+  --upload-item-interact  : rgba(245, 245, 245, .72);
+  --upload-item-status    : 0 1px 1px #CCC;
+  --dropdown-caret        : rgba(10, 10, 10, .5);
+  --dropdown-caret-default: rgba(220, 223, 230, .5);
+  --carousel-arrow        : rgba(31, 45, 61, .11);
+  --carousel-arrow-hover  : rgba(31, 45, 61, .23);
+  --popper-arrow          : drop-shadow(0 2px 12px rgba(245, 245, 245, .03));
+  --popper-border         : #303133;
+  --dragger-dragover      : rgba(32, 159, 255, .06);
+  --scrollbar             : rgba(144, 147, 153, .3);
+  --scrollbar-hover       : rgba(144, 147, 153, .5);
+  --step-process          : #303133;
+}
+
+img {
+  filter: invert(1) hue-rotate(180deg) brightness(85%) saturate(80%);
+}
+ }

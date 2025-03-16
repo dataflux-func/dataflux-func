@@ -1,0 +1,104 @@
+ACDT : '+10:30' # Australian Central Daylight Time
+ACST : '+09:30' # Australian Central Standard Time
+ACT  : '-05:00' # Acre Time
+ACWST: '+08:45' # Australian Central Western Standard Time
+ADT  : '-03:00' # Atlantic Daylight Time
+AEDT : '+11:00' # Australian Eastern Daylight Time
+AEST : '+10:00' # Australian Eastern Standard Time
+AFT  : '+04:30' # Afghanistan Time
+AKDT : '-08:00' # Alaska Daylight Time
+AKST : '-09:00' # Alaska Standard Time
+AMST : '-03:00' # Amazon Summer Time
+AMT  : '-04:00' # Amazon Time
+ART  : '-03:00' # Argentina Time
+AST  : '-04:00' # Atlantic Standard Time
+# AST  : '+03:00' # Arabia Standard Time
+AWST : '+08:00' # Australian Western Standard Time
+AZOST: '-00:00' # Azores Summer Time
+AZOT : '-01:00' # Azores Time
+BOT  : '-04:00' # Bolivia Time
+BRST : '-02:00' # Brasília Summer Time
+BRT  : '-03:00' # Brasília Time
+BST  : '+01:00' # British Summer Time
+BTT  : '+06:00' # Bhutan Time
+CAT  : '+02:00' # Central Africa Time
+CDT  : '-05:00' # Central Daylight Time
+# CDT  : '-04:00' # Cuba Daylight Time
+CEST : '+02:00' # Central European Summer Time
+CET  : '+01:00' # Central European Time
+CHADT: '+13:45' # Chatham Island Daylight Time
+CHAST: '+12:45' # Chatham Island Standard Time
+CHOST: '+09:00' # Choibalsan Summer Time
+CHOT : '+08:00' # Choibalsan Time
+CHUT : '+10:00' # Chuuk Time
+CKT  : '-10:00' # Cook Island Time
+CLST : '-03:00' # Chile Summer Time
+CLT  : '-04:00' # Chile Standard Time
+CST  : '+08:00' # China Standard Time
+# CST  : '-06:00' # Central Standard Time
+# CST  : '-05:00' # Cuba Standard Time
+ChST : '+10:00' # Chamorro Standard Time
+EASST: '-05:00' # Easter Island Summer Time
+EAST : '-06:00' # Easter Island Standard Time
+EAT  : '+03:00' # Eastern Africa Time
+ECT  : '-05:00' # Ecuador Time
+EDT  : '-04:00' # Eastern Daylight Time
+EEST : '+03:00' # Eastern European Summer Time
+EET  : '+02:00' # Eastern European Time
+EST  : '-05:00' # Eastern Standard Time
+FKST : '-03:00' # Falkland Islands Summer Time
+GFT  : '-03:00' # French Guiana Time
+GILT : '+12:00' # Gilbert Island Time
+GMT  : '+00:00' # Greenwich Mean Time
+GST  : '+04:00' # Gulf Standard Time
+HKT  : '+08:00' # Hong Kong Time
+HST  : '-10:00' # Hawaii Standard Time
+ICT  : '+07:00' # Indochina Time
+IDT  : '+03:00' # Israel Daylight Time
+IRDT : '+04:30' # Iran Daylight Time
+IRST : '+03:30' # Iran Standard Time
+IST  : '+05:30' # India Standard Time
+# IST  : '+01:00' # Irish Standard Time
+# IST  : '+02:00' # Israel Standard Time
+JST  : '+09:00' # Japan Standard Time
+KOST : '+11:00' # Kosrae Time
+KST  : '+08:30' # Korea Standard Time
+LINT : '+14:00' # Line Islands Time
+MDT  : '-06:00' # Mountain Daylight Time
+MHT  : '+12:00' # Marshall Islands Time
+MSK  : '+03:00' # Moscow Standard Time
+MST  : '-07:00' # Mountain Standard Time
+MYT  : '+08:00' # Malaysia Time
+NDT  : '-02:30' # Newfoundland Daylight Time
+NPT  : '+05:45' # Nepal Time
+NST  : '-03:30' # Newfoundland Standard Time
+NUT  : '-11:00' # Niue Time
+NZDT : '+13:00' # New Zealand Daylight Time
+NZST : '+12:00' # New Zealand Standard Time
+PDT  : '-07:00' # Pacific Daylight Time
+PET  : '-05:00' # Peru Time
+PGT  : '+10:00' # Papua New Guinea Time
+PHT  : '+08:00' # Philippine Time
+PKT  : '+05:00' # Pakistan Standard Time
+PONT : '+11:00' # Pohnpei Standard Time
+PST  : '-08:00' # Pacific Standard Time
+SAST : '+02:00' # South Africa Standard Time
+SBT  : '+11:00' # Solomon Islands Time
+SGT  : '+08:00' # Singapore Time
+SRT  : '-03:00' # Suriname Time
+SST  : '-11:00' # Samoa Standard Time
+TAHT : '-10:00' # Tahiti Time
+TLT  : '+09:00' # East Timor Time
+TVT  : '+12:00' # Tuvalu Time
+ULAST: '+09:00' # Ulaanbaatar Summer Time
+ULAT : '+08:00' # Ulaanbaatar Time
+UYST : '-02:00' # Uruguay Summer Time
+UYT  : '-03:00' # Uruguay Time
+VET  : '-04:00' # Venezuelan Standard Time
+WAST : '+02:00' # West Africa Summer Time
+WAT  : '+01:00' # West Africa Time
+WEST : '+01:00' # Western European Summer Time
+WET  : '-00:00' # Western European Time
+WIB  : '+07:00' # Western Indonesian Time
+WIT  : '+09:00' # Eastern Indonesian Time
+WITA : '+08:00' # Central Indonesian Time
