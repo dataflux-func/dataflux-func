@@ -8,13 +8,13 @@ Code line count in DataFlux Func project.
 
 | Total Lines |
 |------------:|
-|     131,809 |
+|     131,813 |
 
 ## By Type
 
 | Type      |  Lines |
 |:----------|-------:|
-| `js`      | 39,368 |
+| `js`      | 39,372 |
 | `vue`     | 34,625 |
 | `py`      | 19,362 |
 | `css`     | 18,670 |
@@ -35,7 +35,7 @@ Code line count in DataFlux Func project.
 | Folder           |  Lines |
 |:-----------------|-------:|
 | `client`         | 62,108 |
-| `server`         | 43,315 |
+| `server`         | 43,319 |
 | `worker`         | 15,098 |
 | `.`              |  3,540 |
 | `test`           |  1,911 |
@@ -141,7 +141,7 @@ Code line count in DataFlux Func project.
 | `client/src/components/Development/ScriptSetLockConfig.vue`       |    364 |
 | `server/middlewares/builtinAuthMid.js`                            |    356 |
 | `client/src/components/Development/ScriptLockConfig.vue`          |    353 |
-| `server/utils/common.js`                                          |    348 |
+| `server/utils/common.js`                                          |    352 |
 | `server/models/monitorMod.js`                                     |    341 |
 | `worker/utils/log_helper.py`                                      |    340 |
 | `server/sub.js`                                                   |    337 |

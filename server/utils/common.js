@@ -234,36 +234,40 @@ common.getGuanceNodes = function() {
       var urlMap = nodeUrls[key];
 
       var nodeKey = 'guance' === type ? key : `${key}_${type}`;
-      var name    = urlMap.name    || key;
-      var name_en = urlMap.name_en || name;
       guanceNodes.push({
-        type     : type,
-        key      : nodeKey,
-        name     : name,
-        name_en  : name_en,
-        openapi  : urlMap.open_api  || urlMap.openapi || null,
-        openway  : urlMap.openway   || null,
-        websocket: urlMap.websocket || null,
+        type        : type,
+        key         : nodeKey,
+        'name_en'   : (urlMap.name_en   || key).replace(/([^ ])\(/g, '$1 ('),
+        'name_zh-CN': urlMap.name      || key,
+        openapi     : urlMap.open_api  || urlMap.openapi || null,
+        openway     : urlMap.openway   || null,
+        websocket   : urlMap.websocket || null,
       });
     }
   });
 
   // Add private node info
   guanceNodes.push({
-    key      : 'private',
-    name     : '私有部署或自定义',
-    name_en  : 'Private or Customized',
-    openapi  : 'https://openapi.YOUR_DOMAIN.com',
-    openway  : 'https://openway.YOUR_DOMAIN.com',
-    websocket: 'https://websocket.YOUR_DOMAIN.com',
+    key         : 'private',
+    'name_en'   : 'Private or Customized',
+    'name_zh-CN': '私有部署或自定义',
+    'name_zh-HK': '私有部署或自定義',
+    'name_zh-TW': '私有部署或自定義',
+    'name_ja'   : 'プライベートまたはカスタマイズ',
+    openapi     : 'https://openapi.YOUR_DOMAIN.com',
+    openway     : 'https://openway.YOUR_DOMAIN.com',
+    websocket   : 'https://websocket.YOUR_DOMAIN.com',
   });
 
   // Add testing node info when running in dev version
   if (['0.0.0', 'dev'].indexOf(IMAGE_INFO.VERSION) >= 0) {
     guanceNodes.push({
-      key      : 'testing',
-      name     : '测试环境',
-      name_en  : 'Testing',
+      key         : 'testing',
+      'name_en'   : 'Testing',
+      'name_zh-CN': '测试环境',
+      'name_zh-HK': '測試環境',
+      'name_zh-TW': '測試環境',
+      'name_ja'   : 'テスト環境',
       openapi  : 'http://testing-ft2x-open-api.dataflux.cn',
       openway  : 'http://testing-openway.dataflux.cn',
       websocket: 'http://testing-ft2x-websocket.dataflux.cn',
