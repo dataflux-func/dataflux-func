@@ -649,7 +649,7 @@ exports.runListener = function runListener(app) {
 
     async.eachOfSeries(GUANCE_CONNECTOR_MAP, function(connector, gcKey, eachCallback) {
       // Skip if client not Authed
-      if (!connector.client || !connector.client.__dffAuthed) return eachCallback();
+      if (!connector || !connector.client || !connector.client.__dffAuthed) return eachCallback();
 
       // Init if never reported
       if (!LOCAL_DATA_MD5_MAP[gcKey]) {

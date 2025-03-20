@@ -233,11 +233,12 @@ common.getGuanceNodes = function() {
     for (var key in nodeUrls) {
       var urlMap = nodeUrls[key];
 
+      var nodeKey = 'guance' === type ? key : `${key}_${type}`;
       var name    = urlMap.name    || key;
       var name_en = urlMap.name_en || name;
       guanceNodes.push({
         type     : type,
-        key      : key,
+        key      : nodeKey,
         name     : name,
         name_en  : name_en,
         openapi  : urlMap.open_api  || urlMap.openapi || null,
@@ -250,7 +251,7 @@ common.getGuanceNodes = function() {
   // Add private node info
   guanceNodes.push({
     key      : 'private',
-    name     : '私有部署',
+    name     : '私有部署或自定义',
     name_en  : 'Private',
     openapi  : 'https://openapi.YOUR_DOMAIN.com',
     openway  : 'https://openway.YOUR_DOMAIN.com',

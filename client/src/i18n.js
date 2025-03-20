@@ -26,11 +26,11 @@ let i18nData = {
   ja     : {},
 };
 
-Object.assign(i18nData['en'], locales_en, messages_en, elementUILocale_en);
+Object.assign(i18nData['en'],    locales_en,   messages_en,   elementUILocale_en);
 Object.assign(i18nData['zh-CN'], locales_zhCN, messages_zhCN, elementUILocale_zhCN);
 Object.assign(i18nData['zh-HK'], locales_zhHK, messages_zhHK, elementUILocale_zhTW);
 Object.assign(i18nData['zh-TW'], locales_zhTW, messages_zhTW, elementUILocale_zhTW);
-Object.assign(i18nData['ja'], locales_ja, messages_ja, elementUILocale_ja);
+Object.assign(i18nData['ja'],    locales_ja,   messages_ja,   elementUILocale_ja);
 
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n);

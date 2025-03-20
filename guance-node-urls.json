@@ -64,7 +64,7 @@
       "func": "https://eu1-func2.guance.one",
       "openapi": "https://eu1-openapi.guance.one",
       "websocket": "https://eu1-websocket.guance.one",
-      "openway": "https://eu1-openway.guance.one",
+      "openway": "https://eu1-openway.guance.com",
       "auth": "https://eu1-auth.guance.com/",
       "auth_api": "https://eu1-auth-api.guance.com/"
     },
@@ -78,7 +78,7 @@
       "func": "https://ap1-func2.guance.one",
       "openapi": "https://ap1-openapi.guance.one",
       "websocket": "https://ap1-websocket.guance.one",
-      "openway": "https://ap1-openway.guance.one",
+      "openway": "https://ap1-openway.guance.com",
       "auth": "https://ap1-auth.guance.com/",
       "auth_api": "https://ap1-auth-api.guance.com/"
     },
@@ -92,9 +92,37 @@
       "func": "https://cn6-func2.guance.one",
       "openapi": "https://cn6-openapi.guance.one",
       "websocket": "https://cn6-websocket.guance.one",
-      "openway": "https://cn6-openway.guance.one",
+      "openway": "https://cn6-openway.guance.com",
       "auth": "https://cn6-auth.guance.com/",
       "auth_api": "https://cn6-auth-api.guance.com/"
+    },
+    "za1": {
+      "name": "非洲区1（南非）",
+      "name_en": "ZA1(SouthAfrica)",
+      "console": "https://za1-console.guance.one",
+      "console_api": "https://za1-console-api.guance.one",
+      "open_api": "https://za1-openapi.guance.one",
+      "static_res": "https://za1-static-res.guance.one",
+      "func": "https://za1-func2.guance.one",
+      "openapi": "https://za1-openapi.guance.one",
+      "websocket": "https://za1-websocket.guance.one",
+      "openway": "https://za1-openway.guance.com",
+      "auth": "https://za1-auth.guance.com/",
+      "auth_api": "https://za1-auth-api.guance.com/"
+    },
+    "id1": {
+      "name": "亚太区2（雅加达）",
+      "name_en": "ID1(Jakarta)",
+      "console": "https://id1-console.guance.one",
+      "console_api": "https://id1-console-api.guance.one",
+      "open_api": "https://id1-openapi.guance.one",
+      "static_res": "https://id1-static-res.guance.one",
+      "func": "https://id1-func2.guance.one",
+      "openapi": "https://id1-openapi.guance.one",
+      "websocket": "https://id1-websocket.guance.one",
+      "openway": "https://id1-openway.guance.com",
+      "auth": "https://id1-auth.guance.com/",
+      "auth_api": "https://id1-auth-api.guance.com/"
     }
   }
 }

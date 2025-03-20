@@ -182,7 +182,7 @@
           <hr>
           <div id="language">
             <span>Language / 语言 / 語言 / 言語:</span>
-            <el-select v-model="locale" size="mini">
+            <el-select v-model="uiLocale" size="mini">
               <el-option label="English" value="en"></el-option>
               <el-option label="简体中文" value="zh-CN"></el-option>
               <el-option label="繁體中文（香港）" value="zh-HK"></el-option>
@@ -305,7 +305,7 @@
                     :class="{ 'bad-config': setupErrorKeyStatus.guance }"
                     v-model="userConfig.GUANCE_NODE">
                     <el-option :label="$t('Do not create Guance connector')" :value="null"></el-option>
-                    <el-option v-for="node in GUANCE_NODES" :label="$t(node.name_en)" :value="node.key"></el-option>
+                    <el-option v-for="node in GUANCE_NODES" :label="node[`name_${uiLocale}`] || node.name_en" :value="node.key"></el-option>
                   </el-select>
                   <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the Guance Node you need?') }}</a>
                 </div>
@@ -438,7 +438,7 @@
                     :class="{ 'bad-config': setupErrorKeyStatus.truewatch }"
                     v-model="userConfig.TRUEWATCH_NODE">
                     <el-option :label="$t('Do not create TrueWatch connector')" :value="null"></el-option>
-                    <el-option v-for="node in TRUEWATCH_NODES" :label="$t(node.name_en)" :value="node.key"></el-option>
+                    <el-option v-for="node in TRUEWATCH_NODES" :label="node[`name_${uiLocale}`] || node.name_en" :value="node.key"></el-option>
                   </el-select>
                   <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the TrueWatch Node you need?') }}</a>
                 </div>
@@ -1056,9 +1056,6 @@
 
       // Guance / TrueWatch nodes
       const GUANCE_NODES = <%- JSON.stringify(GUANCE_NODES) %>;
-      GUANCE_NODES.forEach(node => {
-        messages['zh-CN'][node.name_en] = node.name;
-      });
 
       let uiLocale = window.navigator.language;
       let uiLocaleParts = uiLocale.split('.')[0].split(/[_-]/);
@@ -1067,7 +1064,7 @@
       if (uiLocaleParts[0] == 'en') uiLocale = 'en';
 
       const i18n = new VueI18n({
-        locale                : uiLocale,
+        uiLocale              : uiLocale,
         fallbackLocale        : 'en',
         formatFallbackMessages: true,
         silentFallbackWarn    : true,
@@ -1079,7 +1076,7 @@
       const app = new Vue({
         i18n,
         watch: {
-          locale(val) {
+          uiLocale(val) {
             this.$i18n.locale = val;
           },
         },
@@ -1189,23 +1186,11 @@
               return true;
             });
           },
-          GUANCE_NODE_MAP() {
-            return this.GUANCE_NODES.reduce((acc, x) => {
-              acc[x.key] = x;
-              return acc;
-            }, {})
-          },
           TRUEWATCH_NODES() {
             return GUANCE_NODES.filter(x => {
               if (x.type && x.type !== 'truewatch') return false;
               return true;
             });
-          },
-          TRUEWATCH_NODE_MAP() {
-            return this.TRUEWATCH_NODES.reduce((acc, x) => {
-              acc[x.key] = x;
-              return acc;
-            }, {})
           },
           redirectURL() {
             return this.setupRedirectURL || this.userConfig.WEB_BASE_URL || location.origin;
@@ -1259,7 +1244,7 @@
           let currentConfig = <%- JSON.stringify(CONFIG) %>;
 
           return {
-            locale             : uiLocale,
+            uiLocale           : uiLocale,
             showMoreConfigs    : false,
             showSetupProcess   : false,
             showLongTimeWaitTip: false,

@@ -73,7 +73,7 @@ def get_file_list(base_path, ext, no_ext=None):
 
     return file_list
 
-def gen_zht_to_vue():
+def gen_zht_for_vue():
     file_list = get_file_list(BASE_PATH_VUE, ext='.vue')
     for f in file_list:
         print_debug_info(f)
@@ -145,7 +145,7 @@ def gen_zht_to_vue():
             output = '\n'.join(file_lines)
             _f.write(output.rstrip() + '\n')
 
-def gen_zht_from_zh_cn():
+def gen_zht_for_patterns():
     for pattern in FILE_PATH_ZH_CN_SRC_PATTERNS:
         src_file_path = pattern.format('zh-CN')
         print_debug_info(src_file_path)
@@ -177,8 +177,8 @@ def gen_zht_from_zh_cn():
 def main():
     get_options_by_command_line()
 
-    gen_zht_to_vue()
-    gen_zht_from_zh_cn()
+    gen_zht_for_vue()
+    gen_zht_for_patterns()
 
 if __name__ == '__main__':
     print(colored('Gen zht Language', 'green'))

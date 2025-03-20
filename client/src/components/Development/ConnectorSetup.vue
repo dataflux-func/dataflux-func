@@ -415,7 +415,7 @@ messageRate: '{n} 條/分鐘'
               <el-form-item :label="{ guance: $t('Guance Node'), truewatch: $t('TrueWatch Node') }[selectedType]" v-if="hasConfigField(selectedType, 'guanceNode')" prop="configJSON.guanceNode">
                 <el-select v-model="form.configJSON.guanceNode" @change="switchGuanceNode">
                   <el-option v-for="node in guanceNodesOnType"
-                    :label="node[`name_${$i18n.locale}`] || node.name" :key="node.key" :value="node.key"></el-option>
+                    :label="node[`name_${$i18n.locale}`] || node.name_en" :key="node.key" :value="node.key"></el-option>
                 </el-select>
                 <el-link type="primary" :href="`https://func.guance.com/doc/ui-guide-development-module-${selectedType}-node/`" target="_blank">{{ $t('Cannot find the Node you need?') }}</el-link>
               </el-form-item>

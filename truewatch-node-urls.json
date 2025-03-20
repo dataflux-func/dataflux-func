@@ -39,6 +39,48 @@
       "openway": "https://fwt-openway.truewatch.com",
       "auth": "https://fwt-auth.truewatch.com/",
       "auth_api": "https://fwt-auth-api.truewatch.com/"
+    },
+    "us1": {
+      "name": "US1（俄勒冈）",
+      "name_en": "US1(Oregon)",
+      "console": "https://us1-console.truewatch.com",
+      "console_api": "https://us1-console-api.truewatch.com",
+      "open_api": "https://us1-openapi.truewatch.com",
+      "static_res": "https://us1-static-res.truewatch.com",
+      "func": "https://us1-func2.truewatch.com",
+      "openapi": "https://us1-openapi.truewatch.com",
+      "websocket": "https://us1-websocket.truewatch.com",
+      "openway": "https://us1-openway.truewatch.com",
+      "auth": "https://us1-auth.truewatch.com/",
+      "auth_api": "https://us1-auth-api.truewatch.com/"
+    },
+    "ap1": {
+      "name": "AP1（新加坡）",
+      "name_en": "AP1(Singapore)",
+      "console": "https://ap1-console.truewatch.com",
+      "console_api": "https://ap1-console-api.truewatch.com",
+      "open_api": "https://ap1-openapi.truewatch.com",
+      "static_res": "https://ap1-static-res.truewatch.com",
+      "func": "https://ap1-func2.truewatch.com",
+      "openapi": "https://ap1-openapi.truewatch.com",
+      "websocket": "https://ap1-websocket.truewatch.com",
+      "openway": "https://ap1-openway.truewatch.com",
+      "auth": "https://ap1-auth.truewatch.com/",
+      "auth_api": "https://ap1-auth-api.truewatch.com/"
+    },
+    "eu1": {
+      "name": "EU1（法兰克福）",
+      "name_en": "EU1(Frankfurt)",
+      "console": "https://eu1-console.truewatch.com",
+      "console_api": "https://eu1-console-api.truewatch.com",
+      "open_api": "https://eu1-openapi.truewatch.com",
+      "static_res": "https://eu1-static-res.truewatch.com",
+      "func": "https://eu1-func2.truewatch.com",
+      "openapi": "https://eu1-openapi.truewatch.com",
+      "websocket": "https://eu1-websocket.truewatch.com",
+      "openway": "https://eu1-openway.truewatch.com",
+      "auth": "https://eu1-auth.truewatch.com/",
+      "auth_api": "https://eu1-auth-api.truewatch.com/"
     }
   }
 }
