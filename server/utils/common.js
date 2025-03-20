@@ -252,7 +252,7 @@ common.getGuanceNodes = function() {
   guanceNodes.push({
     key      : 'private',
     name     : '私有部署或自定义',
-    name_en  : 'Private',
+    name_en  : 'Private or Customized',
     openapi  : 'https://openapi.YOUR_DOMAIN.com',
     openway  : 'https://openway.YOUR_DOMAIN.com',
     websocket: 'https://websocket.YOUR_DOMAIN.com',
