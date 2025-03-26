@@ -303,7 +303,7 @@ export default {
 
         if (!this.isLocalFuncTaskRecordEnabled) {
           if (this.isGuanceDataUploadEnabled) {
-            d.localFuncTaskRecordTip = this.$t('Local Func task record is disabled, while uploading to Guance is enabled');
+            d.localFuncTaskRecordTip = this.$t('Local Func task record is disabled, while uploading to Guance, TrueWatch is enabled');
           } else {
             d.localFuncTaskRecordTip = this.$t('Local Func task record is disabled');
           }
@@ -314,7 +314,7 @@ export default {
         } else {
           d.isLocalFuncTaskRecordAvailable = true;
           if (this.isGuanceDataUploadEnabled) {
-            d.localFuncTaskRecordTip = this.$t('Func task record uploading to Guance has also been enabled');
+            d.localFuncTaskRecordTip = this.$t('Func task record uploading to Guance, TrueWatch has also been enabled');
           }
         }
       });

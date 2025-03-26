@@ -158,7 +158,7 @@ class BaseTask(object):
         ]
         self.logger.debug(f"[INIT TASK] {', '.join([f'{a}=`{getattr(self, a)}`' for a in log_attrs])}")
 
-        # Guance / TrueWatch data uploading errors
+        # Guance, TrueWatch data uploading errors
         self.guance_data_upload_errors = []
 
     @property
@@ -436,7 +436,7 @@ class BaseTask(object):
                 # Add `tags.hostname`
                 p['tags']['hostname'] = HOSTNAME
 
-                # Add `status` for Guance / TrueWatch according to `task_status`
+                # Add `status` for Guance, TrueWatch according to `task_status`
                 if 'status' not in p['tags'] and 'task_status' in p['tags']:
                     try:
                         p['tags']['status'] = GUANCE_DATA_STATUS_MAP[p['tags']['task_status']]

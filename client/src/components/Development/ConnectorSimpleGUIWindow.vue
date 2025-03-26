@@ -1,8 +1,6 @@
 <i18n locale="zh-CN" lang="yaml">
 Schema Browser: 结构浏览器
 
-Guance DataWay: 观测云DataWay
-
 Run InfluxQL     : 执行 InfluxQL
 Run SQL          : 执行 SQL
 Run Command      : 执行命令
@@ -41,7 +39,6 @@ Data: 數據
 Database: 數據庫
 Error Message: 錯誤信息如下
 Field: 字段
-Guance DataWay: 觀測雲DataWay
 Index: 索引
 Initial: 首字母
 Keys (a part of): 鍵（部分）
@@ -70,7 +67,6 @@ Data: 資料
 Database: 資料庫
 Error Message: 錯誤資訊如下
 Field: 欄位
-Guance DataWay: 觀測雲DataWay
 Index: 索引
 Initial: 首字母
 Keys (a part of): 鍵（部分）

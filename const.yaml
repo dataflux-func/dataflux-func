@@ -45,7 +45,7 @@ respCodeMap:
   EBlueprintDeployFailed    : 400.92  # Deploy Blueprint failed
   EFuncFailed               : 599.10  # Run Func failed
   EFuncTimeout              : 599.20  # Run Func timeout
-  EGuanceEventFailed        : 599.50  # Handle Guance / TrueWatch event failed
+  EGuanceEventFailed        : 599.50  # Handle Guance, TrueWatch event failed
   EFuncResultParsingFailed  : 599.98  # Parse Func result failed
   EWorkerNoResponse         : 599.99  # Worker no response
 
@@ -113,11 +113,11 @@ systemSettings:
 
   # Enable local Func Task record
   LOCAL_FUNC_TASK_RECORD_ENABLED: true
-  # Enable uploading data to Guance / TrueWatch
+  # Enable uploading data to Guance, TrueWatch
   GUANCE_DATA_UPLOAD_ENABLED: false
-  # Uploading data to Guance / TrueWatch URL
+  # Uploading data to Guance, TrueWatch URL
   GUANCE_DATA_UPLOAD_URL: null
-  # tags.site_name for uploading data to Guance / TrueWatch
+  # tags.site_name for uploading data to Guance, TrueWatch
   GUANCE_DATA_SITE_NAME: null
 
   # Enable official Script Market

@@ -490,7 +490,7 @@ exports.systemInfo = function(req, res, next) {
   ], function(err) {
     if (err) return next(err);
 
-    // Get Guance / TrueWatch node list
+    // Get Guance, TrueWatch node list
     systemInfo.GUANCE_NODES = common.getGuanceNodes();
 
     var ret = toolkit.initRet(systemInfo);

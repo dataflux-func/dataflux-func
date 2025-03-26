@@ -1526,6 +1526,38 @@ class BaseFuncEntityHelper(object):
 
         return None
 
+    def save(self, entity_id, data):
+        # Check if exists
+        sql = self._task.db.create_sql_builder()
+        sql.SELECT('id')
+        sql.FROM(self._table)
+        sql.WHERE({
+            'id': entity_id,
+        })
+        sql.LIMIT(1)
+
+        db_res = self._task.db.query(sql)
+
+        if len(db_res) > 0:
+            # Update if exists
+            sql = self._task.db.create_sql_builder()
+            sql.UPDATE(self._table)
+            sql.SET(data)
+            sql.WHERE({
+                'id': entity_id,
+            })
+            sql.LIMIT(1)
+
+            self._task.db.query(sql)
+
+        else:
+            # Insert if not exist
+            sql = self._task.db.create_sql_builder()
+            sql.INSERT_INTO(self._table)
+            sql.VALUES(data)
+
+            self._task.db.query(sql)
+
     def query(self, fields=None, filters=None):
         fields = toolkit.as_array(fields) or '*'
 
@@ -1917,7 +1949,7 @@ class FuncBaseTask(BaseTask):
         # `print` log lines
         self.__print_log_lines = None
 
-        # Extra data for Guance / TrueWatch
+        # Extra data for Guance, TrueWatch
         self.extra_guance_data = FuncExtraGuanceDataHelper(self)
 
         log_attrs = [
@@ -2701,7 +2733,7 @@ class FuncBaseTask(BaseTask):
             # Toolkit
             'TOOLKIT': ToolkitWrap,
 
-            # Extra data for Guance / TrueWatch data uploading
+            # Extra data for Guance, TrueWatch data uploading
             'EXTRA_GUANCE_DATA': self.extra_guance_data,
 
             # [Compatibility] Data Source, Auth Link, Batch, Crontab Config

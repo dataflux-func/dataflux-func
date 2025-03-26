@@ -8,15 +8,15 @@ Code line count in DataFlux Func project.
 
 | Total Lines |
 |------------:|
-|     131,813 |
+|     131,841 |
 
 ## By Type
 
 | Type      |  Lines |
 |:----------|-------:|
 | `js`      | 39,372 |
-| `vue`     | 34,625 |
-| `py`      | 19,362 |
+| `vue`     | 34,621 |
+| `py`      | 19,394 |
 | `css`     | 18,670 |
 | `yaml`    | 15,381 |
 | `ejs`     |  1,411 |
@@ -34,9 +34,9 @@ Code line count in DataFlux Func project.
 
 | Folder           |  Lines |
 |:-----------------|-------:|
-| `client`         | 62,108 |
+| `client`         | 62,104 |
 | `server`         | 43,319 |
-| `worker`         | 15,098 |
+| `worker`         | 15,130 |
 | `.`              |  3,540 |
 | `test`           |  1,911 |
 | `charts`         |  1,701 |
@@ -53,7 +53,7 @@ Code line count in DataFlux Func project.
 |:------------------------------------------------------------------|-------:|
 | `client/public/element.css`                                       | 15,969 |
 | `server/route.yaml`                                               |  8,518 |
-| `worker/tasks/func/__init__.py`                                   |  2,869 |
+| `worker/tasks/func/__init__.py`                                   |  2,901 |
 | `server/utils/toolkit.js`                                         |  2,641 |
 | `server/controllers/mainAPICtrl.js`                               |  2,339 |
 | `server/controllers/scriptMarketAPICtrl.js`                       |  2,200 |
@@ -70,7 +70,7 @@ Code line count in DataFlux Func project.
 | `server/utils/extraHelpers/sqlBuilder.js`                         |  1,388 |
 | `server/utils/modelHelper.js`                                     |  1,380 |
 | `server/views/setup.ejs`                                          |  1,319 |
-| `client/src/components/Development/ConnectorSimpleGUIWindow.vue`  |  1,279 |
+| `client/src/components/Development/ConnectorSimpleGUIWindow.vue`  |  1,275 |
 | `server/setup.js`                                                 |  1,081 |
 | `worker/utils/toolkit.py`                                         |  1,076 |
 | `worker/utils/extra_helpers/sql_builder.py`                       |  1,047 |

@@ -276,7 +276,7 @@ function getInEventObj(locals, client, event, inMessage) {
 function createWebSocketClient(locals, connector, datafluxFuncId) {
   var client = socketIO(connector.configJSON.guanceWebSocketURL);
 
-  // Set Guance / TrueWatch Info
+  // Set Guance, TrueWatch Info
   client.__connectorId        = connector.id;
   client.__guanceAPIKeyId     = connector.configJSON.guanceAPIKeyId;
   client.__guanceConnectorKey = getGuanceConnectorKey(connector.id, connector.configJSON.guanceAPIKeyId);
@@ -497,7 +497,7 @@ exports.runListener = function runListener(app) {
   // Current DataFlux Func ID
   var dataFluxFuncId = null;
 
-  // Check Guance / TrueWatch Connector regularly
+  // Check Guance, TrueWatch Connector regularly
   function guanceConnectorChecker() {
     // Connector clients map to be recreated
     var nextGuanceConnectorMap = {};
@@ -542,7 +542,7 @@ exports.runListener = function runListener(app) {
           return asyncCallback();
         });
       },
-      // Get Guance / TrueWatch Connector list
+      // Get Guance, TrueWatch Connector list
       function(asyncCallback) {
         var connectorModel = connectorMod.createModel(app.locals);
         connectorModel.decipher = true;
@@ -589,7 +589,7 @@ exports.runListener = function runListener(app) {
           return asyncCallback();
         });
       },
-      // Update Guance / TrueWatch Connector client map
+      // Update Guance, TrueWatch Connector client map
       function(asyncCallback) {
         // Clear Connector that not exists
         for (var gcKey in GUANCE_CONNECTOR_MAP) {

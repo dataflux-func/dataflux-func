@@ -91,7 +91,7 @@ class SystemMetric(BaseInternalTask):
             cache_key = toolkit.get_monitor_cache_key('monitor', 'systemMetrics', ['metric', 'workerQueueLength', 'queue', queue])
             self.cache_db.ts_add(cache_key, worker_queue_length, timestamp=self.trigger_time)
 
-            # Guance / TrueWatch
+            # Guance, TrueWatch
             if self.guance_data_upload_url:
                 guance_data.append({
                     'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_DELAY_QUEUE'],
@@ -134,7 +134,7 @@ class SystemMetric(BaseInternalTask):
         cache_key = toolkit.get_monitor_cache_key('monitor', 'systemMetrics', ['metric', 'cacheDBMemoryUsed'])
         self.cache_db.ts_add(cache_key, used_memory, timestamp=self.trigger_time)
 
-        # Guance / TrueWatch
+        # Guance, TrueWatch
         if self.guance_data_upload_url:
             guance_data = {
                 'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_CACHE_DB'],
@@ -165,7 +165,7 @@ class SystemMetric(BaseInternalTask):
             cache_key = toolkit.get_monitor_cache_key('monitor', 'systemMetrics', ['metric', 'dbTableTotalSize', 'table', t['name']])
             self.cache_db.ts_add(cache_key, t['totalSize'], timestamp=self.trigger_time)
 
-            # Guance / TrueWatch
+            # Guance, TrueWatch
             if self.guance_data_upload_url:
                 guance_data.append({
                     'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_DB_TABLE'],
@@ -232,7 +232,7 @@ class SystemMetric(BaseInternalTask):
 
                 entity_count_map[entity][field] = value
 
-        # Guance / TrueWatch
+        # Guance, TrueWatch
         for entity, fields in entity_count_map.items():
             guance_data = {
                 'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_ENTITY'],
@@ -332,7 +332,7 @@ class SystemMetric(BaseInternalTask):
         trigger_count_per_minute = float(round(total_trigger_count / (24 * 60), 1))
         trigger_count_per_second = float(round(total_trigger_count / (24 * 3600), 1))
 
-        # Guance / TrueWatch
+        # Guance, TrueWatch
         guance_data = {
             'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_CRON_JOB'],
             'tags': {
@@ -546,7 +546,7 @@ class FlushDataBuffer(BaseInternalTask):
 
             count_map[pk]['count'] += 1
 
-            # Gen Guance / TrueWatch data
+            # Gen Guance, TrueWatch data
             if self.guance_data_upload_url:
                 guance_data.append({
                     'measurement': CONFIG['_SELF_MONITOR_GUANCE_MEASUREMENT_FUNC_CALL'],
@@ -580,7 +580,7 @@ class FlushDataBuffer(BaseInternalTask):
                 cache_key = toolkit.get_monitor_cache_key('monitor', 'systemMetrics', ['metric', 'funcCallCount', 'funcId', c['funcId']])
                 self.cache_db.ts_add(cache_key, c['count'], timestamp=c['timestamp'], mode='addUp')
 
-        # Write to Guance / TrueWatch
+        # Write to Guance, TrueWatch
         if self.guance_data_upload_url and guance_data:
             self.upload_guance_data('metric', guance_data)
 
@@ -1133,7 +1133,7 @@ class AutoBackupDB(BaseInternalTask):
                 if _f.name.endswith('.zip'):
                     zip_file_names.append(_f.name)
                 elif _f.name.endswith('.sql'):
-                    sql_file_names(_f.name)
+                    sql_file_names.append(_f.name)
 
         # Rolling remove backup files
         zip_file_names.sort()
@@ -1180,7 +1180,7 @@ class AutoBackupDB(BaseInternalTask):
                 is_full = True
                 os.remove(file_path)
 
-    def run_backup(self, tables):
+    def run_backup(self):
         # Ensure dir
         backup_dir = CONFIG['DB_AUTO_BACKUP_FOLDER_PATH']
         os.makedirs(backup_dir, exist_ok=True)

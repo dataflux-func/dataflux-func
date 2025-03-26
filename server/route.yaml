@@ -3174,38 +3174,38 @@ connectorAPI:
           $desc_zhCN: 配置
           $isRequired: true
           guanceNode:
-            $desc     : Guance Node
-            $desc_zhCN: 观测云节点
+            $desc     : Guance, TrueWatch Node
+            $desc_zhCN: 观测云、TrueWatch 节点
             $allowNull: true
             $type     : string
             $example  : default
           guanceOpenAPIURL:
-            $desc     : Guance OpenAPI URL
-            $desc_zhCN: 观测云 OpenAPI URL
+            $desc     : Guance, TrueWatch OpenAPI URL
+            $desc_zhCN: 观测云、TrueWatch OpenAPI URL
             $allowNull: true
             $type     : string
             $example  : https://openapi.guance.com
           guanceWebSocketURL:
-            $desc     : Guance WebSocket URL
-            $desc_zhCN: 观测云 WebSocket URL
+            $desc     : Guance, TrueWatch WebSocket URL
+            $desc_zhCN: 观测云、TrueWatch WebSocket URL
             $allowNull: true
             $type     : string
             $example  : https://websocket.guance.com
           guanceOpenWayURL:
-            $desc     : Guance OpenWay URL
-            $desc_zhCN: 观测云 OpenWay URL
+            $desc     : Guance, TrueWatch OpenWay URL
+            $desc_zhCN: 观测云、TrueWatch OpenWay URL
             $allowNull: true
             $type     : string
             $example  : https://openway.guance.com
           guanceAPIKeyId:
-            $desc     : Guance API Key ID
-            $desc_zhCN: 观测云 API Key ID
+            $desc     : Guance, TrueWatch API Key ID
+            $desc_zhCN: 观测云、TrueWatch API Key ID
             $allowNull: true
             $type     : string
             $example  : wsak_xxxxxxxxxx
           guanceAPIKey:
-            $desc     : Guance API Key
-            $desc_zhCN: 观测云 API Key
+            $desc     : Guance, TrueWatch API Key
+            $desc_zhCN: 观测云、TrueWatch API Key
             $allowNull: true
             $type     : string
             $example  : xxxxxxxxxx
@@ -3398,38 +3398,38 @@ connectorAPI:
           $desc_zhCN : 配置
           $isRequired: false
           guanceNode:
-            $desc     : Guance Node
-            $desc_zhCN: 观测云节点
+            $desc     : Guance, TrueWatch Node
+            $desc_zhCN: 观测云、TrueWatch 节点
             $allowNull: true
             $type     : string
             $example  : default
           guanceOpenAPIURL:
-            $desc     : Guance OpenAPI URL
-            $desc_zhCN: 观测云 OpenAPI URL
+            $desc     : Guance, TrueWatch OpenAPI URL
+            $desc_zhCN: 观测云、TrueWatch OpenAPI URL
             $allowNull: true
             $type     : string
             $example  : https://openapi.guance.com
           guanceWebSocketURL:
-            $desc     : Guance WebSocket URL
-            $desc_zhCN: 观测云 WebSocket URL
+            $desc     : Guance, TrueWatch WebSocket URL
+            $desc_zhCN: 观测云、TrueWatch WebSocket URL
             $allowNull: true
             $type     : string
             $example  : https://websocket.guance.com
           guanceOpenWayURL:
-            $desc     : Guance OpenWay URL
-            $desc_zhCN: 观测云 OpenWay URL
+            $desc     : Guance, TrueWatch OpenWay URL
+            $desc_zhCN: 观测云、TrueWatch OpenWay URL
             $allowNull: true
             $type     : string
             $example  : https://openway.guance.com
           guanceAPIKeyId:
-            $desc     : Guance API Key ID
-            $desc_zhCN: 观测云 API Key ID
+            $desc     : Guance, TrueWatch API Key ID
+            $desc_zhCN: 观测云、TrueWatch API Key ID
             $allowNull: true
             $type     : string
             $example  : wsak_xxxxxxxxxx
           guanceAPIKey:
-            $desc     : Guance API Key
-            $desc_zhCN: 观测云 API Key
+            $desc     : Guance, TrueWatch API Key
+            $desc_zhCN: 观测云、TrueWatch API Key
             $allowNull: true
             $type     : string
             $example  : xxxxxxxxxx

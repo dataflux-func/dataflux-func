@@ -143,7 +143,7 @@ AUTO_SETUP_AK_SECRET     : ''
 # Flag for installation completion
 _IS_INSTALLED: false
 
-# Do NOT auth the requests (Only for Guance / TrueWatch)
+# Do NOT auth the requests (Only for Guance, TrueWatch)
 _IS_STREAKING: false
 
 # Pre run script dir
@@ -405,7 +405,7 @@ _DISABLE_STARTUP_TASKS: false
 # REMAP
 __REMAP: { }
 
-# Self monitor Guance / TrueWatch measurement
+# Self monitor Guance, TrueWatch measurement
 _SELF_MONITOR_GUANCE_MEASUREMENT_SERVICE_INFO    : DFF_service_info
 _SELF_MONITOR_GUANCE_MEASUREMENT_FUNC_CALL       : DFF_func_call
 _SELF_MONITOR_GUANCE_MEASUREMENT_DELAY_QUEUE     : DFF_delay_queue
@@ -417,14 +417,14 @@ _SELF_MONITOR_GUANCE_MEASUREMENT_TASK_RECORD_FUNC: DFF_task_record_func
 _SELF_MONITOR_GUANCE_MEASUREMENT_CRON_JOB        : DFF_cron_job
 _SELF_MONITOR_GUANCE_MEASUREMENT_ENTITY          : DFF_entity
 
-# Self monitor Guance / TrueWatch logging split bytes
+# Self monitor Guance, TrueWatch logging split bytes
 _SELF_MONITOR_GUANCE_LOGGING_SPLIT_BYTES: 100000
 
-##### Guance / TrueWatch Configs #####
+##### Guance, TrueWatch Configs #####
 
-# Guance / TrueWatch Func base URL
+# Guance, TrueWatch Func base URL
 GUANCE_FUNC_BASE_URL: ''
-# Guance / TrueWatch DQL-like query limit
+# Guance, TrueWatch DQL-like query limit
 GUANCE_DQL_LIKE_QUERY_LIMIT: 5000
-# Guance / TrueWatch DQL-like query default step for Prometheus
+# Guance, TrueWatch DQL-like query default step for Prometheus
 GUANCE_DQL_LIKE_QUERY_PROMETHEUS_STEP_DEFAULT: 60s

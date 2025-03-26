@@ -279,7 +279,7 @@ common.getGuanceNodes = function() {
 
 common.checkGuanceAPIKey = function(guanceNode, guanceAPIKeyID, guanceAPIKey, callback) {
   async.series([
-    // Try to call Guance / TrueWatch OpenAPI
+    // Try to call Guance, TrueWatch OpenAPI
     function(asyncCallback) {
       var requestOptions = {
         method : 'get',

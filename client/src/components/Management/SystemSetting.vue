@@ -1,14 +1,14 @@
 <i18n locale="zh-CN" lang="yaml">
-UI Color Flavor           : UI 色彩方案
-Custom Site Title         : 自定义网站标题
-Custom Site Favicon       : 自定义网站 Favicon
-Custom Site Logo          : 自定义网站 Logo
-Notice Bar                : 顶部提示栏
-Doc Link in Navi Bar      : 导航栏文档链接
-Local Func Task Record    : 本地函数任务记录
-Guance Data Upload        : 观测云数据上报
-Official Script Market    : 官方脚本市场
-Hide Following Script Sets: 隐藏下列脚本集
+UI Color Flavor              : UI 色彩方案
+Custom Site Title            : 自定义网站标题
+Custom Site Favicon          : 自定义网站 Favicon
+Custom Site Logo             : 自定义网站 Logo
+Notice Bar                   : 顶部提示栏
+Doc Link in Navi Bar         : 导航栏文档链接
+Local Func Task Record       : 本地函数任务记录
+Guance, TrueWatch Data Upload: 观测云、TrueWatch 数据上报
+Official Script Market       : 官方脚本市场
+Hide Following Script Sets   : 隐藏下列脚本集
 
 Delete Image          : 删除图片
 Show Advanced Settings: 显示高级设置
@@ -36,7 +36,7 @@ Show a fixed alert bar at the top of all pages           : 在所有页面顶部
 Show a Document Link to the specified URL in the Navi Bar: 在导航栏展示文档链接，点击后可以跳转至指定的 URL 地址
 Save Func Task Records in database of this system        : 将函数任务记录保存在本系统的数据库中
 If disabled, all Func Task Records will be cleared       : 禁用后会清空所有函数任务记录数据
-Upload the self-monitor data to the Guance   : 将自监控数据上报到观测云
+Upload the self-monitor data to the Guance, TrueWatch    : 将自监控数据上报到观测云、TrueWatch
 Site Name will be added to tags.site_name                : 站点名会被添加至 tags.site_name
 Show quick creation button for Official Script Market    : 显示官方脚本市场快捷创建按钮
 Some Scripts should be avoided for direct modification, if you need to review them, please turn on the following options: 部分脚本应当避免直接修改，如果需要查看，请开启以下选项
@@ -64,7 +64,7 @@ Drag file to here, or click here to upload: 將文件拖到此處，或點擊此
 Enable: 啓用
 Flavor: 方案
 From Official Script Market: 來自官方腳本市場
-Guance Data Upload: 觀測雲數據上報
+Guance, TrueWatch Data Upload: 觀測雲、TrueWatch 數據上報
 Hide Advanced Settings: 隱藏高級設置
 Hide Following Script Sets: 隱藏下列腳本集
 If disabled, all Func Task Records will be cleared: 禁用後會清空所有函數任務記錄數據
@@ -88,7 +88,7 @@ Text: 文案
 This DataFlux Func ID should starts with "{prefix}": DataFlux Func ID 必須以 "{prefix}" 開頭
 UI Color Flavor: UI 色彩方案
 URL: URL 地址
-Upload the self-monitor data to the Guance: 將自監控數據上報到觀測雲
+Upload the self-monitor data to the Guance, TrueWatch: 將自監控數據上報到觀測雲、TrueWatch
 Use the specified image as the site icon (favicon): 使用指定的圖片作為網站圖標（favicon）
 Use the specified image as the system Logo: 使用指定的圖片作為網站 Logo
 Use the specified text as the site title: 使用指定的文案作為網站標題
@@ -107,7 +107,7 @@ Drag file to here, or click here to upload: 將檔案拖到此處，或點選此
 Enable: 啟用
 Flavor: 方案
 From Official Script Market: 來自官方指令碼市場
-Guance Data Upload: 觀測雲資料上報
+Guance, TrueWatch Data Upload: 觀測雲、TrueWatch 資料上報
 Hide Advanced Settings: 隱藏高階設定
 Hide Following Script Sets: 隱藏下列指令碼集
 If disabled, all Func Task Records will be cleared: 禁用後會清空所有函式任務記錄資料
@@ -131,7 +131,7 @@ Text: 文案
 This DataFlux Func ID should starts with "{prefix}": DataFlux Func ID 必須以 "{prefix}" 開頭
 UI Color Flavor: UI 色彩方案
 URL: URL 地址
-Upload the self-monitor data to the Guance: 將自監控資料上報到觀測雲
+Upload the self-monitor data to the Guance, TrueWatch: 將自監控資料上報到觀測雲、TrueWatch
 Use the specified image as the site icon (favicon): 使用指定的圖片作為網站圖示（favicon）
 Use the specified image as the system Logo: 使用指定的圖片作為網站 Logo
 Use the specified text as the site title: 使用指定的文案作為網站標題
@@ -333,11 +333,11 @@ Use the specified text as the site title: 使用指定的文案作為網站標�
                   </el-select>
                 </el-form-item>
 
-                <!-- Guance Data Upload -->
-                <el-divider content-position="left"><h1>{{ $t('Guance Data Upload') }}</h1></el-divider>
+                <!-- Guance, TrueWatch Data Upload -->
+                <el-divider content-position="left"><h1>{{ $t('Guance, TrueWatch Data Upload') }}</h1></el-divider>
 
                 <el-form-item>
-                  <InfoBlock :title="$t('Upload the self-monitor data to the Guance')" />
+                  <InfoBlock :title="$t('Upload the self-monitor data to the Guance, TrueWatch')" />
                 </el-form-item>
 
                 <el-form-item :label="$t('Enable')" prop="GUANCE_DATA_UPLOAD_ENABLED">

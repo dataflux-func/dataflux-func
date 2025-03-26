@@ -139,7 +139,7 @@ upgradeInfo:
       ALTER TABLE biz_main_batch_task_info
       ADD INDEX `ROOT_TASK_ID` (rootTaskId);
 
-  # Guance / TrueWatch Saas 2022-01-20
+  # Guance, TrueWatch Saas 2022-01-20
   - seq: 9
     database: |-
       -- Add taskInfoLimit for Crontab Config / Batch
@@ -151,7 +151,7 @@ upgradeInfo:
       ADD COLUMN `taskInfoLimit` INT(11) DEFAULT NULL
       AFTER `showInDoc`;
 
-  # Guance / TrueWatch Saas 2022-02-22
+  # Guance, TrueWatch Saas 2022-02-22
   - seq: 10
     database: |-
       -- New Task Info table
@@ -178,7 +178,7 @@ upgradeInfo:
         KEY `FUNC_ID` (`funcId`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 
-  # Guance / TrueWatch Saas 2022-05-19
+  # Guance, TrueWatch Saas 2022-05-19
   - seq: 11
     database: |-
       -- Add taskInfoLimit for Auth Link
@@ -186,20 +186,20 @@ upgradeInfo:
       ADD COLUMN `taskInfoLimit` INT(11) DEFAULT NULL
       AFTER `showInDoc`;
 
-  # Guance / TrueWatch Saas 2022-09-01
+  # Guance, TrueWatch Saas 2022-09-01
   - seq: 12
     database: |-
       -- Rename Data Source to Connector
       RENAME TABLE biz_main_data_source TO biz_main_connector;
 
-  # Guance / TrueWatch Saas 2022-09-29
+  # Guance, TrueWatch Saas 2022-09-29
   - seq: 13
     database: |-
       -- Change value type to longtext
       ALTER TABLE wat_main_system_config
         MODIFY COLUMN `value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL;
 
-  # Guance / TrueWatch Saas 2022-12-29
+  # Guance, TrueWatch Saas 2022-12-29
   - seq: 14
     database: |-
       -- Old fix
@@ -282,7 +282,7 @@ upgradeInfo:
       UPDATE biz_main_batch          SET origin = 'user'   WHERE origin = 'UI';
       UPDATE biz_main_batch          SET origin = 'UNKNOW' WHERE origin = 'API';
 
-  # Guance / TrueWatch Saas 2022-12-29
+  # Guance, TrueWatch Saas 2022-12-29
   - seq: 15
     database: |-
       -- Add originMD5 for Script Set
@@ -290,7 +290,7 @@ upgradeInfo:
         ADD COLUMN `originMD5` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
         AFTER `originId`;
 
-  # Guance / TrueWatch Saas 2022-12-29
+  # Guance, TrueWatch Saas 2022-12-29
   - seq: 16
     database: |-
       -- Add lockedByUserId for Script Market
@@ -298,7 +298,7 @@ upgradeInfo:
         ADD COLUMN `lockedByUserId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
         AFTER `configJSON`;
 
-  # Guance / TrueWatch Saas 2023-04-20
+  # Guance, TrueWatch Saas 2023-04-20
   - seq: 17
     database: |-
       -- Add extraJSON for Script Market
@@ -306,7 +306,7 @@ upgradeInfo:
         ADD COLUMN `extraJSON` json DEFAULT NULL
         AFTER `configJSON`;
 
-  # Guance / TrueWatch Saas 2023-04-27
+  # Guance, TrueWatch Saas 2023-04-27
   - seq: 18
     database: |-
       -- Clear Task Info
@@ -347,14 +347,14 @@ upgradeInfo:
       UPDATE `biz_main_batch`          SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
       UPDATE `biz_main_script_set`     SET `originId` = 'UNKNOWN' WHERE `originId` = 'UNKNOW';
 
-  # Guance / TrueWatch Saas 2023-04-27
+  # Guance, TrueWatch Saas 2023-04-27
   - seq: 19
     database: |-
       -- Fix spelling mistakes
       ALTER TABLE `biz_main_auth_link`
         MODIFY COLUMN `throttlingJSON` json DEFAULT NULL;
 
-  # Guance / TrueWatch Saas 2023-04-27
+  # Guance, TrueWatch Saas 2023-04-27
   - seq: 20
     database: |-
       -- Clear Task Info
@@ -377,20 +377,20 @@ upgradeInfo:
         MODIFY COLUMN `origin` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN',
         MODIFY COLUMN `originId` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
 
-  # Guance / TrueWatch Saas 2023-06-20
+  # Guance, TrueWatch Saas 2023-06-20
   - seq: 21
     database: |-
       -- Rename System Setting table
       RENAME TABLE `wat_main_system_config` TO `wat_main_system_setting`;
 
-  # Guance / TrueWatch Saas 2023-07-11
+  # Guance, TrueWatch Saas 2023-07-11
   - seq: 22
     database: |-
       -- Remove unused indices
       ALTER TABLE `biz_main_script` DROP INDEX `FT`;
       ALTER TABLE `biz_main_script_publish_history` DROP INDEX `FT`;
 
-  # Guance / TrueWatch Saas 2023-08-10
+  # Guance, TrueWatch Saas 2023-08-10
   - seq: 23
     database: |-
       -- Change entity title naming
@@ -418,7 +418,7 @@ upgradeInfo:
         UNIQUE KEY `ID` (`id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-  # Guance / TrueWatch Saas 2023-09-07
+  # Guance, TrueWatch Saas 2023-09-07
   - seq: 24
     database: |-
       -- Clear outdated tables
@@ -517,7 +517,7 @@ upgradeInfo:
         KEY `STATUS` (`status`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-  # Guance / TrueWatch Saas 2023-11-09
+  # Guance, TrueWatch Saas 2023-11-09
   - seq: 25
     database: |-
       -- Redesign Task Record table (add index for triggerTimeMs)
@@ -596,7 +596,7 @@ upgradeInfo:
         KEY `STATUS` (`status`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-  # Guance / TrueWatch Saas 2023-11-16
+  # Guance, TrueWatch Saas 2023-11-16
   - seq: 26
     database: |-
       -- Redesign Task Record table
@@ -673,7 +673,7 @@ upgradeInfo:
         KEY `STATUS` (`status`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-  # Guance / TrueWatch Saas 2024-01-15
+  # Guance, TrueWatch Saas 2024-01-15
   - seq: 27
     database: |-
       -- Extend originId column length
@@ -681,7 +681,7 @@ upgradeInfo:
       ALTER TABLE biz_main_task_record_func
         MODIFY COLUMN `originId` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'UNKNOWN';
 
-  # Guance / TrueWatch Saas 2024-04-24
+  # Guance, TrueWatch Saas 2024-04-24
   - seq: 28
     database: |-
       -- Change columns order
@@ -776,7 +776,7 @@ upgradeInfo:
         KEY `STATUS` (`status`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-  # Guance / TrueWatch Saas 2024-05-29
+  # Guance, TrueWatch Saas 2024-05-29
   - seq: 29
     database: |-
       -- Ensure AccessKey secretCipher LONGTEXT
@@ -919,7 +919,7 @@ upgradeInfo:
           `updateTime`
         FROM biz_main_crontab_config;
 
-  # Guance / TrueWatch Saas 2024-11-20
+  # Guance, TrueWatch Saas 2024-11-20
   # Both MySQL and PostgreSQL are supported from this version
   - seq: 100
     mysql: |-
@@ -1436,7 +1436,7 @@ upgradeInfo:
       -- First version
       SELECT 'Base PostgreSQL DB';
 
-  # Guance / TrueWatch Saas 2024-12-11
+  # Guance, TrueWatch Saas 2024-12-11
   - seq: 101
     mysql: |-
       -- Add lockConfigJSON for Entity Lock
@@ -1535,7 +1535,7 @@ upgradeInfo:
       ALTER TABLE "biz_main_script_market" ADD PRIMARY KEY ("seq");
       CREATE UNIQUE INDEX "biz_main_script_market_ID" ON "biz_main_script_market" ("id");
 
-  # Guance / TrueWatch Saas 2025-03-12
+  # Guance, TrueWatch Saas 2025-03-12
   - seq: 102
     mysql: |-
       ALTER TABLE `biz_main_script_publish_history`

@@ -28,7 +28,7 @@ Current user has been disabled: 當前使用者已被禁用
 Data of Socket.io must be a JSON string: Socket.io 資料必須為 JSON 字串
 Deleting built-in Connector is not allowed: 不允許刪除內建聯結器
 Empty import file: 匯入檔案為空
-'Exception: Guance API Key NOT match to API Key ID!': 錯誤：觀測雲 API Key ID 與 API Key 不匹配
+'Exception: Guance, TrueWatch API Key NOT match to API Key ID!': 錯誤：觀測雲、TrueWatch API Key ID 與 API Key 不匹配
 Export failed: 匯出失敗
 Failed to access data, please refresh the page and try again.: 訪問資料失敗，請嘗試重新整理頁面後再試一次
 Failed to access git repo: 訪問 git 倉庫失敗
@@ -43,7 +43,7 @@ Found duplicated func names in script: 指令碼中發現重複的函式名
 Func Auth failed: 函式認證失敗
 Func ID not specified: 函式 ID 未指定
 Func result is not standard JSON: 函式結果無法解析為標準JSON
-Func task record uploading to Guance has also been enabled: 同時已啟用函式任務記錄上報至觀測雲
+Func task record uploading to Guance, TrueWatch has also been enabled: 同時已啟用函式任務記錄上報至觀測雲、TrueWatch
 ID of Connector already exists: 聯結器 ID 已存在
 ID of ENV Variable already exists: 環境變數 ID 已存在
 ID of cloned Script will be too long: 指令碼 ID 將在克隆後會變得過長
@@ -76,7 +76,7 @@ Invalid request post data: 請求體資料無效
 Invalid request query: 請求引數無效
 Invalid username or password: 使用者名稱或密碼無效
 Local Func task record is disabled: 本地函式任務記錄已禁用
-Local Func task record is disabled, while uploading to Guance is enabled: 本地函式任務記錄已禁用，但已啟用函式任務記錄上報至觀測雲
+Local Func task record is disabled, while uploading to Guance, TrueWatch is enabled: 本地函式任務記錄已禁用，但已啟用函式任務記錄上報至觀測雲、TrueWatch
 Maximum calling rate exceeded: 達到最大呼叫頻率
 Modifying built-in Connector is not allowed, please edit the config instead: 不允許修改內建聯結器，請修改系統配置
 No such Async API: 不存在此非同步 API

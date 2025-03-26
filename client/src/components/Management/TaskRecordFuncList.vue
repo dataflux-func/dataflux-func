@@ -58,7 +58,7 @@ Task Record cleared: 任务记录已清空
 Are you sure you want to clear the Task Record?: 是否确认清空任务记录？
 
 Non-critical errors exist                              : 存在非关键错误
-Guance Data Upload Failed                              : 观测云数据上报失败
+Guance, TrueWatch Data Upload Failed                   : 观测云、TrueWatch 数据上报失败
 No Recent Task Record                                  : 尚无任何近期任务记录
 All recent Task Record will be collected and shown here: 所有近期任务会被记录，并展示在此
 
@@ -105,7 +105,7 @@ Exec Mode: 執行模式
 Func ID: 函數 ID
 'Func ID: ': 函數 ID ：
 'Func Title: ': 函數標題：
-Guance Data Upload Failed: 觀測雲數據上報失敗
+Guance, TrueWatch Data Upload Failed: 觀測雲、TrueWatch 數據上報失敗
 Log Lines: 日誌行數
 Main Task: 主任務
 Main Task Only: 僅主任務
@@ -162,7 +162,7 @@ Exec Mode: 執行模式
 Func ID: 函式 ID
 'Func ID: ': 函式 ID ：
 'Func Title: ': 函式標題：
-Guance Data Upload Failed: 觀測雲資料上報失敗
+Guance, TrueWatch Data Upload Failed: 觀測雲、TrueWatch 資料上報失敗
 Log Lines: 日誌行數
 Main Task: 主任務
 Main Task Only: 僅主任務
@@ -548,7 +548,7 @@ export default {
 
       let summary = [];
       if (d.nonCriticalErrorsTEXT.indexOf('[Guance Data Upload Errors]') >= 0) {
-        summary.push(this.$t('Guance Data Upload Failed'))
+        summary.push(this.$t('Guance, TrueWatch Data Upload Failed'))
       }
 
       return summary.join(this.$t(','));

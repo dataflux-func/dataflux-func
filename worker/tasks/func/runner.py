@@ -44,7 +44,7 @@ class FuncRunner(FuncBaseTask):
         return self.result['responseControl']
 
     def __make_full_print_log_lines(self):
-        # Full `print` logs is only for Guance / TrueWatch data uploading,
+        # Full `print` logs is only for Guance, TrueWatch data uploading,
         # and the logs will splited locally for correct line breaking.
         # So keep list here
         lines = []
@@ -204,7 +204,7 @@ class FuncRunner(FuncBaseTask):
             'timestamp': int(self.trigger_time),
         }
 
-        # Extra Guance / TrueWatch Tags and Fields
+        # Extra Guance, TrueWatch Tags and Fields
         for k, v in self.extra_guance_data.tags.items():
             if k not in data_template['tags']:
                 data_template['tags'][k] = v
@@ -300,7 +300,7 @@ class FuncRunner(FuncBaseTask):
     # Overwrite parent class method
     def buff_task_record(self):
         # Since Func Tasks may be very many and contain large logs,
-        # Upload to Guance / TrueWatch directly instead of buffing
+        # Upload to Guance, TrueWatch directly instead of buffing
         data = self.create_task_record_guance_data()
         if self.guance_data_upload_url and data:
             self.upload_guance_data('logging', data)

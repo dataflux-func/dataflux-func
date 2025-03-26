@@ -224,7 +224,7 @@ singleton_GSE:
   tags:
     - cloudcare-multiarch
 
-# Guance / TrueWatch bundle
+# Guance, TrueWatch bundle
 guanceSaaS_testing:
   stage: build
   retry: 2

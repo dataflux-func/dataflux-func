@@ -520,7 +520,7 @@ class BaseDataKit(object):
                 if origin_id:
                     x_origin_id.add(quote(origin_id))
 
-                # Monitor ID (Special for Guance / TrueWatch)
+                # Monitor ID (Special for Guance, TrueWatch)
                 df_monitor_checker_id = p['tags'].get('df_monitor_checker_id')
                 if df_monitor_checker_id:
                     x_monitor_checker_id.add(quote(df_monitor_checker_id))
