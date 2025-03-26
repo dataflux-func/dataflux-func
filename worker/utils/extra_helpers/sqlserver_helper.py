@@ -111,10 +111,11 @@ class SQLServerHelper(object):
         conn.close()
 
     def _trans_execute(self, trans_conn, sql, sql_params=None):
-        formatted_sql = format_sql(sql, sql_params)
+        sql = format_sql(sql, sql_params)
+        debug_sql = toolkit.to_debug_text(sql)
 
         if not self.skip_log:
-            self.logger.debug('[SQLSERVER] Trans Query `{}`'.format(re.sub('\s+', ' ', formatted_sql, flags=re.M)))
+            self.logger.debug('[SQLSERVER] Trans Query `{}`'.format(debug_sql))
 
         if not trans_conn:
             raise Exception('Transaction not started')
@@ -122,7 +123,7 @@ class SQLServerHelper(object):
         conn = trans_conn['conn']
         cur  = trans_conn['cur']
 
-        count  = cur.execute(formatted_sql)
+        count  = cur.execute(sql)
         db_res = cur.fetchall()
 
         db_res = list(db_res or [])
@@ -132,10 +133,11 @@ class SQLServerHelper(object):
         return db_res, count
 
     def _execute(self, sql, sql_params=None):
-        formatted_sql = format_sql(sql, sql_params)
+        sql = format_sql(sql, sql_params)
+        debug_sql = toolkit.to_debug_text(sql)
 
         if not self.skip_log:
-            self.logger.debug('[SQLSERVER] Query `{}`'.format(re.sub('\s+', ' ', formatted_sql, flags=re.M)))
+            self.logger.debug('[SQLSERVER] Query `{}`'.format(debug_sql))
 
         conn = None
         cur  = None
@@ -144,7 +146,7 @@ class SQLServerHelper(object):
             conn = self.client.connection()
             cur  = conn.cursor()
 
-            count  = cur.execute(formatted_sql)
+            count  = cur.execute(sql)
             db_res = cur.fetchall()
 
         except Exception as e:

@@ -68,10 +68,11 @@ class ClickHouseHelper(object):
             raise
 
     def query(self, sql, sql_params=None):
-        formatted_sql = format_sql(sql, sql_params)
+        sql = format_sql(sql, sql_params)
+        debug_sql = toolkit.to_debug_text(sql)
 
         if not self.skip_log:
-            self.logger.debug('[CLICKHOUSE] {}'.format(re.sub('\s+', ' ', formatted_sql, flags=re.M)))
+            self.logger.debug('[CLICKHOUSE] {}'.format(debug_sql))
 
         conn = None
         cur  = None
@@ -80,7 +81,7 @@ class ClickHouseHelper(object):
             conn = self.client.connection()
             cur  = conn.cursor()
 
-            cur.execute(formatted_sql)
+            cur.execute(sql)
             db_res = cur.fetchall()
 
             # tuple list -> dict list

@@ -97,7 +97,9 @@ exports.add = function(req, res, next) {
     // Save to DB
     function(asyncCallback) {
       // Add sample code
-      if (!data.codeDraft && !data.codeDraftBase64 && !data.code) {
+      if (toolkit.isNullOrUndefined(data.codeDraft)
+      && toolkit.isNullOrUndefined(data.codeDraftBase64)
+      && toolkit.isNullOrUndefined(data.code)) {
         data.codeDraft = fs.readFileSync(`script-example/example.${res.locals.clientUILocale}.py`).toString();
       }
 

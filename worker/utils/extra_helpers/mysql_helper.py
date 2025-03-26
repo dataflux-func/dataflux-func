@@ -16,7 +16,7 @@ import sqlparse
 
 # Project Modules
 from worker.utils import toolkit, yaml_resources
-from worker.utils.extra_helpers import format_sql, table_to_guance_dql_like_result
+from worker.utils.extra_helpers import format_sql, mysql_escape, table_to_guance_dql_like_result
 from worker.utils.extra_helpers.sql_builder import MySQLBuilder
 
 CONFIG = yaml_resources.get('CONFIG')
@@ -109,6 +109,10 @@ class FuncMySQLHelper(object):
 
         finally:
             self.client = None
+
+    @classmethod
+    def format_sql(cls, sql, sql_params=None, pretty=False):
+        return format_sql(sql, sql_params, pretty, sql_escape=mysql_escape)
 
     @property
     def timezone(self):
@@ -304,7 +308,7 @@ class FuncMySQLHelper(object):
 
     def _trans_execute(self, trans_conn, sql, sql_params=None):
         sql       = self._prepare_sql(sql)
-        sql       = format_sql(sql, sql_params)
+        sql       = self.format_sql(sql, sql_params)
         debug_sql = toolkit.to_debug_text(sql)
 
         if not trans_conn:
@@ -334,7 +338,7 @@ class FuncMySQLHelper(object):
 
     def _execute(self, sql, sql_params=None):
         sql       = self._prepare_sql(sql)
-        sql       = format_sql(sql, sql_params)
+        sql       = self.format_sql(sql, sql_params)
         debug_sql = toolkit.to_debug_text(sql)
 
         conn = None

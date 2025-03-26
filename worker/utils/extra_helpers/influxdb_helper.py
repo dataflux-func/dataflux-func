@@ -114,7 +114,7 @@ class InfluxDBHelper(object):
             return db_res
 
     def query(self, sql, bind_params=None, database=None, dict_output=False):
-        formatted_query = sql + ' '
+        debug_query = sql + ' '
         if bind_params:
             for k, v in bind_params.items():
                 _placeholder  = u'\${}([^a-zA-Z0-9_-])'.format(k)
@@ -123,11 +123,12 @@ class InfluxDBHelper(object):
                 if isinstance(v, (six.string_types, six.text_type)):
                     _value = u"'{}'".format(_value)
 
-                formatted_query = re.sub(_placeholder, _value, formatted_query)
+                debug_query = re.sub(_placeholder, _value, debug_query)
 
-        formatted_query = formatted_query.strip()
+        debug_query = debug_query.strip()
+        debug_query = toolkit.to_debug_text(debug_query)
 
-        self.logger.debug('[INFLUXDB] Query {}'.format(re.sub('\s+', ' ', formatted_query, flags=re.M)))
+        self.logger.debug('[INFLUXDB] Query {}'.format(debug_query))
 
         try:
             db_res = self.client.query(sql, bind_params=bind_params, database=database)
@@ -153,12 +154,13 @@ class InfluxDBHelper(object):
                 return db_res_list[0]
 
     def query2(self, sql, sql_params=None, database=None, dict_output=False):
-        formatted_sql = format_sql(sql, sql_params)
+        sql = format_sql(sql, sql_params)
+        debug_sql = toolkit.to_debug_text(sql)
 
-        self.logger.debug('[INFLUXDB] Query2 {}'.format(re.sub('\s+', ' ', formatted_sql, flags=re.M)))
+        self.logger.debug('[INFLUXDB] Query2 {}'.format(debug_sql))
 
         try:
-            db_res = self.client.query(formatted_sql,database=database)
+            db_res = self.client.query(sql, database=database)
 
         except Exception as e:
             for line in traceback.format_exc().splitlines():

@@ -21,9 +21,10 @@ import parse_args
 
 # Project Modules
 from worker.utils import toolkit, yaml_resources
-from worker.utils.extra_helpers import format_sql
+from worker.utils.extra_helpers import HexStr
 from worker.tasks import BaseTask
 from worker.tasks.func import CONNECTOR_HELPER_CLASS_MAP, decipher_connector_config
+from worker.utils.extra_helpers import FuncMySQLHelper, FuncPostgreSQLHelper
 
 CONFIG     = yaml_resources.get('CONFIG')
 IMAGE_INFO = yaml_resources.get('IMAGE_INFO')
@@ -996,7 +997,7 @@ class AutoBackupDB(BaseInternalTask):
 
     SQL_STR_TYPE_KEYWORDS = { 'char', 'text', 'blob' }
 
-    def get_table_dump_parts(self, table):
+    def get_table_dump_parts_for_mysql(self, table):
         table_dumps_parts = []
 
         # Drop table
@@ -1006,7 +1007,7 @@ class AutoBackupDB(BaseInternalTask):
         table_dumps_parts.append(str(sql))
 
         # Get create table SQL
-        sql = '''SHOW CREATE TABLE `??`'''
+        sql = self.db.create_sql_builder('''SHOW CREATE TABLE `??`''')
         sql_params = [ table ]
         db_res = self.db.query(sql, sql_params)
         if not db_res:
@@ -1020,16 +1021,18 @@ class AutoBackupDB(BaseInternalTask):
             return table_dumps_parts
 
         # Skip backuping data if no data in table
-        sql = '''SELECT * FROM `??` LIMIT 1'''
-        sql_params = [ table ]
-        db_res = self.db.query(sql, sql_params)
+        sql = self.db.create_sql_builder()
+        sql.SELECT('*')
+        sql.FROM(table)
+        sql.LIMIT(1)
+        db_res = self.db.query(sql)
         if not db_res:
             return table_dumps_parts
 
         # Get table schema
         field_type_map = {}
 
-        sql = '''DESCRIBE `??`'''
+        sql = self.db.create_sql_builder('''DESCRIBE `??`''')
         sql_params = [ table ]
         db_res = self.db.query(sql, sql_params)
         for d in db_res:
@@ -1050,7 +1053,7 @@ class AutoBackupDB(BaseInternalTask):
 
         sql = '''LOCK TABLES `??` WRITE'''
         sql_params = [ table ]
-        table_dumps_parts.append(format_sql(sql, sql_params) + ';')
+        table_dumps_parts.append(self.db.format_sql(sql, sql_params) + ';')
 
         select_fields = []
         for f, t in field_type_map.items():
@@ -1063,16 +1066,12 @@ class AutoBackupDB(BaseInternalTask):
 
         seq = 0
         while True:
-            sql = '''
-                SELECT ??
-                FROM `??`
-                WHERE
-                    `seq` > ?
-                ORDER BY
-                    `seq` ASC
-                LIMIT 20
-            '''
-            sql_params = [ select_fields_sql, table, seq ]
+            sql = self.db.create_sql_builder()
+            sql.SELECT(sql.RAW(select_fields_sql))
+            sql.FROM(table)
+            sql.WHERE({ 'LEFT': 'seq', 'OP': '>', 'RIGHT': seq })
+            sql.ORDER_BY('seq', 'ASC')
+            sql.LIMIT(20)
             db_res = self.db.query(sql, sql_params)
             if not db_res:
                 table_dumps_parts.append('''UNLOCK TABLES;''')
@@ -1092,7 +1091,7 @@ class AutoBackupDB(BaseInternalTask):
 
                     else:
                         if t == 'hexStr':
-                            _d.append(v)
+                            _d.append(HexStr(v))
                         else:
                             _d.append(v)
 
@@ -1106,7 +1105,7 @@ class AutoBackupDB(BaseInternalTask):
 
             sql = '''INSERT INTO `??` (??)\nVALUES\n  ?'''
             sql_params = [ table, insert_fields_sql, values ]
-            table_dumps_parts.append(format_sql(sql, sql_params, pretty=True) + ';')
+            table_dumps_parts.append(self.db.format_sql(sql, sql_params, pretty=True) + ';')
 
             seq = db_res[-1]['seq']
 
@@ -1204,7 +1203,15 @@ class AutoBackupDB(BaseInternalTask):
 
             tables = self.db.tables()
             for t in tables:
-                table_dump_parts = self.get_table_dump_parts(t)
+                table_dump_parts = None
+
+                if isinstance(self.db, FuncMySQLHelper):
+                    table_dump_parts = self.get_table_dump_parts_for_mysql(t)
+
+                elif isinstance(self.db, FuncPostgreSQLHelper):
+                    # TODO Dump PostgreSQL data
+                    pass
+
                 if table_dump_parts:
                     table_dumps = '\n'.join(table_dump_parts) + '\n\n'
                     _f.write(table_dumps)
@@ -1232,8 +1239,8 @@ class AutoBackupDB(BaseInternalTask):
         self.debug_call(self.limit_backup_size)
 
         # Do backup
-        # TODO Auto Backup DB Feature should be redesigned
-        # self.debug_call(self.run_backup)
+        if isinstance(self.db, (FuncMySQLHelper, FuncPostgreSQLHelper)):
+            self.debug_call(self.run_backup)
 
 class ReloadDataMD5Cache(BaseInternalTask):
     '''

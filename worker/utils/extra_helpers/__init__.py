@@ -34,6 +34,9 @@ POSTGRESQL_ESCAPE_MAP = {
     '\\'  : '\\\\',
 }
 
+class HexStr(str):
+    pass
+
 def common_sql_escape(v, escape_map=None):
     escape_map = escape_map or COMMON_SQL_ESCAPE_MAP
 
@@ -57,7 +60,10 @@ def common_sql_escape(v, escape_map=None):
         return v
 
 def mysql_escape(v):
-    return common_sql_escape(v)
+    if isinstance(v, HexStr):
+        return f'X{common_sql_escape(v)}'
+    else:
+        return common_sql_escape(v)
 
 def postgresql_escape(v):
     if isinstance(v, str):
