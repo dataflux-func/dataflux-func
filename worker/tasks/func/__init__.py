@@ -1552,9 +1552,12 @@ class BaseFuncEntityHelper(object):
 
         else:
             # Insert if not exist
+            _insert_data = toolkit.json_copy(data)
+            _insert_data['id'] = entity_id
+
             sql = self._task.db.create_sql_builder()
             sql.INSERT_INTO(self._table)
-            sql.VALUES(data)
+            sql.VALUES(_insert_data)
 
             self._task.db.query(sql)
 
