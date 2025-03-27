@@ -529,7 +529,7 @@ log "Please use the following command to check the status of the containers:"
 log "    sudo docker ps -a"
 log "Once all containers are running, use browser to visit http://<IP or Domain>:${_PORT}/"
 
-# Write install dir info to /etc/dataflux-func
+# Write install info to /etc/dataflux-func
 if [ ! -f ${ETC_PATH} ]; then
     echo "INSTALLED_DIR=${_INSTALL_DIR}" > ${ETC_PATH}
 fi

@@ -27,9 +27,6 @@ function error {
 # Init
 __PREV_DIR=${PWD}
 
-__PORTABLE_BASE_URL=https://static.guance.com/dataflux-func/portable
-__PORTABLE_COMMON_BASE_URL=https://static.guance.com/dataflux-func/portable-common
-
 __DOCKER_VERSION=24.0.9
 __DOCKER_BIN_FILE=docker-${__DOCKER_VERSION}.tgz
 __DATAFLUX_FUNC_IMAGE_GZIP_FILE=dataflux-func.tar.gz
@@ -42,12 +39,22 @@ __RUN_PORTABLE_FILE=run-portable.sh
 __VERSION_FILE=version
 
 # Options
+OPT_URL=DEFAULT
 OPT_ARCH=DEFAULT
 OPT_DOWNLOAD_DIR=DEFAULT
 OPT_FOR=DEFAULT
 
 while [ $# -ge 1 ]; do
     case $1 in
+        --url=* )
+            OPT_URL="${1#*=}"
+            shift
+            ;;
+        --url )
+            OPT_URL=$2
+            shift 2
+            ;;
+
         --arch=* )
             OPT_ARCH="${1#*=}"
             shift
@@ -83,6 +90,19 @@ while [ $# -ge 1 ]; do
 done
 
 # Download
+# URL
+__PORTABLE_BASE_URL=https://static.guance.com/dataflux-func/portable
+__PORTABLE_COMMON_BASE_URL=https://static.guance.com/dataflux-func/portable-common
+case ${OPT_URL} in
+    DEFAULT )
+        ;;
+
+    * )
+        __PORTABLE_BASE_URL=${OPT_URL}/dataflux-func/portable
+        __PORTABLE_COMMON_BASE_URL=${OPT_URL}/dataflux-func/portable-common
+        ;;
+esac
+
 # Edition
 case ${OPT_FOR} in
     dev|GSE )
