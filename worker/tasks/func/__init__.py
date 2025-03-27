@@ -1826,8 +1826,8 @@ class FuncExtraGuanceDataHelper(object):
     def more_data(self):
         return toolkit.json_copy(self._more_data) or []
 
-    def set_tags(self, **data):
-        for k, v in data.items():
+    def set_tags(self, tags):
+        for k, v in tags.items():
             if v in ( None, '' ):
                 continue
 
@@ -1837,8 +1837,8 @@ class FuncExtraGuanceDataHelper(object):
         for k in keys:
             self._tags.pop(k, None)
 
-    def set_fields(self, **data):
-        for k, v in data.items():
+    def set_fields(self, fields):
+        for k, v in fields.items():
             if v in ( None, '' ):
                 continue
 
