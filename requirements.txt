@@ -10,7 +10,7 @@ datasize==1.0.0
 DBUtils==3.0.3
 func-timeout==4.3.5
 funcsigs==1.0.2
-httpie==3.2.2
+httpie==3.2.4
 influxdb==5.3.1
 Jinja2==3.1.6
 kafka-python3==3.0.0
