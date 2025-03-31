@@ -146,7 +146,7 @@ Tag: 標籤
                 class="connector-simple-gui-browser-example-code-run"
                 @click="copyCascaderExampleCodeToDebugger"
                 v-show="browserCascaderExampleCode">
-                <i class="fa fa-fw fa-share text-main"></i>
+                <i class="fa fa-fw fa-share"></i>
                 {{ $t('Run') }}
               </el-button>
             </el-form-item>

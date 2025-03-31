@@ -54,14 +54,11 @@ export function filterByKeywords(s, l) {
   .split(' ')
   .filter(x => T.notNothing(x));
 
-  let maxScore                = 0;
-  let maxSearchKeywordsLength = 0;
+  let maxScore = 0;
 
   let listScore = l.reduce((acc, x) => {
     let exactlyMatch = false;
-    let subScore     = 0;
-
-    maxSearchKeywordsLength = Math.max(maxSearchKeywordsLength, x.searchKeywords.length);
+    let score        = 0;
 
     x.searchKeywords.forEach(keyword => {
       keyword = keyword.toLowerCase().trim();
@@ -72,16 +69,19 @@ export function filterByKeywords(s, l) {
 
       searchTexts.forEach(searchText => {
         // Search string
-        if (keyword.indexOf(searchText) >= 0) {
-          // Sub string
-          subScore += searchText.length * 2;
+        if (keyword === searchText) {
+          score += 200;
+        } else if (keyword.indexOf(searchText) >= 0) {
+          score += parseInt(searchText.length * 100 / keyword.length);
         }
       });
     });
 
+    if (score <= 0) return acc;
+
     let item = {
       exactlyMatch: exactlyMatch,
-      score       : subScore * maxSearchKeywordsLength / x.searchKeywords.length,
+      score       : score,
       item        : x,
     };
 
@@ -97,16 +97,6 @@ export function filterByKeywords(s, l) {
       if (a.score > b.score) return -1;
       else if (a.score < b.score) return 1;
       else return 0;
-    }
-  });
-
-  listScore = listScore.filter(x => {
-    if (x.exactlyMatch) {
-      return true;
-    } else if (s.length === 1) {
-      return x.score > 0;
-    } else {
-      return x.score > maxScore * 0.5;
     }
   });
 
