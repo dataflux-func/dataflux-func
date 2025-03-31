@@ -2245,8 +2245,11 @@ exports.fileService = function(req, res, next) {
     var rootPath = path.join(CONFIG.RESOURCE_ROOT_PATH, (dbRes.root || '.'));
     var absPath  = path.join(CONFIG.RESOURCE_ROOT_PATH, (dbRes.root || '.'), relPath);
 
+    var rootDir = path.normalize(path.join(rootPath, '/'));
+    absPath     = path.normalize(absPath);
+
     // Avoid accessing the path not under the root path
-    if (absPath.indexOf(rootPath) !== 0) {
+    if (rootPath !== absPath && absPath.indexOf(rootDir) !== 0) {
       return next(new E('EBizCondition.AccessingOutOfScopePathNotAllowed', 'Accessing out-of-scope file system is not allowed'))
     }
 
