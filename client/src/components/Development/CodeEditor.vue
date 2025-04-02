@@ -506,7 +506,7 @@ You can continue with other operations: 你可以繼續進行其他操作
           <el-dialog
             id="PublishConfirm"
             :visible.sync="showPublishingConfirm"
-            min-width="1000px">
+            custom-class="long-text-dialog">
             <template slot="title">
               {{ $t('Confirm Before Publishing') }}
               <span class="press-esc-to-close-tip">{{ $t('Press ESC to close') }}</span>
@@ -515,7 +515,7 @@ You can continue with other operations: 你可以繼續進行其他操作
               <p class="text-bad">{{ $t('The Script to be published now include the following CHANGES') }}{{ $t(':') }}</p>
               <textarea id="diff_publishingConfirm"></textarea>
             </div>
-            <span slot="footer" class="dialog-footer">
+            <span slot="footer">
               <el-button type="primary" @click="publishScript('publish')">
                 <i class="fa fa-fw fa-coffee"></i>
                 {{ $t('Publish Script') }}
@@ -1891,5 +1891,8 @@ pre .code-editor-output-seq {
 }
 pre .code-editor-output-traceback {
   color: var(--danger);
+}
+#PublishConfirm .CodeMirror {
+  height: 100%;
 }
 </style>

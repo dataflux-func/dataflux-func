@@ -151,7 +151,7 @@ Related Contents: 關聯內容
             <code>{{ downloadFilename }}</code>
           </p>
         </div>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer">
           <el-button type="primary" @click="showDownloadFilename = false">
             {{ $t('Very good') }}
           </el-button>

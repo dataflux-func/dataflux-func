@@ -8,16 +8,16 @@ Code line count in DataFlux Func project.
 
 | Total Lines |
 |------------:|
-|     131,887 |
+|     131,896 |
 
 ## By Type
 
 | Type      |  Lines |
 |:----------|-------:|
 | `js`      | 39,367 |
-| `vue`     | 34,621 |
+| `vue`     | 34,624 |
 | `py`      | 19,425 |
-| `css`     | 18,670 |
+| `css`     | 18,676 |
 | `yaml`    | 15,381 |
 | `ejs`     |  1,411 |
 | `sh`      |  1,367 |
@@ -34,7 +34,7 @@ Code line count in DataFlux Func project.
 
 | Folder           |  Lines |
 |:-----------------|-------:|
-| `client`         | 62,094 |
+| `client`         | 62,103 |
 | `server`         | 43,324 |
 | `worker`         | 15,161 |
 | `.`              |  3,540 |
@@ -57,7 +57,7 @@ Code line count in DataFlux Func project.
 | `server/utils/toolkit.js`                                         |  2,641 |
 | `server/controllers/mainAPICtrl.js`                               |  2,342 |
 | `server/controllers/scriptMarketAPICtrl.js`                       |  2,200 |
-| `client/src/components/Development/CodeEditor.vue`                |  1,895 |
+| `client/src/components/Development/CodeEditor.vue`                |  1,898 |
 | `client/src/toolkit.js`                                           |  1,771 |
 | `server/utils/extraHelpers/redisHelper.js`                        |  1,701 |
 | `worker/tasks/internal.py`                                        |  1,667 |
@@ -97,7 +97,7 @@ Code line count in DataFlux Func project.
 | `client/src/components/Management/TaskRecordFuncList.vue`         |    604 |
 | `client/src/components/Management/SyncAPISetup.vue`               |    590 |
 | `server/utils/extraHelpers/postgresqlHelper.js`                   |    571 |
-| `client/public/site.css`                                          |    553 |
+| `client/public/site.css`                                          |    559 |
 | `client/src/components/ScriptMarket/ScriptMarketSetup.vue`        |    552 |
 | `server/utils/extraHelpers/mysqlHelper.js`                        |    548 |
 | `client/src/components/Management/APIAuthSetup.vue`               |    547 |
