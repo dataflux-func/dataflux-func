@@ -26,8 +26,8 @@ variables:
   IMAGE_LIST_FILE          : image-list
   VERSION_FILE             : version
 
-  SDK_DIR : sdk/
-
+  FUNC_REPOSITORY          : pubrepo.guance.com
+  FUNC_REPOSITORY_INTI     : pubrepo.dataflux-func.com
   PROJECT: dataflux-func
 
 # ========== Build Images ==========
@@ -220,8 +220,8 @@ singleton_GSE:
       -f Dockerfile-singleton-GSE .
       --push
     # Push to Helm
-    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} func-chart-cn
-    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} func-chart-intl 
+    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} ${FUNC_REPOSITORY} func-chart-cn
+    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} ${FUNC_REPOSITORY_INTI} 
 
   tags:
     - cloudcare-multiarch
@@ -461,5 +461,16 @@ deploy_release:
     - /^deploy_\d+/
   script:
     - sh deploy-saas.sh -d
+  tags:
+    - cloudcare-multiarch
+
+
+deploy_helm:
+  stage: deploy
+  only:
+    - helm
+  script:
+    - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY} func-chart-cn
+    - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY_INTI} 
   tags:
     - cloudcare-multiarch

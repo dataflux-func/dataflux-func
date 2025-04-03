@@ -6,7 +6,7 @@ image:
   ## @param repository - string - required
   ## Define the repository to use:
   #
-  repository: "pubrepo.guance.com/dataflux-func/dataflux-func-gse"
+  repository: "{{{{repository}}}}/dataflux-func/dataflux-func-gse"
   pullPolicy: IfNotPresent
   ## @param tag - string - required
   ## Define the Cluster-Agent version to use.
@@ -93,7 +93,7 @@ mysql:
   enabled: true
   replicas: 1
   image:
-    repository: pubrepo.guance.com/dataflux-func/mysql
+    repository: {{repository}}/dataflux-func/mysql
     tag: "5.7"
   resources:
     requests:
@@ -108,7 +108,7 @@ redis:
   enabled: true
   replicas: 1
   image:
-    repository: pubrepo.guance.com/dataflux-func/redis
+    repository: {{repository}}/dataflux-func/redis
     tag: "5.0.7"
   resources:
     requests:

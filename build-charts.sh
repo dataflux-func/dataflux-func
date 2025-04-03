@@ -8,7 +8,8 @@
 
 VERSION=$1
 IMAGETAG=$2
-REPO=$3
+REPOSITORY=$3
+REPO=$4
 
 helm_info(){
     helm repo ls
@@ -16,14 +17,20 @@ helm_info(){
 
 build_charts(){
   #sed -e "s,{{tag}},${IMAGETAG},g" charts/values.yaml > charts/func/values.yaml
-  helm package charts/func --app-version ${IMAGETAG} --version ${VERSION}
+    if [[ $REPOSITORY == "pubrepo.dataflux-func.com" ]]; then
+        sed -e "s,{{repository}},${REPOSITORY},g" charts/values.template.yaml > charts/func/values.yaml
+        helm package charts/func --app-version ${IMAGETAG} --version ${VERSION}
+        helm push func-${VERSION}.tgz oci://pubrepo.dataflux-func.com/dataflux-func
+        rm -f func-${VERSION}.tgz
+    else
+        sed -e "s,{{repository}},${REPOSITORY},g" charts/values.template.yaml > charts/func/values.yaml
+        helm package charts/func --app-version ${IMAGETAG} --version ${VERSION}
+        helm cm-push func-${VERSION}.tgz ${REPO}
+        rm -f func-${VERSION}.tgz
+    fi
 }
 
-push_charts(){
-    helm cm-push func-${VERSION}.tgz ${REPO}
-    rm -f func-${VERSION}.tgz
-}
+
 
 helm_info
 build_charts
-push_charts
