@@ -474,3 +474,4 @@ deploy_helm:
     - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY_INTI} 
   tags:
     - cloudcare-multiarch
+    
