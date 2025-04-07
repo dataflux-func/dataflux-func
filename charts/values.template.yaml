@@ -25,6 +25,15 @@ timeZone: CST
 #
 imagePullSecrets: {}
 
+initContainers:
+  repository: "{{repository}}/dataflux-func/busybox"
+  pullPolicy: IfNotPresent
+  ## @param tag - string - required
+  ## Define the Cluster-Agent version to use.
+  #
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.35.0"
+
 # Func stores settings, PVC and hostpath. Only one can be selected. When setting hostpath, be sure to set nodeselector
 storage:
   pvc:
