@@ -19,9 +19,9 @@ build_charts(){
   #sed -e "s,{{tag}},${IMAGETAG},g" charts/values.yaml > charts/func/values.yaml
     if [[ $REPOSITORY == "pubrepo.dataflux-func.com" ]]; then
         sed -e "s,{{repository}},${REPOSITORY},g" charts/values.template.yaml > charts/func/values.yaml
-        helm package func-intl-${VERSION}.tgz  charts/func --app-version ${IMAGETAG} --version ${VERSION}
-        helm push func-intl-${VERSION}.tgz oci://pubrepo.dataflux-func.com/dataflux-func
-        rm -f func-intl-${VERSION}.tgz
+        helm package charts/func --app-version ${IMAGETAG} --version ${VERSION}
+        helm push func-${VERSION}.tgz oci://pubrepo.dataflux-func.com/dataflux-func
+        rm -f func-${VERSION}.tgz
     else
         sed -e "s,{{repository}},${REPOSITORY},g" charts/values.template.yaml > charts/func/values.yaml
         helm package charts/func --app-version ${IMAGETAG} --version ${VERSION}
