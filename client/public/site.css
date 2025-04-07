@@ -430,6 +430,12 @@ hr.br {
 }
 
 /*** Ajust Element ***/
+.long-text-dialog {
+  width: 70%;
+  min-width: 800px;
+  max-width: 1400px;
+}
+
 .fix-compact-button {
   /* TODO ??? */
   margin-left: 0 !important;

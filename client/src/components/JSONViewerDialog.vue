@@ -16,7 +16,7 @@ Download as a JSON file: 作為 JSON 檔案下載
     id="JSONViewerDialog"
     :visible.sync="show"
     :close-on-click-modal="false"
-    width="70%">
+    custom-class="long-text-dialog">
     <template slot="title">
       {{ title }}
       <span class="press-esc-to-close-tip">{{ $t('Press ESC to close') }}</span>

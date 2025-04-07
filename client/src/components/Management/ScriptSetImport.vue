@@ -103,7 +103,7 @@ Select a file: 選擇檔案
             <pre class="import-note">{{ importInfo.note }}</pre>
           </template>
         </span>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer">
           <el-button @click="showConfirm = false">{{ $t('Cancel') }}</el-button>
           <el-button type="primary" v-prevent-re-click @click="confirmImport" :loading="isImporting">
             {{ $t('Confirm') }}
