@@ -26,6 +26,8 @@ variables:
   IMAGE_LIST_FILE          : image-list
   VERSION_FILE             : version
 
+  SDK_DIR                  : sdk/
+
   FUNC_REPOSITORY          : pubrepo.guance.com
   FUNC_REPOSITORY_INTI     : pubrepo.dataflux-func.com
   PROJECT: dataflux-func
