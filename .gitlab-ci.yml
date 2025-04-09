@@ -223,7 +223,7 @@ singleton_GSE:
       --push
     # Push to Helm
     - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} ${FUNC_REPOSITORY} func-chart-cn
-    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} ${FUNC_REPOSITORY_INTI} 
+    - sh build-charts.sh ${V_MAJOR_MINOR_PATCH} ${V_MAJOR_MINOR_PATCH} ${FUNC_REPOSITORY_INTI}
 
   tags:
     - cloudcare-multiarch
@@ -450,7 +450,7 @@ deploy_testing:
   script:
     - for project_id in ${DEV_PROJECT_IDS}; do
         for workload in ${DEV_WORKLOADS}; do
-          curl -sS -X POST -H "Authorization:Bearer ${RANCHER_TOKEN}" ${RANCHER_API_BASE_URL}/v3/project/${project_id}/workloads/deployment:${workload}?action=redeploy;
+          curl -sS -X POST -H "Authorization:Bearer ${DEV_RANCHER_TOKEN}" ${DEV_RANCHER_API_BASE_URL}/v3/project/${project_id}/workloads/deployment:${workload}?action=redeploy;
         done
       done
   tags:
@@ -473,7 +473,6 @@ deploy_helm:
     - helm
   script:
     - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY} func-chart-cn
-    - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY_INTI} 
+    - sh build-charts.sh 1.0.0 1.0.0 ${FUNC_REPOSITORY_INTI}
   tags:
     - cloudcare-multiarch
-    
