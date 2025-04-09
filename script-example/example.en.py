@@ -16,7 +16,7 @@
 #       Specify a timeout of 10 seconds for function execution.
 #       When function execution exceeds 10 seconds, it will force a break and exit.
 #
-# (For more additional configurations please refer to the script development manual at https://func.guance.com/doc/development-guide-builtin-features-dff-api/)
+# (For more additional configurations please refer to the script development manual at https://docs.dataflux-func.com/doc.en/development-guide-builtin-features-dff-api/)
 
 @DFF.API('Adding two numbers', category='math', tags=['math', 'simple'], cache_result=300, timeout=10)
 def plus(x, y):

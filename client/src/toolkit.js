@@ -148,9 +148,20 @@ export function getBaseURL() {
   return baseURL;
 };
 
+export function getOfficialSiteURL() {
+  let uiLocale = getUILocale();
+  return C.UI_LOCALE_MAP.get(uiLocale).officialSite;
+};
+export function getOfficialDocURL(path) {
+  path = path || '/';
+
+  let uiLocale = getUILocale();
+  return C.UI_LOCALE_MAP.get(uiLocale).officialDocBaseURL + path;
+};
+
 export function isLocalhost() {
   return location.hostname === 'localhost' || location.hostname === 'localdev';
-}
+};
 export function isFuncDev() {
   return location.hostname === 'func-dev.dataflux.cn' || isLocalhost();
 };

@@ -64,8 +64,8 @@ Latest version {0} has been released: 最新版 {0} 已經發布
       </template>
 
       <el-menu-item
-        v-if="$store.getters.SYSTEM_SETTINGS('NAVI_DOC_LINK_ENABLED') && $store.getters.SYSTEM_SETTINGS('NAVI_DOC_LINK_URL')"
-        :index="$store.getters.SYSTEM_SETTINGS('NAVI_DOC_LINK_URL')">
+        v-if="$store.getters.SYSTEM_SETTINGS('NAVI_DOC_LINK_ENABLED')"
+        :index="$store.getters.SYSTEM_SETTINGS('NAVI_DOC_LINK_URL') || T.getOfficialDocURL()">
         <span>
           <i class="fa fa-fw fa-book"></i>
           <span>{{ $t('Documents') }}</span>
@@ -163,7 +163,7 @@ Latest version {0} has been released: 最新版 {0} 已經發布
             </i18n>
 
             <br>
-            <el-link href="https://func.guance.com/" target="_blank">
+            <el-link :href="T.getOfficialSiteURL()" target="_blank">
               <i class="fa fa-fw fa-external-link"></i>
               {{ $t('Click here to visit the official website') }}
             </el-link>

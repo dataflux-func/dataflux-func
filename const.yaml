@@ -109,7 +109,7 @@ systemSettings:
   # Enable navi doc link
   NAVI_DOC_LINK_ENABLED: true
   # Navi doc link URL
-  NAVI_DOC_LINK_URL: 'https://func.guance.com/#/doc-index'
+  NAVI_DOC_LINK_URL: null
 
   # Enable local Func Task record
   LOCAL_FUNC_TASK_RECORD_ENABLED: true

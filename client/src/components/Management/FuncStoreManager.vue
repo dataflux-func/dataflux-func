@@ -65,7 +65,7 @@ Using {0} and {1} to setting and getting store data in Script: 可以使用 {0} 
             </i18n>
             <br>
             <i18n path="See {0} for more information">
-              <el-link href="https://func.guance.com/doc/development-guide-builtin-features-dff-store/" target="_blank">
+              <el-link :href="T.getOfficialDocURL('/development-guide-builtin-features-dff-store/')" target="_blank">
                 <i class="fa fa-fw fa-book"></i>
                 {{ $t('Document') }}
               </el-link>

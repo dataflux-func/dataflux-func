@@ -16,7 +16,7 @@
 #       関数実行のタイムアウトを10秒に指定する。
 #       関数の実行が10秒を超えると、強制的に中断して終了する。
 #
-# (その他の設定については以下のスクリプト開発マニュアルを参照してください https://func.guance.com/doc/development-guide-builtin-features-dff-api/)
+# (その他の設定については以下のスクリプト開発マニュアルを参照してください https://docs.dataflux-func.com/doc.en/development-guide-builtin-features-dff-api/)
 
 @DFF.API('足し算', category='math', tags=['math', 'simple'], cache_result=300, timeout=10)
 def plus(x, y):

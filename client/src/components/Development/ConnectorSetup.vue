@@ -417,7 +417,7 @@ messageRate: '{n} 條/分鐘'
                   <el-option v-for="node in guanceNodesOnType"
                     :label="node[`name_${$i18n.locale}`] || node.name_en" :key="node.key" :value="node.key"></el-option>
                 </el-select>
-                <el-link type="primary" :href="`https://func.guance.com/doc/ui-guide-development-module-${selectedType}-node/`" target="_blank">{{ $t('Cannot find the Node you need?') }}</el-link>
+                <el-link type="primary" :href="T.getOfficialDocURL(`/ui-guide-development-module-${selectedType}-node/`)" target="_blank">{{ $t('Cannot find the Node you need?') }}</el-link>
               </el-form-item>
 
               <el-form-item :label="$t('OpenAPI URL')" v-show="form.configJSON.guanceNode === 'private'" v-if="hasConfigField(selectedType, 'guanceOpenAPIURL')" prop="configJSON.guanceOpenAPIURL">
@@ -648,7 +648,7 @@ messageRate: '{n} 條/分鐘'
                   </el-link>
                   <br>
                   <el-link
-                    href="https://func.guance.com/doc/development-guide-connector-subscribe/"
+                    :href="T.getOfficialDocURL('/development-guide-connector-subscribe/')"
                     target="_blank">
                     <i class="fa fa-fw fa-external-link"></i>
                     {{ $t('Learn more about subscribing using Connector') }}

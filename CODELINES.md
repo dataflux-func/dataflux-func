@@ -8,21 +8,21 @@ Code line count in DataFlux Func project.
 
 | Total Lines |
 |------------:|
-|     131,896 |
+|     132,023 |
 
 ## By Type
 
 | Type      |  Lines |
 |:----------|-------:|
-| `js`      | 39,367 |
+| `js`      | 39,388 |
 | `vue`     | 34,624 |
-| `py`      | 19,425 |
+| `py`      | 19,437 |
 | `css`     | 18,676 |
-| `yaml`    | 15,381 |
-| `ejs`     |  1,411 |
-| `sh`      |  1,367 |
+| `yaml`    | 15,391 |
+| `sh`      |  1,437 |
+| `ejs`     |  1,423 |
 | `go`      |    519 |
-| `md`      |    396 |
+| `md`      |    398 |
 | `json`    |    352 |
 | `yml`     |    122 |
 | `txt`     |     83 |
@@ -34,14 +34,14 @@ Code line count in DataFlux Func project.
 
 | Folder           |  Lines |
 |:-----------------|-------:|
-| `client`         | 62,103 |
-| `server`         | 43,324 |
+| `client`         | 62,124 |
+| `server`         | 43,336 |
 | `worker`         | 15,161 |
-| `.`              |  3,540 |
+| `.`              |  3,612 |
 | `test`           |  1,911 |
-| `charts`         |  1,701 |
+| `charts`         |  1,711 |
 | `sdk`            |  1,581 |
-| `tools`          |  1,109 |
+| `tools`          |  1,121 |
 | `portable`       |  1,015 |
 | `script-example` |    224 |
 | `init-scripts`   |    205 |
@@ -58,7 +58,7 @@ Code line count in DataFlux Func project.
 | `server/controllers/mainAPICtrl.js`                               |  2,342 |
 | `server/controllers/scriptMarketAPICtrl.js`                       |  2,200 |
 | `client/src/components/Development/CodeEditor.vue`                |  1,898 |
-| `client/src/toolkit.js`                                           |  1,771 |
+| `client/src/toolkit.js`                                           |  1,782 |
 | `server/utils/extraHelpers/redisHelper.js`                        |  1,701 |
 | `worker/tasks/internal.py`                                        |  1,667 |
 | `client/src/components/Development/AsideScript.vue`               |  1,630 |
@@ -66,10 +66,10 @@ Code line count in DataFlux Func project.
 | `upgrade-info.yaml`                                               |  1,549 |
 | `client/src/components/Development/ConnectorSetup.vue`            |  1,495 |
 | `client/src/components/Blueprint/BlueprintCanvas.vue`             |  1,441 |
-| `client/src/const.js`                                             |  1,421 |
+| `client/src/const.js`                                             |  1,431 |
 | `server/utils/extraHelpers/sqlBuilder.js`                         |  1,388 |
 | `server/utils/modelHelper.js`                                     |  1,380 |
-| `server/views/setup.ejs`                                          |  1,319 |
+| `server/views/setup.ejs`                                          |  1,331 |
 | `client/src/components/Development/ConnectorSimpleGUIWindow.vue`  |  1,275 |
 | `server/setup.js`                                                 |  1,081 |
 | `worker/utils/toolkit.py`                                         |  1,076 |
@@ -175,13 +175,13 @@ Code line count in DataFlux Func project.
 | `portable/docker-stack.example.yaml`                              |    256 |
 | `client/src/components/Management/UserSetup.vue`                  |    255 |
 | `client/src/components/Management/FileServiceList.vue`            |    254 |
+| `charts/values.template.yaml`                                     |    251 |
 | `client/src/components/Management/FuncStoreManager.vue`           |    250 |
 | `server/models/funcMod.js`                                        |    249 |
 | `worker/utils/extra_helpers/__init__.py`                          |    249 |
 | `client/src/components/Blueprint/BlueprintSetup.vue`              |    246 |
 | `client/src/components/Management/AbnormalRequestList.vue`        |    245 |
 | `server/controllers/pythonPackageAPICtrl.js`                      |    242 |
-| `charts/func/values.yaml`                                         |    242 |
 | `tools/aliyun_sdk.py`                                             |    238 |
 | `server/utils/extraHelpers/kafkaHelper.js`                        |    230 |
 | `client/src/views/FuncAPIDoc.vue`                                 |    227 |
@@ -200,6 +200,7 @@ Code line count in DataFlux Func project.
 | `client/public/site-theme.classic.auto.css`                       |    198 |
 | `client/public/site-theme.enterprise.auto.css`                    |    198 |
 | `client/public/site-theme.miku.auto.css`                          |    198 |
+| `tools/gen-zht.py`                                                |    198 |
 | `server/models/apiAuthMod.js`                                     |    196 |
 | `worker/utils/extra_helpers/oracle_database_helper.py`            |    194 |
 | `client/src/views/FuncDoc.vue`                                    |    193 |
@@ -211,7 +212,6 @@ Code line count in DataFlux Func project.
 | `server/utils/extraHelpers/mqttHelper.js`                         |    187 |
 | `client/src/components/Management/ScriptSetExportHistoryList.vue` |    186 |
 | `client/src/components/Management/ScriptSetImportHistoryList.vue` |    186 |
-| `tools/gen-zht.py`                                                |    186 |
 | `worker/beat.py`                                                  |    186 |
 | `client/src/components/Development/CodeEditorSetting.vue`         |    184 |
 | `server/statics/yaml/setup-locals.zh-CN.yaml`                     |    180 |
@@ -221,6 +221,7 @@ Code line count in DataFlux Func project.
 | `server/models/operationRecordMod.js`                             |    175 |
 | `charts/func/README.md`                                           |    171 |
 | `client/src/views/Development.vue`                                |    169 |
+| `deploy-saas.sh`                                                  |    166 |
 | `worker/utils/extra_helpers/ding_helper.py`                       |    165 |
 | `server/models/syncAPIMod.js`                                     |    164 |
 | `client/src/components/Setting/ProfileSetup.vue`                  |    164 |
@@ -269,7 +270,6 @@ Code line count in DataFlux Func project.
 | `client/src/components/CopyButton.vue`                            |    107 |
 | `worker/tasks/func/debugger.py`                                   |    106 |
 | `client/src/components/FuzzySearchInput.vue`                      |    104 |
-| `deploy-saas.sh`                                                  |    103 |
 | `server/controllers/operationRecordAPICtrl.js`                    |    103 |
 | `client/src/components/Logo.vue`                                  |    103 |
 | `worker/utils/extra_helpers/dataway.py`                           |    103 |
@@ -283,11 +283,11 @@ Code line count in DataFlux Func project.
 | `init-scripts/install_official_core_script_sets.py`               |    100 |
 | `server/models/fileServiceMod.js`                                 |     98 |
 | `test/test_script.py`                                             |     98 |
+| `charts/func/templates/server.yaml`                               |     97 |
 | `client/public/site-theme.classic.light.css`                      |     97 |
 | `client/public/site-theme.enterprise.light.css`                   |     97 |
 | `client/public/site-theme.miku.light.css`                         |     97 |
 | `client/src/views/SignOut.vue`                                    |     97 |
-| `charts/func/templates/server.yaml`                               |     96 |
 | `redis-tool.sh`                                                   |     95 |
 | `server/controllers/fileServiceAPICtrl.js`                        |     90 |
 | `charts/func/templates/worker-0.yaml`                             |     90 |
@@ -381,6 +381,7 @@ Code line count in DataFlux Func project.
 | `server/views/error.ejs`                                          |     38 |
 | `server/models/taskRecordMod.js`                                  |     38 |
 | `server/controllers/apiAuthAPICtrl.js`                            |     38 |
+| `build-charts.sh`                                                 |     36 |
 | `server/routers/authLinkAPIRouter.js`                             |     36 |
 | `server/routers/batchAPIRouter.js`                                |     36 |
 | `server/utils/apiDelay.js`                                        |     36 |
@@ -404,7 +405,6 @@ Code line count in DataFlux Func project.
 | `server/routers/debugAPIRouter.js`                                |     31 |
 | `server/routers/connectorAPIRouter.js`                            |     31 |
 | `server/routers/accessKeyAPIRouter.js`                            |     31 |
-| `build-charts.sh`                                                 |     29 |
 | `server/controllers/accessKeyAPICtrl.js`                          |     29 |
 | `README.md`                                                       |     28 |
 | `server/routers/resourceAPIRouter.js`                             |     28 |
@@ -466,10 +466,10 @@ Code line count in DataFlux Func project.
 | `requirements-test.txt`                                           |      6 |
 | `run-test.sh`                                                     |      6 |
 | `run-worker-by-queue.sh`                                          |      5 |
+| `CHANGE_LOG.md`                                                   |      5 |
 | `client/babel.config.js`                                          |      5 |
 | `docker-entrypoint.sh`                                            |      4 |
 | `test/conftest.py`                                                |      4 |
-| `CHANGE_LOG.md`                                                   |      3 |
 | `clear-pyc.sh`                                                    |      3 |
 | `tools/requirements-ci.txt`                                       |      3 |
 | `client/src/components/Blueprint/Nodes/common.js`                 |      2 |

@@ -307,7 +307,7 @@
                     <el-option :label="$t('Do not create Guance connector')" :value="null"></el-option>
                     <el-option v-for="node in GUANCE_NODES" :label="node[`name_${uiLocale}`] || node.name_en" :value="node.key"></el-option>
                   </el-select>
-                  <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the Guance Node you need?') }}</a>
+                  <a class="tip-link" :href="getOfficialDocURL('/ui-guide-development-module-guance-node/')" target="_blank">{{ $t('Cannot find the Guance Node you need?') }}</a>
                 </div>
                 <p>
                   {{ $t('Provide Guance API Key to create a Guance connector automatically') }}
@@ -440,7 +440,7 @@
                     <el-option :label="$t('Do not create TrueWatch connector')" :value="null"></el-option>
                     <el-option v-for="node in TRUEWATCH_NODES" :label="node[`name_${uiLocale}`] || node.name_en" :value="node.key"></el-option>
                   </el-select>
-                  <a class="tip-link" href="https://func.guance.com/doc/ui-guide-development-module-guance-node/" target="_blank">{{ $t('Cannot find the TrueWatch Node you need?') }}</a>
+                  <a class="tip-link" :href="getOfficialDocURL('/ui-guide-development-module-guance-node/')" target="_blank">{{ $t('Cannot find the TrueWatch Node you need?') }}</a>
                 </div>
                 <p>
                   {{ $t('Provide TrueWatch API Key to create a TrueWatch connector automatically') }}
@@ -1076,8 +1076,11 @@
       const app = new Vue({
         i18n,
         watch: {
-          uiLocale(val) {
-            this.$i18n.locale = val;
+          uiLocale: {
+            immediate: true,
+            handler(val) {
+              this.$i18n.locale = val;
+            }
           },
         },
         methods: {
@@ -1177,6 +1180,15 @@
             }
 
             return randString;
+          },
+          getOfficialDocURL(path) {
+            path = path || '/';
+
+            if (this.uiLocale === 'zh-CN') {
+              return `https://func.guance.com/doc${path}`;
+            } else {
+              return `https://docs.dataflux-func.com/doc.${this.uiLocale}${path}`;
+            }
           },
         },
         computed: {

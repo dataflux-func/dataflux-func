@@ -224,7 +224,7 @@ You are using {0} browser: 您正在使用 {0} 瀏覽器
               <el-form label-width="120px">
                 <el-form-item :label="$t('Version')">
                   <el-input :readonly="true" :value="FULL_VERSION"></el-input>
-                  <el-link type="danger" href="https://func.guance.com/" target="_blank" v-if="common.hasNewVersion()">
+                  <el-link type="danger" :href="T.getOfficialSiteURL()" target="_blank" v-if="common.hasNewVersion()">
                     {{ $t('New version {ver} is available, click here to go to the official website', { ver: $store.state.latestVersion }) }}
                   </el-link>
                 </el-form-item>
